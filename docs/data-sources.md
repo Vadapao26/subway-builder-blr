@@ -37,3 +37,14 @@ Every dataset used by the Subway Builder City Mod Pipeline (`BLR` and future cit
     1. **Census of India 2011**: Bengaluru Urban District (`9,621,551`), Bengaluru Rural District part (`~450,000`), and Hosur Taluk / Municipal Corporation (`~325,000` urban/suburban).
     2. **UN World Urbanization Prospects / Macrotrends / BMRDA Revised Structure Plan (2020–2025)**: Bengaluru Urban Agglomeration is estimated at `12.3M` (2020) to `14.0M` (2024–2025). Combined with the Hosur industrial corridor inside the `12.70–13.25°N, 77.40–77.90°E` bounding box, `13.6M` represents the circa-2023/2025 study-area population.
     3. **Optional Administrative Ward Boundaries**: BBMP 198/243 Ward Boundaries via DataMeet / OpenCity Bengaluru (`https://github.com/datameet/Municipal_Spatial_Data`), licensed under **CC-BY-4.0 / ODbL**.
+
+---
+
+## 4. Verified Raw Data Manifest (`data/raw/manifest.json`)
+
+| Key | File | URL | Download Date (UTC) | Size (MB) | SHA-256 | Licence |
+|-----|------|-----|---------------------|-----------|---------|---------|
+| `population_raster` | `ind_ppp_2020_1km_Aggregated_UNadj.tif` | https://data.worldpop.org/GIS/Population/Global_2000_2020_1km_UNadj/2020/IND/ind_ppp_2020_1km_Aggregated_UNadj.tif | `2026-10-30T10:14:15Z` | 17.46 | `27d08e3eabf59f63a2147901c25c046d584c3295f9ceb4c4cf08a902a5bec911` | CC-BY-4.0 |
+| `admin_boundaries` | `blr_admin_wards.geojson` | https://raw.githubusercontent.com/datameet/Municipal_Spatial_Data/master/Bangalore/BBMP.geojson | `2026-10-30T10:14:16Z` | 2.01 | `4a1186d15da9396c259a2c01b135ee5e903948d45de6e91c49e0ddd72f359a7b` | CC-BY-4.0 |
+| `osm_extract_raw` | `southern-zone-latest.osm.pbf` | https://download.geofabrik.de/asia/india/southern-zone-latest.osm.pbf | `2026-10-30T10:40:40Z` | 533.04 | `5b4a9451d14406b96a1ed5fc541dd6b3ea4bef6d5cf1911349a4809da6f642eb` | ODbL-1.0 |
+| `osm_extract_clipped` | `blr_clipped.osm.pbf` | clipped from southern-zone-latest.osm.pbf | `2026-10-30T10:46:27Z` | 395.31 | `086a452eabf7a9f07072010683cd49e03471bbda3bdfea142caf4cd5b80b4a62` | ODbL-1.0 |

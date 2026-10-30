@@ -33,11 +33,17 @@ osm_extract:
 
 # Gridded population raster dataset
 population_raster:
-  name: "worldpop-ind-2020-100m-constrained"
-  url: "https://data.worldpop.org/GIS/Population/Global_2000_2020_Constrained/2020/BSGM/IND/ind_ppp_2020_UNadj_constrained.tif"
-  fallback_url: "https://data.worldpop.org/GIS/Population/Global_2000_2020_1km_UNadj/2020/IND/ind_ppp_2020_1km_Aggregated_UNadj.tif"
+  name: "worldpop-ind-2020-1km-unadj"
+  url: "https://data.worldpop.org/GIS/Population/Global_2000_2020_1km_UNadj/2020/IND/ind_ppp_2020_1km_Aggregated_UNadj.tif"
+  optional_100m_url: "https://data.worldpop.org/GIS/Population/Global_2000_2020_Constrained/2020/BSGM/IND/ind_ppp_2020_UNadj_constrained.tif"
   year: 2020
-  resolution_m: 100
+  resolution_m: 1000
+  licence: "CC-BY-4.0"
+
+# Administrative boundary & ward dataset (optional cross-checking data)
+admin_boundaries:
+  name: "datameet-bbmp-wards"
+  url: "https://raw.githubusercontent.com/datameet/Municipal_Spatial_Data/master/Bangalore/BBMP.geojson"
   licence: "CC-BY-4.0"
 
 params:
