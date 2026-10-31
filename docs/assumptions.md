@@ -25,15 +25,17 @@ Per Section 0 and Section 6 of the SRD, every modelling choice marked `[ASSUMPTI
 
 ---
 
-## 3. Demand Point Grid Resolution (`params.grid_cell_m`)
-- **Parameter in `cities/blr.yaml`**: `grid_cell_m: 1000` (1,000 meters = 1 km).
+## 3. Demand Point Grid Resolution (`params.grid_cell_m`, `params.min_residents_per_point`)
+- **Parameters in `cities/blr.yaml`**:
+  - `grid_cell_m: 1000` (1,000 meters = 1 km)
+  - `min_residents_per_point: 50`
 - **Why chosen**:
   - Inspected built-in cities in Phase 0:
     - Detroit (`DET`): `5,705` demand points (`1,736,400` residents)
     - Paris (`PAR`): `6,722` demand points (`5,903,400` residents)
     - Tokyo (`TOK`): `12,898` demand points (`16,532,400` residents)
-  - Our study box is `~61 km × 54 km = 3,312 km²`. At `grid_cell_m: 1000`, the full grid has `~3,312` cells, and after dropping unpopulated cells (< 50 residents and 0 jobs), yields `~2,200–3,000` active demand points (or `~6,500–8,000` points if set to `700m`). This keeps OSRM table queries and in-game Raptor pathfinding fast while preserving neighborhood-level granularity.
-- **How to change**: Change `params.grid_cell_m` (e.g., to `750` for finer resolution or `1250` for faster simulation) and re-run from Phase 3.
+  - Our study box is `~61 km × 54 km = 3,312 km²`. At `grid_cell_m: 1000`, the full grid has `3,410` cells (`62 rows × 55 cols`), and after dropping sparse rural cells with `< 50` residents and `0` buildings/employment landuse, yields `3,388` active demand points. This keeps routing table queries and in-game Raptor pathfinding fast while preserving 1-km neighborhood granularity.
+- **How to change**: Change `params.grid_cell_m` or `params.min_residents_per_point` in `cities/blr.yaml` and re-run from Phase 3.
 
 ---
 

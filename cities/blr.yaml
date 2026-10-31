@@ -51,6 +51,7 @@ params:
   # 1000m (1 km) produces ~3,300 cells over the ~55km x 61km box (~1,500-2,500 populated points),
   # matching built-in cities (e.g., DET: 5,705 points; PAR: 6,722 points).
   grid_cell_m: 1000
+  min_residents_per_point: 50  # Drop sparse rural edge cells with <50 residents unless they have buildings/employment landuse
 
   # Phase 4: Total jobs to total residents ratio [ASSUMPTION]
   # Note: Built-in game cities (DET, PAR, TOK) normalize total jobs == total residents (ratio 1.0)
