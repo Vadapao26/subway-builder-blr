@@ -1,0 +1,60 @@
+{
+  "phase": 9,
+  "script": "pipeline/95_buildings.py",
+  "city_code": "BLR",
+  "status": "PASS",
+  "runtime_seconds": 6.86,
+  "buildings_index": {
+    "bin_path": "mod/data/BLR/buildings_index.bin",
+    "bin_gz_path": "mod/data/BLR/buildings_index.bin.gz",
+    "uncompressed_bytes": 126189792,
+    "compressed_bytes": 64396097,
+    "magic": 1229079123,
+    "version": 1,
+    "flags": 3,
+    "building_count": 831116,
+    "cols": 542,
+    "rows": 612,
+    "total_rings": 831116,
+    "total_coords": 4456911,
+    "non_empty_cells": 80239,
+    "total_cell_refs": 1091945,
+    "total_osm_ids": 831116,
+    "cell_size_deg": 0.0009,
+    "max_foundation_depth_m": 40.0,
+    "bbox": [
+      77.3999026,
+      12.7004702,
+      77.9000241,
+      13.2504177
+    ],
+    "js_validator": {
+      "ok": true,
+      "flags": 3,
+      "buildingCount": 831116,
+      "cols": 542,
+      "rows": 612,
+      "totalRings": 831116,
+      "totalCoords": 4456911,
+      "nonEmptyCells": 80239,
+      "totalCellRefs": 1091945,
+      "totalOsmIds": 831116,
+      "cellSize": 0.0009,
+      "maxFoundationDepth": 40,
+      "bbox": [
+        77.3999026,
+        12.7004702,
+        77.9000241,
+        13.2504177
+      ]
+    }
+  },
+  "building_tags": {
+    "path": "mod/data/BLR/building_tags.json.gz",
+    "tagged_buildings_count": 42623,
+    "named_buildings_count": 10163,
+    "uncompressed_bytes": 1857785,
+    "compressed_bytes": 301701,
+    "export_seconds": 2.25
+  }
+}
