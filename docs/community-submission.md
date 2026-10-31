@@ -46,7 +46,7 @@ When creating the submission issue on the [Subway-Builder-Modded Registry](https
 | **Demand Points Count** | `3375` |
 | **Total Buildings** | `831116` |
 | **Data Sources** | `OpenStreetMap (Geofabrik Southern Zone, ODbL-1.0), WorldPop 2020 1km UNadj Population Raster (CC-BY-4.0), BBMP Ward Boundaries (CC-BY-4.0)` |
-| **Compatibility** | `>=1.7.0` |
+| **Download Link** | `https://github.com/Vadapao26/subway-builder-blr/releases/download/v1.0.0/SubwayBuilder-BLR-v1.0.0.zip` |
 
 ---
 
