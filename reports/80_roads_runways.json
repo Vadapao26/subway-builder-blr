@@ -1,0 +1,51 @@
+{
+  "phase": "80_roads_runways",
+  "city_code": "BLR",
+  "timestamp_utc": "2026-10-31T03:33:23.445061+00:00",
+  "runtime_seconds": 14.53,
+  "roads": {
+    "feature_count": 227733,
+    "by_roadClass": {
+      "highway": 2646,
+      "major": 3527,
+      "medium": 12807,
+      "minor": 208753
+    },
+    "by_structure": {
+      "normal": 225154,
+      "bridge": 2239,
+      "tunnel": 340
+    },
+    "schema_validation": {
+      "valid": true,
+      "feature_count": 227733
+    },
+    "geojson_bytes": 57664039,
+    "geojson_gz_bytes": 8267745,
+    "geojson_gz_mb": 7.88
+  },
+  "runways_taxiways": {
+    "feature_count": 329,
+    "by_aeroway": {
+      "runway": 9,
+      "taxiway": 246,
+      "apron": 21,
+      "helipad": 53
+    },
+    "schema_validation": {
+      "valid": true,
+      "feature_count": 329
+    },
+    "empty_file_behavior_note": "Game catches missing/empty runwaysTaxiways and defaults to empty FeatureCollection, but providing Polygon features renders airport infrastructure properly.",
+    "geojson_bytes": 193238,
+    "geojson_gz_bytes": 38296
+  },
+  "outputs": {
+    "roads_geojson": "mod\\data\\BLR\\roads.geojson",
+    "roads_geojson_gz": "mod\\data\\BLR\\roads.geojson.gz",
+    "runways_taxiways_geojson": "mod\\data\\BLR\\runways_taxiways.geojson",
+    "runways_taxiways_geojson_gz": "mod\\data\\BLR\\runways_taxiways.geojson.gz",
+    "overlay_png": "reports\\80_roads_runways_overlay.png",
+    "overlay_svg": "reports\\80_roads_runways_overlay.svg"
+  }
+}
