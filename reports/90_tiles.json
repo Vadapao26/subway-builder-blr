@@ -1,0 +1,63 @@
+{
+  "phase": 8,
+  "script": "pipeline/90_tiles.py",
+  "city_code": "BLR",
+  "status": "PASS",
+  "runtime_seconds": 48.81,
+  "tiles_pmtiles": {
+    "path": "mod/data/BLR/tiles.pmtiles",
+    "file_size_bytes": 40024988,
+    "num_tiles": 3076,
+    "root_dir_bytes": 6419,
+    "leaf_dir_bytes": 0,
+    "data_bytes": 40018127,
+    "min_zoom": 5,
+    "max_zoom": 15
+  },
+  "foundations_pmtiles": {
+    "path": "mod/data/BLR/foundations.pmtiles",
+    "file_size_bytes": 20734240,
+    "num_tiles": 2188,
+    "root_dir_bytes": 4669,
+    "leaf_dir_bytes": 0,
+    "data_bytes": 20729245,
+    "min_zoom": 13,
+    "max_zoom": 15
+  },
+  "zoom_tile_counts": {
+    "5": 1,
+    "6": 1,
+    "7": 1,
+    "8": 1,
+    "9": 2,
+    "10": 6,
+    "11": 20,
+    "12": 56,
+    "13": 168,
+    "14": 631,
+    "15": 2189
+  },
+  "layer_feature_counts": {
+    "water": 37302,
+    "parks": 32613,
+    "commercial": 41972,
+    "airports": 3983,
+    "city_labels": 143,
+    "suburb_labels": 2496,
+    "neighborhood_labels": 8838,
+    "buildings": 1977924,
+    "foundations": 1905109
+  },
+  "building_zoom_breakdown": {
+    "buildings_z12": 72815,
+    "buildings_z13": 325739,
+    "foundations_z13": 325739,
+    "buildings_z14": 748254,
+    "foundations_z14": 748254,
+    "buildings_z15": 831116,
+    "foundations_z15": 831116,
+    "buildings_encode_seconds": 6.26
+  },
+  "total_unique_buildings_indexed": 831116,
+  "building_id_source": "blr_buildings.parquet osm_id (cached in data/processed/blr_buildings_flat.npz for 100% parity with Phase 9 buildings_index.bin.gz)"
+}
