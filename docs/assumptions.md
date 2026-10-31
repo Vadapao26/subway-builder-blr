@@ -58,10 +58,18 @@ Per Section 0 and Section 6 of the SRD, every modelling choice marked `[ASSUMPTI
 
 ---
 
-## 6. Congestion Time-Scaling Factor (`params.congestion_time_factor`)
-- **Parameter in `cities/blr.yaml`**: `congestion_time_factor: 1.8`
-- **Why chosen**: OSRM's standard car profile computes free-flow travel times based on road classification max speeds. According to TomTom Traffic Index and CMP (Comprehensive Mobility Plan) studies for Bengaluru, peak-hour travel times are **1.7× to 2.1×** free-flow durations (average peak speed ~18–22 km/h). Multiplying OSRM `drivingSeconds` by `1.8` prevents driving from being unrealistically fast compared to metro transit in the game's mode-choice model.
-- **How to change**: Edit `params.congestion_time_factor` in `cities/blr.yaml` (set to `1.0` for unscaled OSRM free-flow times) and re-run Phase 5/6.
+## 6. Congestion Time-Scaling Factor & Road Routing Rules (`params.congestion_time_factor`, `params.routing`)
+- **Parameters in `cities/blr.yaml`**:
+  - `congestion_time_factor: 1.8`
+  - `routing.max_snap_distance_m: 1500.0`
+  - `routing.drop_unroutable_above_m: 2500.0`
+  - `routing.access_circuity_factor: 1.3`
+  - `routing.access_speed_kmh: 22.0`
+  - `routing.default_speeds_kmh`: `{motorway: 80, trunk: 60, primary: 48, secondary: 40, tertiary: 32, unclassified: 26}`
+- **Why chosen**:
+  - Free-flow car speeds ignore urban traffic congestion. According to TomTom Traffic Index and CMP studies for Bengaluru, peak-hour travel times are **1.7× to 2.1×** free-flow durations (average peak speed ~18–22 km/h). Multiplying free-flow `drivingSeconds` by `1.8` prevents driving from being unrealistically fast compared to metro transit in the game's mode-choice model.
+  - Explicit unroutable/snapping rule: Demand points are snapped to the Giant Strongly Connected Component (SCC) of the car road graph. Points within `<= 1,500m` snap normally; points between `1,500m` and `2,500m` are logged as fringe-snapped; points `> 2,500m` from the road graph (e.g., deep inside Bannerghatta National Park forest reserve) are logged and dropped, with total jobs re-normalized to maintain `employment_ratio * total_residents`.
+- **How to change**: Edit `params.congestion_time_factor` or `params.routing` in `cities/blr.yaml` and re-run Phase 5/6.
 
 ---
 

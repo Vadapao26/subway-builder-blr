@@ -109,9 +109,64 @@ params:
       boost_weight: 80000
       reason: "Major manufacturing and automotive cluster in Hosur (Tamil Nadu)"
 
-  # Phase 5: Congestion time-scaling factor applied to free-flow OSRM driving durations [ASSUMPTION]
+  # Phase 5: Congestion time-scaling factor applied to free-flow driving durations [ASSUMPTION]
   # 1.8x reflects severe peak-hour congestion in Bengaluru relative to free-flow speeds.
   congestion_time_factor: 1.8
+  routing:
+    max_snap_distance_m: 1500.0       # Points <= 1500m from Giant SCC road graph snap normally
+    drop_unroutable_above_m: 2500.0   # Points > 2500m from road graph (e.g. deep forest/reservoir) are dropped
+    access_circuity_factor: 1.3       # Local access circuity from cell centroid to nearest road node
+    access_speed_kmh: 22.0            # Local street access speed (km/h)
+    default_speeds_kmh:
+      motorway: 80.0
+      motorway_link: 45.0
+      trunk: 60.0
+      trunk_link: 40.0
+      primary: 48.0
+      primary_link: 35.0
+      secondary: 40.0
+      secondary_link: 30.0
+      tertiary: 32.0
+      tertiary_link: 25.0
+      unclassified: 26.0
+      road: 26.0
+    test_od_pairs:
+      - name: "Majestic (KBS) -> Whitefield / ITPL"
+        origin: [77.5713, 12.9767]
+        destination: [77.7360, 12.9850]
+      - name: "Majestic (KBS) -> Electronic City Phase 1"
+        origin: [77.5713, 12.9767]
+        destination: [77.6602, 12.8452]
+      - name: "MG Road / Vidhana Soudha (CBD) -> Kempegowda Intl Airport (BLR)"
+        origin: [77.6066, 12.9756]
+        destination: [77.7066, 13.1986]
+      - name: "Silk Board Junction -> Marathahalli (ORR)"
+        origin: [77.6238, 12.9177]
+        destination: [77.7011, 12.9569]
+      - name: "Electronic City Phase 1 -> Hosur Bus Stand (Tamil Nadu)"
+        origin: [77.6602, 12.8452]
+        destination: [77.8253, 12.7409]
+      - name: "Hosur SIPCOT Phase I -> Bommasandra Industrial Area"
+        origin: [77.8068, 12.7606]
+        destination: [77.6910, 12.8160]
+      - name: "Yeshwanthpur / Malleshwaram -> Peenya Industrial Area"
+        origin: [77.5520, 13.0230]
+        destination: [77.5160, 13.0300]
+      - name: "Hebbal Flyover -> Manyata Tech Park"
+        origin: [77.5890, 13.0410]
+        destination: [77.6208, 13.0458]
+      - name: "Jayanagar 4th Block -> Koramangala"
+        origin: [77.5826, 12.9299]
+        destination: [77.6266, 12.9362]
+      - name: "Indiranagar -> Bagmane Tech Park (C V Raman Nagar)"
+        origin: [77.6408, 12.9784]
+        destination: [77.6602, 12.9801]
+      - name: "Banashankari -> Global Village Tech Park (Kengeri)"
+        origin: [77.5468, 12.9255]
+        destination: [77.5005, 12.9197]
+      - name: "Whitefield / ITPL -> Kempegowda Intl Airport (BLR)"
+        origin: [77.7360, 12.9850]
+        destination: [77.7066, 13.1986]
 
   # Phase 6: Gravity model decay parameter (beta in exp(-beta * driving_minutes)) [ASSUMPTION]
   # Initial seed 0.065; calibrated in Phase 6 so mean commute distance/time matches target range.

@@ -1,0 +1,334 @@
+{
+  "phase": "60_routing",
+  "city_code": "BLR",
+  "timestamp_utc": "2026-10-31T03:05:18.362460+00:00",
+  "runtime_seconds": 17.38,
+  "dijkstra_seconds": 12.46,
+  "peak_memory_mb": 358.93,
+  "graph_stats": {
+    "main_road_ways": 24501,
+    "total_junction_nodes": 28694,
+    "giant_scc_nodes": 27383,
+    "contracted_scc_nodes": 16100,
+    "contracted_scc_edges": 36411,
+    "unique_snapped_terminals": 2890
+  },
+  "snapping_and_unroutable_rule": {
+    "max_snap_distance_m": 1500.0,
+    "drop_unroutable_above_m": 2500.0,
+    "access_circuity_factor": 1.3,
+    "access_speed_kmh": 22.0,
+    "congestion_time_factor": 1.8,
+    "total_input_points": 3381,
+    "snapped_normal_count": 3339,
+    "fringe_snapped_count": 36,
+    "dropped_unroutable_count": 6,
+    "routable_points_count": 3375,
+    "routable_total_residents": 13978303,
+    "routable_total_jobs": 13978303,
+    "median_snap_distance_m": 372.2,
+    "p95_snap_distance_m": 1058.6,
+    "dropped_points": [
+      {
+        "id": "pt_005_016",
+        "cell_id": "R005_C016",
+        "lon": 77.552105,
+        "lat": 12.749491,
+        "residents": 203,
+        "jobs": 0,
+        "nearest_scc_dist_m": 2640.1,
+        "action": "dropped_unroutable",
+        "reason": "Distance (2640m) > 2500m threshold (forest/reservoir disconnected from road graph); dropped"
+      },
+      {
+        "id": "pt_006_016",
+        "cell_id": "R006_C016",
+        "lon": 77.552105,
+        "lat": 12.758489,
+        "residents": 185,
+        "jobs": 0,
+        "nearest_scc_dist_m": 2587.7,
+        "action": "dropped_unroutable",
+        "reason": "Distance (2588m) > 2500m threshold (forest/reservoir disconnected from road graph); dropped"
+      },
+      {
+        "id": "pt_007_016",
+        "cell_id": "R007_C016",
+        "lon": 77.552105,
+        "lat": 12.767487,
+        "residents": 253,
+        "jobs": 0,
+        "nearest_scc_dist_m": 2580.4,
+        "action": "dropped_unroutable",
+        "reason": "Distance (2580m) > 2500m threshold (forest/reservoir disconnected from road graph); dropped"
+      },
+      {
+        "id": "pt_008_016",
+        "cell_id": "R008_C016",
+        "lon": 77.552105,
+        "lat": 12.776486,
+        "residents": 323,
+        "jobs": 0,
+        "nearest_scc_dist_m": 2564.6,
+        "action": "dropped_unroutable",
+        "reason": "Distance (2565m) > 2500m threshold (forest/reservoir disconnected from road graph); dropped"
+      },
+      {
+        "id": "pt_008_017",
+        "cell_id": "R008_C017",
+        "lon": 77.561323,
+        "lat": 12.776486,
+        "residents": 187,
+        "jobs": 0,
+        "nearest_scc_dist_m": 3239.9,
+        "action": "dropped_unroutable",
+        "reason": "Distance (3240m) > 2500m threshold (forest/reservoir disconnected from road graph); dropped"
+      },
+      {
+        "id": "pt_008_018",
+        "cell_id": "R008_C018",
+        "lon": 77.570542,
+        "lat": 12.776486,
+        "residents": 247,
+        "jobs": 0,
+        "nearest_scc_dist_m": 2735.9,
+        "action": "dropped_unroutable",
+        "reason": "Distance (2736m) > 2500m threshold (forest/reservoir disconnected from road graph); dropped"
+      }
+    ]
+  },
+  "matrix_summary": {
+    "shape": [
+      3375,
+      3375
+    ],
+    "mean_pairwise_distance_km": 44.36,
+    "mean_pairwise_freeflow_min": 49.9,
+    "mean_pairwise_congested_min": 89.7,
+    "unreachable_pairs_count": 0
+  },
+  "test_od_pairs": [
+    {
+      "name": "Majestic (KBS) -> Whitefield / ITPL",
+      "origin_lon_lat": [
+        77.5713,
+        12.9767
+      ],
+      "destination_lon_lat": [
+        77.736,
+        12.985
+      ],
+      "distance_km": 21.7,
+      "distance_m": 21700.0,
+      "freeflow_minutes": 27.8,
+      "congested_minutes": 50.0,
+      "freeflow_seconds": 1665.1,
+      "congested_seconds": 2997.2,
+      "avg_congested_speed_kmh": 26.1
+    },
+    {
+      "name": "Majestic (KBS) -> Electronic City Phase 1",
+      "origin_lon_lat": [
+        77.5713,
+        12.9767
+      ],
+      "destination_lon_lat": [
+        77.6602,
+        12.8452
+      ],
+      "distance_km": 20.11,
+      "distance_m": 20106.0,
+      "freeflow_minutes": 24.2,
+      "congested_minutes": 43.5,
+      "freeflow_seconds": 1450.7,
+      "congested_seconds": 2611.2,
+      "avg_congested_speed_kmh": 27.7
+    },
+    {
+      "name": "MG Road / Vidhana Soudha (CBD) -> Kempegowda Intl Airport (BLR)",
+      "origin_lon_lat": [
+        77.6066,
+        12.9756
+      ],
+      "destination_lon_lat": [
+        77.7066,
+        13.1986
+      ],
+      "distance_km": 34.9,
+      "distance_m": 34903.0,
+      "freeflow_minutes": 33.8,
+      "congested_minutes": 60.8,
+      "freeflow_seconds": 2027.1,
+      "congested_seconds": 3648.9,
+      "avg_congested_speed_kmh": 34.4
+    },
+    {
+      "name": "Silk Board Junction -> Marathahalli (ORR)",
+      "origin_lon_lat": [
+        77.6238,
+        12.9177
+      ],
+      "destination_lon_lat": [
+        77.7011,
+        12.9569
+      ],
+      "distance_km": 11.78,
+      "distance_m": 11781.0,
+      "freeflow_minutes": 14.2,
+      "congested_minutes": 25.5,
+      "freeflow_seconds": 849.6,
+      "congested_seconds": 1529.4,
+      "avg_congested_speed_kmh": 27.7
+    },
+    {
+      "name": "Electronic City Phase 1 -> Hosur Bus Stand (Tamil Nadu)",
+      "origin_lon_lat": [
+        77.6602,
+        12.8452
+      ],
+      "destination_lon_lat": [
+        77.8253,
+        12.7409
+      ],
+      "distance_km": 25.45,
+      "distance_m": 25454.0,
+      "freeflow_minutes": 22.5,
+      "congested_minutes": 40.6,
+      "freeflow_seconds": 1351.8,
+      "congested_seconds": 2433.2,
+      "avg_congested_speed_kmh": 37.7
+    },
+    {
+      "name": "Hosur SIPCOT Phase I -> Bommasandra Industrial Area",
+      "origin_lon_lat": [
+        77.8068,
+        12.7606
+      ],
+      "destination_lon_lat": [
+        77.691,
+        12.816
+      ],
+      "distance_km": 15.37,
+      "distance_m": 15369.0,
+      "freeflow_minutes": 16.9,
+      "congested_minutes": 30.4,
+      "freeflow_seconds": 1013.3,
+      "congested_seconds": 1824.0,
+      "avg_congested_speed_kmh": 30.3
+    },
+    {
+      "name": "Yeshwanthpur / Malleshwaram -> Peenya Industrial Area",
+      "origin_lon_lat": [
+        77.552,
+        13.023
+      ],
+      "destination_lon_lat": [
+        77.516,
+        13.03
+      ],
+      "distance_km": 5.94,
+      "distance_m": 5939.0,
+      "freeflow_minutes": 7.4,
+      "congested_minutes": 13.3,
+      "freeflow_seconds": 442.9,
+      "congested_seconds": 797.2,
+      "avg_congested_speed_kmh": 26.8
+    },
+    {
+      "name": "Hebbal Flyover -> Manyata Tech Park",
+      "origin_lon_lat": [
+        77.589,
+        13.041
+      ],
+      "destination_lon_lat": [
+        77.6208,
+        13.0458
+      ],
+      "distance_km": 8.36,
+      "distance_m": 8363.0,
+      "freeflow_minutes": 11.9,
+      "congested_minutes": 21.4,
+      "freeflow_seconds": 712.1,
+      "congested_seconds": 1281.8,
+      "avg_congested_speed_kmh": 23.5
+    },
+    {
+      "name": "Jayanagar 4th Block -> Koramangala",
+      "origin_lon_lat": [
+        77.5826,
+        12.9299
+      ],
+      "destination_lon_lat": [
+        77.6266,
+        12.9362
+      ],
+      "distance_km": 7.43,
+      "distance_m": 7431.0,
+      "freeflow_minutes": 10.7,
+      "congested_minutes": 19.2,
+      "freeflow_seconds": 640.7,
+      "congested_seconds": 1153.3,
+      "avg_congested_speed_kmh": 23.2
+    },
+    {
+      "name": "Indiranagar -> Bagmane Tech Park (C V Raman Nagar)",
+      "origin_lon_lat": [
+        77.6408,
+        12.9784
+      ],
+      "destination_lon_lat": [
+        77.6602,
+        12.9801
+      ],
+      "distance_km": 3.9,
+      "distance_m": 3896.0,
+      "freeflow_minutes": 6.4,
+      "congested_minutes": 11.5,
+      "freeflow_seconds": 382.7,
+      "congested_seconds": 688.9,
+      "avg_congested_speed_kmh": 20.4
+    },
+    {
+      "name": "Banashankari -> Global Village Tech Park (Kengeri)",
+      "origin_lon_lat": [
+        77.5468,
+        12.9255
+      ],
+      "destination_lon_lat": [
+        77.5005,
+        12.9197
+      ],
+      "distance_km": 8.84,
+      "distance_m": 8840.0,
+      "freeflow_minutes": 10.2,
+      "congested_minutes": 18.3,
+      "freeflow_seconds": 611.2,
+      "congested_seconds": 1100.2,
+      "avg_congested_speed_kmh": 28.9
+    },
+    {
+      "name": "Whitefield / ITPL -> Kempegowda Intl Airport (BLR)",
+      "origin_lon_lat": [
+        77.736,
+        12.985
+      ],
+      "destination_lon_lat": [
+        77.7066,
+        13.1986
+      ],
+      "distance_km": 46.11,
+      "distance_m": 46114.0,
+      "freeflow_minutes": 47.7,
+      "congested_minutes": 85.8,
+      "freeflow_seconds": 2860.8,
+      "congested_seconds": 5149.4,
+      "avg_congested_speed_kmh": 32.2
+    }
+  ],
+  "outputs": {
+    "routable_demand_points_parquet": "data\\processed\\routable_demand_points.parquet",
+    "routing_matrix_npz": "data\\processed\\routing_matrix.npz",
+    "unroutable_points_csv": "reports\\60_unroutable_points.csv",
+    "od_test_pairs_csv": "reports\\60_od_test_pairs.csv"
+  }
+}

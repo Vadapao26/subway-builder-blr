@@ -1,0 +1,13 @@
+name,origin_lon_lat,destination_lon_lat,distance_km,distance_m,freeflow_minutes,congested_minutes,freeflow_seconds,congested_seconds,avg_congested_speed_kmh
+Majestic (KBS) -> Whitefield / ITPL,"[77.5713, 12.9767]","[77.736, 12.985]",21.7,21700.0,27.8,50.0,1665.1,2997.2,26.1
+Majestic (KBS) -> Electronic City Phase 1,"[77.5713, 12.9767]","[77.6602, 12.8452]",20.11,20106.0,24.2,43.5,1450.7,2611.2,27.7
+MG Road / Vidhana Soudha (CBD) -> Kempegowda Intl Airport (BLR),"[77.6066, 12.9756]","[77.7066, 13.1986]",34.9,34903.0,33.8,60.8,2027.1,3648.9,34.4
+Silk Board Junction -> Marathahalli (ORR),"[77.6238, 12.9177]","[77.7011, 12.9569]",11.78,11781.0,14.2,25.5,849.6,1529.4,27.7
+Electronic City Phase 1 -> Hosur Bus Stand (Tamil Nadu),"[77.6602, 12.8452]","[77.8253, 12.7409]",25.45,25454.0,22.5,40.6,1351.8,2433.2,37.7
+Hosur SIPCOT Phase I -> Bommasandra Industrial Area,"[77.8068, 12.7606]","[77.691, 12.816]",15.37,15369.0,16.9,30.4,1013.3,1824.0,30.3
+Yeshwanthpur / Malleshwaram -> Peenya Industrial Area,"[77.552, 13.023]","[77.516, 13.03]",5.94,5939.0,7.4,13.3,442.9,797.2,26.8
+Hebbal Flyover -> Manyata Tech Park,"[77.589, 13.041]","[77.6208, 13.0458]",8.36,8363.0,11.9,21.4,712.1,1281.8,23.5
+Jayanagar 4th Block -> Koramangala,"[77.5826, 12.9299]","[77.6266, 12.9362]",7.43,7431.0,10.7,19.2,640.7,1153.3,23.2
+Indiranagar -> Bagmane Tech Park (C V Raman Nagar),"[77.6408, 12.9784]","[77.6602, 12.9801]",3.9,3896.0,6.4,11.5,382.7,688.9,20.4
+Banashankari -> Global Village Tech Park (Kengeri),"[77.5468, 12.9255]","[77.5005, 12.9197]",8.84,8840.0,10.2,18.3,611.2,1100.2,28.9
+Whitefield / ITPL -> Kempegowda Intl Airport (BLR),"[77.736, 12.985]","[77.7066, 13.1986]",46.11,46114.0,47.7,85.8,2860.8,5149.4,32.2
