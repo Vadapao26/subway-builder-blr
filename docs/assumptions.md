@@ -50,9 +50,10 @@ Per Section 0 and Section 6 of the SRD, every modelling choice marked `[ASSUMPTI
 
 ## 5. Synthetic Employment Category Weights & Named Cluster Boosts (`params.employment_weights`, `params.named_employment_boosts`)
 - **Parameters in `cities/blr.yaml`**:
-  - Footprint density weights (relative jobs per m² before global normalization): `office: 0.08`, `commercial: 0.05`, `retail: 0.04`, `industrial: 0.03`, `institutional: 0.03`, `landuse_commercial: 0.015`, `landuse_industrial: 0.010`, `landuse_retail: 0.015`.
+  - Footprint density weights (relative jobs per m² of floor/footprint area before global normalization): `office: 0.08`, `commercial: 0.05`, `retail: 0.04`, `industrial: 0.03`, `institutional: 0.03`, `landuse_commercial: 0.015`, `landuse_industrial: 0.010`, `landuse_retail: 0.015`, `landuse_institutional: 0.010`, `landuse_airport: 0.008`.
+  - Named POI weights (relative jobs per named OSM node/way POI before global normalization): `poi_office: 20.0`, `poi_commercial: 8.0`, `poi_retail: 5.0`, `poi_industrial: 15.0`, `poi_institutional: 8.0`, plus `osm_named_polygon_multiplier: 1.5` for named commercial/industrial/campus polygons in OSM.
   - Named cluster boosts for: **Kempegowda International Airport (BLR)**, **Electronic City**, **Whitefield / ITPL**, **Outer Ring Road (Bellandur–Marathahalli–Manyata)**, **Central Business District (MG Road / Majestic)**, **Peenya Industrial Area**, and **Hosur SIPCOT Industrial Phases I & II**.
-- **Why chosen**: OpenStreetMap in India often maps large IT campuses, tech parks, and industrial estates as a single `landuse=industrial` or `landuse=commercial` polygon with incomplete `building=office` tags inside. Combining OSM building/landuse footprints with explicit cluster weights ensures major employment hubs attract realistic commuter volumes.
+- **Why chosen**: OpenStreetMap in India often maps large IT campuses, tech parks, and industrial estates as a single `landuse=industrial` or `landuse=commercial` polygon with incomplete `building=office` tags inside. Combining OSM building/landuse footprints, multi-cell polygon rasterization, named employment POIs, and explicit cluster weights ensures major employment hubs attract realistic commuter volumes.
 - **How to change**: Adjust `params.employment_weights` or `params.named_employment_boosts` in `cities/blr.yaml` and re-run Phase 4.
 
 ---

@@ -1,0 +1,348 @@
+{
+  "phase": "40_employment_weights",
+  "city_code": "BLR",
+  "timestamp_utc": "2026-10-31T02:56:09.486948+00:00",
+  "runtime_seconds": 2.53,
+  "counts": {
+    "total_demand_points": 3381,
+    "points_with_positive_weight": 1803,
+    "points_with_plausible_osm_employment": 1745,
+    "points_with_named_boost": 457,
+    "points_with_zero_weight": 1578
+  },
+  "weight_totals": {
+    "total_osm_base_weight": 5796605.0,
+    "total_named_boost_weight": 760000.1,
+    "total_raw_employment_weight": 6556605.2,
+    "osm_share_of_total_weight": 0.8841
+  },
+  "configured_named_boosts": [
+    {
+      "name": "Kempegowda International Airport (BLR)",
+      "bbox": {
+        "south": 13.18,
+        "north": 13.22,
+        "west": 77.68,
+        "east": 77.73
+      },
+      "boost_weight": 50000.0,
+      "reason": "Major aviation, cargo, and aerospace hub at northern boundary",
+      "grid_cells_covered": 30,
+      "osm_base_weight_in_bbox": 245873.6,
+      "total_weight_in_bbox": 295873.6,
+      "sample_osm_employers_in_bbox": [
+        "Air Cargo Village",
+        "Airport Rescue and Fire Fighting Station",
+        "BIAL Central Warehouse",
+        "BIAL Solar System",
+        "Bengaluru Aerospace Park",
+        "Bengaluru Airport Bus Depot",
+        "Blue Dart Express",
+        "Boeing India Engineering and Technology Center",
+        "Cargo District",
+        "Centum Electronics Limited",
+        "DHL",
+        "Disabled Aircraft Recovery Testing Centre"
+      ]
+    },
+    {
+      "name": "Electronic City",
+      "bbox": {
+        "south": 12.825,
+        "north": 12.865,
+        "west": 77.645,
+        "east": 77.69
+      },
+      "boost_weight": 120000.0,
+      "reason": "Major IT/campus employment corridor in south-east Bengaluru",
+      "grid_cells_covered": 36,
+      "osm_base_weight_in_bbox": 182797.5,
+      "total_weight_in_bbox": 302797.5,
+      "sample_osm_employers_in_bbox": [
+        "360 Business Park",
+        "3M",
+        "701 Production",
+        "703",
+        "Act Secondary HPS , Beratena Agrahara",
+        "Admin Block",
+        "Aliaxis Research and Technology Centre Asia",
+        "Aluna Thai Spa in Electronic City",
+        "Amenity Block",
+        "American Power Corporation",
+        "Apollo Clinic",
+        "Arowana Consulting Limited"
+      ]
+    },
+    {
+      "name": "Whitefield / ITPL",
+      "bbox": {
+        "south": 12.955,
+        "north": 13.005,
+        "west": 77.7,
+        "east": 77.765
+      },
+      "boost_weight": 150000.0,
+      "reason": "Primary eastern IT corridor and tech parks (ITPL, EPIP Zone)",
+      "grid_cells_covered": 48,
+      "osm_base_weight_in_bbox": 660913.4,
+      "total_weight_in_bbox": 810913.4,
+      "sample_osm_employers_in_bbox": [
+        "100Whitefield",
+        "1A",
+        "1B",
+        "2A",
+        "2B",
+        "2C",
+        "A Block",
+        "A1 Bazaar",
+        "AA Arcade",
+        "ABV - Artisanal Bier Village",
+        "ACR Greens",
+        "AECS Layout Womens Welfare Association"
+      ]
+    },
+    {
+      "name": "Outer Ring Road (Bellandur - Marathahalli - Manyata)",
+      "bbox": {
+        "south": 12.915,
+        "north": 13.05,
+        "west": 77.61,
+        "east": 77.71
+      },
+      "boost_weight": 150000.0,
+      "reason": "High-density tech parks along ORR corridor",
+      "grid_cells_covered": 192,
+      "osm_base_weight_in_bbox": 1862008.7,
+      "total_weight_in_bbox": 2012008.7,
+      "sample_osm_employers_in_bbox": [
+        "(U/C)",
+        "1 OAR",
+        "1085",
+        "12/2",
+        "1A",
+        "1B",
+        "220/33kV GIS Sub Station, Central Silk Board",
+        "315 Work Avenue",
+        "315, Work Avenue, Gk Complex",
+        "315Work Avenue",
+        "3B",
+        "3ST"
+      ]
+    },
+    {
+      "name": "Central Business District (MG Road / Majestic / Vidhana Soudha)",
+      "bbox": {
+        "south": 12.955,
+        "north": 12.995,
+        "west": 77.565,
+        "east": 77.625
+      },
+      "boost_weight": 120000.0,
+      "reason": "Historic commercial, civic, and retail core",
+      "grid_cells_covered": 40,
+      "osm_base_weight_in_bbox": 415816.3,
+      "total_weight_in_bbox": 535816.3,
+      "sample_osm_employers_in_bbox": [
+        "1 Sobha",
+        "37 Cunningham",
+        "37th Crescent Hotel",
+        "5th Avenue Mall",
+        "A Block",
+        "ACR Towers",
+        "APMC",
+        "ASC Abattoir",
+        "ASC Colony",
+        "AV Varadachar Kalakshetra",
+        "Aavishkar Academy",
+        "Abbas Khan College"
+      ]
+    },
+    {
+      "name": "Peenya Industrial Area",
+      "bbox": {
+        "south": 13.01,
+        "north": 13.05,
+        "west": 77.495,
+        "east": 77.545
+      },
+      "boost_weight": 90000.0,
+      "reason": "Largest industrial estate in north-west Bengaluru",
+      "grid_cells_covered": 30,
+      "osm_base_weight_in_bbox": 120239.2,
+      "total_weight_in_bbox": 210239.2,
+      "sample_osm_employers_in_bbox": [
+        "1Pharmacy Network",
+        "A",
+        "ALIMCO",
+        "APMC Lorry Stand",
+        "Airforce Technical College - AFTC",
+        "Airtel Store",
+        "Amenity Block",
+        "Ammaji Arcade",
+        "Arvind Motors Private Limited",
+        "Ati Motors",
+        "Avana Electrosystems Pvt Ltd",
+        "Avana Electrosystems Pvt. Ltd."
+      ]
+    },
+    {
+      "name": "Hosur SIPCOT Industrial Phases I & II",
+      "bbox": {
+        "south": 12.71,
+        "north": 12.785,
+        "west": 77.78,
+        "east": 77.88
+      },
+      "boost_weight": 80000.0,
+      "reason": "Major manufacturing and automotive cluster in Hosur (Tamil Nadu)",
+      "grid_cells_covered": 108,
+      "osm_base_weight_in_bbox": 196766.8,
+      "total_weight_in_bbox": 276766.8,
+      "sample_osm_employers_in_bbox": [
+        "Adhiyamaan College of Engineering",
+        "Advaith Matriculation School",
+        "Ashok Leyland",
+        "Bharathi Vidhyalaya Matriculation School",
+        "Chemical and electrical department",
+        "Civil and architectural block",
+        "Cricket gala",
+        "Electrical laboratory",
+        "Fire and Rescue Service Station",
+        "Green Valley Higher Secondary School",
+        "Hosur IT Park",
+        "Hosur Industries Association"
+      ]
+    }
+  ],
+  "top_osm_derived_named_polygons": [
+    {
+      "name": "Kempegowda International Airport",
+      "category": "airport",
+      "area_ha": 1616.56
+    },
+    {
+      "name": "Bengaluru IT Park",
+      "category": "industrial",
+      "area_ha": 440.91
+    },
+    {
+      "name": "Bidadi Industrial Area",
+      "category": "industrial",
+      "area_ha": 425.51
+    },
+    {
+      "name": "Hi-Tech Defence and Aerospace Park",
+      "category": "industrial",
+      "area_ha": 402.03
+    },
+    {
+      "name": "Sipcot Phase II Industrial Complex",
+      "category": "industrial",
+      "area_ha": 388.1
+    },
+    {
+      "name": "Jigani Industrial Estate",
+      "category": "industrial",
+      "area_ha": 379.2
+    },
+    {
+      "name": "Bengaluru Aerospace Park",
+      "category": "industrial",
+      "area_ha": 365.82
+    },
+    {
+      "name": "Army Service Corps - ASC North",
+      "category": "military",
+      "area_ha": 356.81
+    },
+    {
+      "name": "SIPCOT Hosur Phase I Industrial Complex",
+      "category": "industrial",
+      "area_ha": 352.73
+    },
+    {
+      "name": "Yelahanka Air Force Station",
+      "category": "airport",
+      "area_ha": 352.71
+    },
+    {
+      "name": "HAL Airport",
+      "category": "airport",
+      "area_ha": 347.36
+    },
+    {
+      "name": "DRDO",
+      "category": "military",
+      "area_ha": 332.57
+    },
+    {
+      "name": "Army Service Corps - ASC South",
+      "category": "military",
+      "area_ha": 291.82
+    },
+    {
+      "name": "KIADB Hardware Park",
+      "category": "industrial",
+      "area_ha": 263.48
+    },
+    {
+      "name": "Iblur Military Area",
+      "category": "military",
+      "area_ha": 242.97
+    },
+    {
+      "name": "All India Radio",
+      "category": "industrial",
+      "area_ha": 240.49
+    },
+    {
+      "name": "Madras Engineers Group",
+      "category": "military",
+      "area_ha": 225.02
+    },
+    {
+      "name": "Indian Institute of Horticultural Research",
+      "category": "college",
+      "area_ha": 206.18
+    },
+    {
+      "name": "Hoskote Industrial Area",
+      "category": "industrial",
+      "area_ha": 205.18
+    },
+    {
+      "name": "Madras Engineers Group",
+      "category": "military",
+      "area_ha": 139.78
+    },
+    {
+      "name": "Jalahalli Airforce Station - West",
+      "category": "military",
+      "area_ha": 130.76
+    },
+    {
+      "name": "Parachute Regiment Training Centre",
+      "category": "military",
+      "area_ha": 117.6
+    },
+    {
+      "name": "Bommasandra Industrial Estate",
+      "category": "industrial",
+      "area_ha": 114.35
+    },
+    {
+      "name": "TVS Motors",
+      "category": "industrial",
+      "area_ha": 106.55
+    },
+    {
+      "name": "Toyota Kirloskar",
+      "category": "industrial",
+      "area_ha": 106.4
+    }
+  ],
+  "outputs": {
+    "employment_weights_parquet": "data\\processed\\employment_weights.parquet",
+    "employment_weights_csv": "data\\processed\\employment_weights.csv"
+  }
+}

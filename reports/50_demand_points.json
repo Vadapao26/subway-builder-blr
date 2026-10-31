@@ -1,0 +1,309 @@
+{
+  "phase": "50_demand_points",
+  "city_code": "BLR",
+  "timestamp_utc": "2026-10-31T02:56:10.320823+00:00",
+  "runtime_seconds": 0.19,
+  "totals": {
+    "demand_point_count": 3381,
+    "points_with_residents_gt_0": 3381,
+    "points_with_jobs_gt_0": 1802,
+    "points_with_zero_jobs": 1579,
+    "total_residents": 13979701,
+    "configured_employment_ratio": 1.0,
+    "target_total_jobs": 13979701,
+    "actual_total_jobs": 13979701,
+    "bbmp_jobs": 8837312,
+    "non_bbmp_bmrda_and_hosur_jobs": 5142389
+  },
+  "sanity_checks": {
+    "unexplained_job_cells_count": 0,
+    "no_jobs_without_plausible_landuse_or_boost": true,
+    "total_jobs_matches_ratio": true,
+    "no_negative_or_nan_values": true
+  },
+  "jobs_distribution": {
+    "min_jobs": 0,
+    "median_jobs_all_points": 21.0,
+    "median_jobs_active_emp_points": 1768.0,
+    "mean_jobs_all_points": 4134.8,
+    "mean_jobs_active_emp_points": 7757.9,
+    "p90_jobs": 11039.0,
+    "max_jobs": 356010
+  },
+  "named_cluster_job_totals": [
+    {
+      "name": "Kempegowda International Airport (BLR)",
+      "bbox": {
+        "south": 13.18,
+        "north": 13.22,
+        "west": 77.68,
+        "east": 77.73
+      },
+      "reason": "Major aviation, cargo, and aerospace hub at northern boundary",
+      "residents": 100741,
+      "jobs": 630850,
+      "share_of_city_jobs_pct": 4.51,
+      "jobs_to_residents_ratio_in_cluster": 6.26
+    },
+    {
+      "name": "Electronic City",
+      "bbox": {
+        "south": 12.825,
+        "north": 12.865,
+        "west": 77.645,
+        "east": 77.69
+      },
+      "reason": "Major IT/campus employment corridor in south-east Bengaluru",
+      "residents": 71513,
+      "jobs": 645612,
+      "share_of_city_jobs_pct": 4.62,
+      "jobs_to_residents_ratio_in_cluster": 9.03
+    },
+    {
+      "name": "Whitefield / ITPL",
+      "bbox": {
+        "south": 12.955,
+        "north": 13.005,
+        "west": 77.7,
+        "east": 77.765
+      },
+      "reason": "Primary eastern IT corridor and tech parks (ITPL, EPIP Zone)",
+      "residents": 26465,
+      "jobs": 1773071,
+      "share_of_city_jobs_pct": 12.68,
+      "jobs_to_residents_ratio_in_cluster": 67.0
+    },
+    {
+      "name": "Outer Ring Road (Bellandur - Marathahalli - Manyata)",
+      "bbox": {
+        "south": 12.915,
+        "north": 13.05,
+        "west": 77.61,
+        "east": 77.71
+      },
+      "reason": "High-density tech parks along ORR corridor",
+      "residents": 1892558,
+      "jobs": 4527688,
+      "share_of_city_jobs_pct": 32.39,
+      "jobs_to_residents_ratio_in_cluster": 2.39
+    },
+    {
+      "name": "Central Business District (MG Road / Majestic / Vidhana Soudha)",
+      "bbox": {
+        "south": 12.955,
+        "north": 12.995,
+        "west": 77.565,
+        "east": 77.625
+      },
+      "reason": "Historic commercial, civic, and retail core",
+      "residents": 1759051,
+      "jobs": 1174122,
+      "share_of_city_jobs_pct": 8.4,
+      "jobs_to_residents_ratio_in_cluster": 0.67
+    },
+    {
+      "name": "Peenya Industrial Area",
+      "bbox": {
+        "south": 13.01,
+        "north": 13.05,
+        "west": 77.495,
+        "east": 77.545
+      },
+      "reason": "Largest industrial estate in north-west Bengaluru",
+      "residents": 1130272,
+      "jobs": 448265,
+      "share_of_city_jobs_pct": 3.21,
+      "jobs_to_residents_ratio_in_cluster": 0.4
+    },
+    {
+      "name": "Hosur SIPCOT Industrial Phases I & II",
+      "bbox": {
+        "south": 12.71,
+        "north": 12.785,
+        "west": 77.78,
+        "east": 77.88
+      },
+      "reason": "Major manufacturing and automotive cluster in Hosur (Tamil Nadu)",
+      "residents": 166799,
+      "jobs": 590093,
+      "share_of_city_jobs_pct": 4.22,
+      "jobs_to_residents_ratio_in_cluster": 3.54
+    }
+  ],
+  "top_15_job_cells": [
+    {
+      "id": "pt_031_032",
+      "cell_id": "R031_C032",
+      "lat": 12.983447,
+      "lon": 77.6996,
+      "residents": 656,
+      "jobs": 356010,
+      "ward_name": "Ward 107: Garudachar Playa",
+      "named_boost_clusters": "Whitefield / ITPL; Outer Ring Road (Bellandur - Marathahalli - Manyata)",
+      "sample_osm_names": "Bagmane Angkor East; Bagmane Angkor West; Bagmane Apollo; Bagmane Aquila; Bagmane Capital"
+    },
+    {
+      "id": "pt_025_031",
+      "cell_id": "R025_C031",
+      "lat": 12.929457,
+      "lon": 77.690382,
+      "residents": 539,
+      "jobs": 307706,
+      "ward_name": "Ward 114: Marathahalli",
+      "named_boost_clusters": "Outer Ring Road (Bellandur - Marathahalli - Manyata)",
+      "sample_osm_names": "Aurbis Business Park; BS Tech Park; Block 1; Block 2A; Block 2B"
+    },
+    {
+      "id": "pt_038_023",
+      "cell_id": "R038_C023",
+      "lat": 13.046435,
+      "lon": 77.616634,
+      "residents": 23279,
+      "jobs": 181607,
+      "ward_name": "Ward 8: Jakkuru",
+      "named_boost_clusters": "Outer Ring Road (Bellandur - Marathahalli - Manyata)",
+      "sample_osm_names": "Acacia; Banyan; Block M2; Cedar; Cypress"
+    },
+    {
+      "id": "pt_031_035",
+      "cell_id": "R031_C035",
+      "lat": 12.983447,
+      "lon": 77.727256,
+      "residents": 675,
+      "jobs": 172843,
+      "ward_name": "Ward 106: Hudi",
+      "named_boost_clusters": "Whitefield / ITPL",
+      "sample_osm_names": "Akruthi Homes; Akshay Tech Park; Altius; Autocrat Engineers; Bharati Airtel Nxtra"
+    },
+    {
+      "id": "pt_031_036",
+      "cell_id": "R031_C036",
+      "lat": 12.983447,
+      "lon": 77.736474,
+      "residents": 407,
+      "jobs": 172795,
+      "ward_name": "Ward 105: Belathur",
+      "named_boost_clusters": "Whitefield / ITPL",
+      "sample_osm_names": "Anchor; Anchor Annex; Aviator; Brigade Bhuwalka Icon; Brigade Tech Park"
+    },
+    {
+      "id": "pt_031_031",
+      "cell_id": "R031_C031",
+      "lat": 12.983447,
+      "lon": 77.690382,
+      "residents": 521,
+      "jobs": 150825,
+      "ward_name": "Ward 90: Mahadevapura",
+      "named_boost_clusters": "Outer Ring Road (Bellandur - Marathahalli - Manyata)",
+      "sample_osm_names": "Bagmane Amber; Bagmane Aquamarine Block A; Bagmane Aquamarine Block B; Bagmane Citrine; Bagmane Constellation Business Park"
+    },
+    {
+      "id": "pt_036_015",
+      "cell_id": "R036_C015",
+      "lat": 13.028438,
+      "lon": 77.542886,
+      "residents": 38663,
+      "jobs": 140421,
+      "ward_name": "Ward 36: Chatrapati Shivaji",
+      "named_boost_clusters": "Peenya Industrial Area",
+      "sample_osm_names": "Amenity Block; Block A; Block B; Brigade Deccan Heights; Brigade Twin Towers"
+    },
+    {
+      "id": "pt_024_030",
+      "cell_id": "R024_C030",
+      "lat": 12.920459,
+      "lon": 77.681164,
+      "residents": 453,
+      "jobs": 137772,
+      "ward_name": "Ward 116: Doddakanahalli",
+      "named_boost_clusters": "Outer Ring Road (Bellandur - Marathahalli - Manyata)",
+      "sample_osm_names": "3B; 4B; Adarsh Gem; Bay; Block 9A and 9B"
+    },
+    {
+      "id": "pt_030_033",
+      "cell_id": "R030_C033",
+      "lat": 12.974448,
+      "lon": 77.708819,
+      "residents": 902,
+      "jobs": 115163,
+      "ward_name": "Ward 108: Dodda Nekkundi",
+      "named_boost_clusters": "Whitefield / ITPL; Outer Ring Road (Bellandur - Marathahalli - Manyata)",
+      "sample_osm_names": "1A; 1B; Bagmane Solarium City; Big Basket Warehouse; Bloom"
+    },
+    {
+      "id": "pt_030_023",
+      "cell_id": "R030_C023",
+      "lat": 12.974448,
+      "lon": 77.616634,
+      "residents": 41138,
+      "jobs": 114204,
+      "ward_name": "Ward 131: Ulsoor",
+      "named_boost_clusters": "Outer Ring Road (Bellandur - Marathahalli - Manyata); Central Business District (MG Road / Majestic / Vidhana Soudha)",
+      "sample_osm_names": "Army Public School; Army Quarters; Army Service Corps - ASC North; Auro Mirra International School; BSNL CGM Office"
+    },
+    {
+      "id": "pt_026_031",
+      "cell_id": "R026_C031",
+      "lat": 12.938455,
+      "lon": 77.690382,
+      "residents": 626,
+      "jobs": 105231,
+      "ward_name": "Ward 115: Bellanduru",
+      "named_boost_clusters": "Outer Ring Road (Bellandur - Marathahalli - Manyata)",
+      "sample_osm_names": "Aricent Group; Block B; Block C; Cessna Business Park; Clubhouse"
+    },
+    {
+      "id": "pt_027_026",
+      "cell_id": "R027_C026",
+      "lat": 12.947453,
+      "lon": 77.64429,
+      "residents": 4419,
+      "jobs": 100627,
+      "ward_name": "Ward 115: Bellanduru",
+      "named_boost_clusters": "Outer Ring Road (Bellandur - Marathahalli - Manyata)",
+      "sample_osm_names": "Army Service Corps - ASC North; Army Service Corps - ASC South; Augusta; Cherry Hills; Crystal Downs"
+    },
+    {
+      "id": "pt_024_031",
+      "cell_id": "R024_C031",
+      "lat": 12.920459,
+      "lon": 77.690382,
+      "residents": 472,
+      "jobs": 100224,
+      "ward_name": "Ward 113: Munnekollala",
+      "named_boost_clusters": "Outer Ring Road (Bellandur - Marathahalli - Manyata)",
+      "sample_osm_names": "Blinkit; Campus 30; Campus 31; Campus 32; Campus 33"
+    },
+    {
+      "id": "pt_030_022",
+      "cell_id": "R030_C022",
+      "lat": 12.974448,
+      "lon": 77.607416,
+      "residents": 51209,
+      "jobs": 96520,
+      "ward_name": "Ward 181: Shantala Nagar",
+      "named_boost_clusters": "Outer Ring Road (Bellandur - Marathahalli - Manyata); Central Business District (MG Road / Majestic / Vidhana Soudha)",
+      "sample_osm_names": "5th Avenue Mall; A Block; ACR Towers; Allied Grand Plaza; Army Public School"
+    },
+    {
+      "id": "pt_030_028",
+      "cell_id": "R030_C028",
+      "lat": 12.974448,
+      "lon": 77.662727,
+      "residents": 1092,
+      "jobs": 89609,
+      "ward_name": "Ward 122: New Thippasandra",
+      "named_boost_clusters": "Outer Ring Road (Bellandur - Marathahalli - Manyata)",
+      "sample_osm_names": "BEML Hospital; Bagmane Commerz; Bagmane Cosmos; Bagmane Lakeview; Bagmane Laurel"
+    }
+  ],
+  "outputs": {
+    "demand_points_parquet": "data\\processed\\demand_points.parquet",
+    "city_demand_points_parquet": "data\\processed\\blr_demand_points.parquet",
+    "demand_points_csv": "data\\processed\\demand_points.csv",
+    "residents_map_png": "reports\\40_residents_map.png",
+    "jobs_map_png": "reports\\40_jobs_map.png",
+    "combined_map_png": "reports\\50_demand_points_map.png",
+    "combined_map_svg": "reports\\50_demand_points_map.svg"
+  }
+}

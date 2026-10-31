@@ -59,7 +59,7 @@ params:
   # Worker Population Ratio (WPR) is ~0.42. Configurable; see docs/assumptions.md.
   employment_ratio: 1.0
 
-  # Phase 4: Category weights (jobs per m^2 of building/landuse footprint before global scaling) [ASSUMPTION]
+  # Phase 4: Category weights (jobs per m^2 of building/landuse footprint or per POI before global scaling) [ASSUMPTION]
   employment_weights:
     office: 0.08
     commercial: 0.05
@@ -69,6 +69,14 @@ params:
     landuse_commercial: 0.015
     landuse_industrial: 0.010
     landuse_retail: 0.015
+    landuse_institutional: 0.010
+    landuse_airport: 0.008
+    poi_office: 20.0
+    poi_commercial: 8.0
+    poi_retail: 5.0
+    poi_industrial: 15.0
+    poi_institutional: 8.0
+    osm_named_polygon_multiplier: 1.5
 
   # Phase 4: Named employment cluster boosts (multiplier or additive weight for known corridors) [ASSUMPTION]
   named_employment_boosts:
