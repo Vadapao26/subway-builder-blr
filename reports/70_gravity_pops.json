@@ -1,0 +1,67 @@
+{
+  "phase": "70_gravity_pops",
+  "city_code": "BLR",
+  "timestamp_utc": "2026-10-31T03:22:07.939093+00:00",
+  "runtime_seconds": 1.71,
+  "parameters": {
+    "calibrated_gravity_beta": 0.14,
+    "doubly_constrained_blend": 0.72,
+    "top_k_destinations": 25,
+    "max_destinations_per_origin_actual": 25,
+    "target_mean_commute_km": [
+      8.0,
+      14.0
+    ],
+    "target_mean_commute_min": [
+      25.0,
+      45.0
+    ],
+    "calibration_runs": [
+      {
+        "beta": 0.14,
+        "blend": 0.72,
+        "mean_km": 12.46,
+        "mean_min": 27.71
+      }
+    ]
+  },
+  "counts_and_totals": {
+    "point_count": 3375,
+    "pop_count": 82970,
+    "total_residents": 13978303,
+    "total_jobs": 13978303,
+    "total_pop_size": 13978303,
+    "totals_internally_consistent": true,
+    "correlation_with_phase4_jobs": 0.9436,
+    "unexplained_job_cells": 0
+  },
+  "commute_distribution": {
+    "mean_distance_km": 12.46,
+    "median_distance_km": 7.65,
+    "p90_distance_km": 28.81,
+    "mean_duration_min": 27.71,
+    "median_duration_min": 21.45,
+    "p90_duration_min": 59.48,
+    "mean_distance_in_target_range": true,
+    "mean_duration_in_target_range": true
+  },
+  "schema_validation": {
+    "valid": true,
+    "points_validated": 3375,
+    "pops_validated": 82970,
+    "origin_sums_exact_match": true,
+    "destination_sums_exact_match": true
+  },
+  "file_sizes": {
+    "demand_data_json_bytes": 11399101,
+    "demand_data_json_mb": 10.87,
+    "demand_data_json_gz_bytes": 1735562,
+    "demand_data_json_gz_mb": 1.66
+  },
+  "outputs": {
+    "demand_data_json": "mod\\data\\BLR\\demand_data.json",
+    "demand_data_json_gz": "mod\\data\\BLR\\demand_data.json.gz",
+    "commute_distribution_png": "reports\\70_commute_distribution.png",
+    "commute_distribution_svg": "reports\\70_commute_distribution.svg"
+  }
+}

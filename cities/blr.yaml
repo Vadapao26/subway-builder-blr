@@ -169,8 +169,9 @@ params:
         destination: [77.7066, 13.1986]
 
   # Phase 6: Gravity model decay parameter (beta in exp(-beta * driving_minutes)) [ASSUMPTION]
-  # Initial seed 0.065; calibrated in Phase 6 so mean commute distance/time matches target range.
-  gravity_beta: 0.065
+  # Calibrated in Phase 6 so mean commute distance/time matches CMP target range [8-14 km, 25-45 min].
+  gravity_beta: 0.140
+  doubly_constrained_blend: 0.72
   target_mean_commute_km: [8.0, 14.0]
   target_mean_commute_min: [25.0, 45.0]
   top_k_destinations: 25

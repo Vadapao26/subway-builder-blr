@@ -73,14 +73,15 @@ Per Section 0 and Section 6 of the SRD, every modelling choice marked `[ASSUMPTI
 
 ---
 
-## 7. Gravity Model Decay & Commute Targets (`params.gravity_beta`, `params.top_k_destinations`)
+## 7. Gravity Model Decay & Commute Targets (`params.gravity_beta`, `params.doubly_constrained_blend`, `params.top_k_destinations`)
 - **Parameters in `cities/blr.yaml`**:
-  - `gravity_beta: 0.065` (initial seed for exponential decay $\exp(-\beta \cdot t_{\text{min}})$)
+  - `gravity_beta: 0.140` (calibrated decay parameter in $\exp(-\beta \cdot t_{\text{min}})$)
+  - `doubly_constrained_blend: 0.72` (convex blend of doubly-constrained Sinkhorn/Furness IPF and origin-constrained local gravity on the sparse top-$K$ graph)
   - `target_mean_commute_km: [8.0, 14.0]`
   - `target_mean_commute_min: [25.0, 45.0]`
   - `top_k_destinations: 25`
-- **Why chosen**: BMRCL / DULT Comprehensive Mobility Plan (CMP 2020) for Bengaluru reports an average motorized trip length of **~9.5–11.5 km** and average commute duration of **~32–42 minutes**. Keeping the top `K = 25` destinations per origin limits total `pops` to `~40,000–65,000` groups (comparable to Paris `29,517` and Tokyo `82,662`), ensuring smooth simulation performance.
-- **How to change**: Edit `gravity_beta`, `target_mean_commute_km`, or `top_k_destinations` in `cities/blr.yaml` and re-run Phase 6.
+- **Why chosen**: BMRCL / DULT Comprehensive Mobility Plan (CMP 2020) for Bengaluru reports an average motorized trip length of **~9.5–11.5 km** (target range `8.0–14.0 km`) and average commute duration of **~25–45 minutes**. Keeping at most the top `K = 25` destinations per origin limits total `pops` to `~83,000` groups (comparable to Tokyo `82,662`), ensuring smooth simulation performance while preserving 100% point-level conservation (`sum(pops.size) == sum(residents) == sum(jobs)`).
+- **How to change**: Edit `gravity_beta`, `doubly_constrained_blend`, `target_mean_commute_km`, or `top_k_destinations` in `cities/blr.yaml` and re-run Phase 6.
 
 ---
 
