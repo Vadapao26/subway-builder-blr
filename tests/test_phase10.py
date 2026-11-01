@@ -59,6 +59,17 @@ class TestPhase10ModPackaging(unittest.TestCase):
         self.assertEqual(rep["city_code"], "BLR")
         self.assertGreater(rep["total_data_bytes"], 100_000_000)
 
+    def test_04_config_json_schema(self) -> None:
+        cfg_path = self.data_dir / "config.json"
+        self.assertTrue(cfg_path.exists())
+        with open(cfg_path, "r", encoding="utf-8") as f:
+            cfg = json.load(f)
+        self.assertEqual(cfg["code"], "BLR")
+        self.assertIsInstance(cfg["minZoom"], int)
+        self.assertIsInstance(cfg["maxZoom"], int)
+        self.assertEqual(cfg["minZoom"], 8)
+        self.assertEqual(cfg["maxZoom"], 15)
+
 
 if __name__ == "__main__":
     unittest.main()

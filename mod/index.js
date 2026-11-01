@@ -25,8 +25,8 @@
         longitude: 77.59,
         bearing: 0,
       },
-      minZoom: 8.5,
-      maxZoom: 15.0,
+      minZoom: 8,
+      maxZoom: 15,
       buildingZoomOffset: 0.0,
       hasCoastline: false,
     };
