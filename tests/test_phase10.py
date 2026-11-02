@@ -65,10 +65,12 @@ class TestPhase10ModPackaging(unittest.TestCase):
         with open(cfg_path, "r", encoding="utf-8") as f:
             cfg = json.load(f)
         self.assertEqual(cfg["code"], "BLR")
-        self.assertIsInstance(cfg["minZoom"], int)
-        self.assertIsInstance(cfg["maxZoom"], int)
-        self.assertEqual(cfg["minZoom"], 8)
-        self.assertEqual(cfg["maxZoom"], 15)
+        self.assertEqual(cfg["name"], "Bengaluru")
+        self.assertEqual(len(cfg["bbox"]), 4)
+        self.assertEqual(cfg["creator"], "Vadapao26")
+        self.assertEqual(cfg["country"], "IN")
+        self.assertNotIn("minZoom", cfg)
+        self.assertNotIn("maxZoom", cfg)
 
 
 if __name__ == "__main__":
