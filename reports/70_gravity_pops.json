@@ -1,10 +1,10 @@
 {
   "phase": "70_gravity_pops",
   "city_code": "BLR",
-  "timestamp_utc": "2026-10-31T03:22:07.939093+00:00",
-  "runtime_seconds": 1.71,
+  "timestamp_utc": "2026-11-02T05:24:19.025248+00:00",
+  "runtime_seconds": 1.64,
   "parameters": {
-    "calibrated_gravity_beta": 0.14,
+    "calibrated_gravity_beta": 0.095,
     "doubly_constrained_blend": 0.72,
     "top_k_destinations": 25,
     "max_destinations_per_origin_actual": 25,
@@ -18,45 +18,45 @@
     ],
     "calibration_runs": [
       {
-        "beta": 0.14,
+        "beta": 0.095,
         "blend": 0.72,
-        "mean_km": 12.46,
-        "mean_min": 27.71
+        "mean_km": 11.03,
+        "mean_min": 25.18
       }
     ]
   },
   "counts_and_totals": {
     "point_count": 3375,
-    "pop_count": 82970,
+    "pop_count": 83083,
     "total_residents": 13978303,
     "total_jobs": 13978303,
     "total_pop_size": 13978303,
     "totals_internally_consistent": true,
-    "correlation_with_phase4_jobs": 0.9436,
+    "correlation_with_phase4_jobs": 0.9672,
     "unexplained_job_cells": 0
   },
   "commute_distribution": {
-    "mean_distance_km": 12.46,
-    "median_distance_km": 7.65,
-    "p90_distance_km": 28.81,
-    "mean_duration_min": 27.71,
-    "median_duration_min": 21.45,
-    "p90_duration_min": 59.48,
+    "mean_distance_km": 11.03,
+    "median_distance_km": 7.1,
+    "p90_distance_km": 25.73,
+    "mean_duration_min": 25.18,
+    "median_duration_min": 19.72,
+    "p90_duration_min": 52.77,
     "mean_distance_in_target_range": true,
     "mean_duration_in_target_range": true
   },
   "schema_validation": {
     "valid": true,
     "points_validated": 3375,
-    "pops_validated": 82970,
+    "pops_validated": 83083,
     "origin_sums_exact_match": true,
     "destination_sums_exact_match": true
   },
   "file_sizes": {
-    "demand_data_json_bytes": 11399101,
-    "demand_data_json_mb": 10.87,
-    "demand_data_json_gz_bytes": 1735562,
-    "demand_data_json_gz_mb": 1.66
+    "demand_data_json_bytes": 11423152,
+    "demand_data_json_mb": 10.89,
+    "demand_data_json_gz_bytes": 1758411,
+    "demand_data_json_gz_mb": 1.68
   },
   "outputs": {
     "demand_data_json": "mod\\data\\BLR\\demand_data.json",

@@ -1,65 +1,37 @@
-# City Configuration: Bengaluru + Hosur (BLR)
-# All assumptions are documented in docs/assumptions.md and sources in docs/data-sources.md.
-
 name: Bengaluru
 code: BLR
-description: "Build transit for the Garden City, from Hosur to the airport"
-
-# Sourced figure: Greater Bengaluru-Hosur study area (~13.6M urban agglomeration estimate;
-# cross-checked against WorldPop raster sum in Phase 3). See docs/data-sources.md.
+description: Build transit for the Garden City, from Hosur to the airport
 population: 13600000
-
-# Study area bounding box (WGS84 lat/lon) [ASSUMPTION - confirm on a map before running Phase 1]
-# Covers Hosur (SE, Tamil Nadu), Electronic City, Whitefield, Bengaluru CBD, Peenya, and Kempegowda Intl Airport (N).
 bbox:
-  south: 12.70
+  south: 12.7
   north: 13.25
-  west: 77.40
-  east: 77.90
-
-# Initial camera view [VERIFY: built-in cities use zoom 13.0-13.5 for downtown view, or 11.5 for regional view]
+  west: 77.4
+  east: 77.9
 initialViewState:
   zoom: 11.5
   latitude: 12.97
   longitude: 77.59
   bearing: 0
-
-# OpenStreetMap regional extract covering both Karnataka and Tamil Nadu
 osm_extract:
-  name: "geofabrik-india-southern-zone"
-  url: "https://download.geofabrik.de/asia/india/southern-zone-latest.osm.pbf"
-  licence: "ODbL-1.0"
-  bbox_margin_deg: 0.05  # Margin around bbox kept during clipping so boundary routing does not sever roads
-
-# Gridded population raster dataset
+  name: geofabrik-india-southern-zone
+  url: https://download.geofabrik.de/asia/india/southern-zone-latest.osm.pbf
+  licence: ODbL-1.0
+  bbox_margin_deg: 0.05
 population_raster:
-  name: "worldpop-ind-2020-1km-unadj"
-  url: "https://data.worldpop.org/GIS/Population/Global_2000_2020_1km_UNadj/2020/IND/ind_ppp_2020_1km_Aggregated_UNadj.tif"
-  optional_100m_url: "https://data.worldpop.org/GIS/Population/Global_2000_2020_Constrained/2020/BSGM/IND/ind_ppp_2020_UNadj_constrained.tif"
+  name: worldpop-ind-2020-1km-unadj
+  url: https://data.worldpop.org/GIS/Population/Global_2000_2020_1km_UNadj/2020/IND/ind_ppp_2020_1km_Aggregated_UNadj.tif
+  optional_100m_url: https://data.worldpop.org/GIS/Population/Global_2000_2020_Constrained/2020/BSGM/IND/ind_ppp_2020_UNadj_constrained.tif
   year: 2020
   resolution_m: 1000
-  licence: "CC-BY-4.0"
-
-# Administrative boundary & ward dataset (optional cross-checking data)
+  licence: CC-BY-4.0
 admin_boundaries:
-  name: "datameet-bbmp-wards"
-  url: "https://raw.githubusercontent.com/datameet/Municipal_Spatial_Data/master/Bangalore/BBMP.geojson"
-  licence: "CC-BY-4.0"
-
+  name: datameet-bbmp-wards
+  url: https://raw.githubusercontent.com/datameet/Municipal_Spatial_Data/master/Bangalore/BBMP.geojson
+  licence: CC-BY-4.0
 params:
-  # Phase 3: Demand point aggregation grid cell size in meters [ASSUMPTION]
-  # 1000m (1 km) produces ~3,300 cells over the ~55km x 61km box (~1,500-2,500 populated points),
-  # matching built-in cities (e.g., DET: 5,705 points; PAR: 6,722 points).
   grid_cell_m: 1000
-  min_residents_per_point: 50  # Drop sparse rural edge cells with <50 residents unless they have buildings/employment landuse
-
-  # Phase 4: Total jobs to total residents ratio [ASSUMPTION]
-  # Note: Built-in game cities (DET, PAR, TOK) normalize total jobs == total residents (ratio 1.0)
-  # so every resident in the demand pool is paired with a job, while real-world Indian metro
-  # Worker Population Ratio (WPR) is ~0.42. Configurable; see docs/assumptions.md.
+  min_residents_per_point: 50
   employment_ratio: 1.0
-
-  # Phase 4: Category weights (jobs per m^2 of building/landuse footprint or per POI before global scaling) [ASSUMPTION]
   employment_weights:
     office: 0.08
     commercial: 0.05
@@ -67,9 +39,9 @@ params:
     industrial: 0.03
     institutional: 0.03
     landuse_commercial: 0.015
-    landuse_industrial: 0.010
+    landuse_industrial: 0.01
     landuse_retail: 0.015
-    landuse_institutional: 0.010
+    landuse_institutional: 0.01
     landuse_airport: 0.008
     poi_office: 20.0
     poi_commercial: 8.0
@@ -77,46 +49,69 @@ params:
     poi_industrial: 15.0
     poi_institutional: 8.0
     osm_named_polygon_multiplier: 1.5
-
-  # Phase 4: Named employment cluster boosts (multiplier or additive weight for known corridors) [ASSUMPTION]
   named_employment_boosts:
-    - name: "Kempegowda International Airport (BLR)"
-      bbox: {south: 13.180, north: 13.220, west: 77.680, east: 77.730}
-      boost_weight: 50000
-      reason: "Major aviation, cargo, and aerospace hub at northern boundary"
-    - name: "Electronic City"
-      bbox: {south: 12.825, north: 12.865, west: 77.645, east: 77.690}
-      boost_weight: 120000
-      reason: "Major IT/campus employment corridor in south-east Bengaluru"
-    - name: "Whitefield / ITPL"
-      bbox: {south: 12.955, north: 13.005, west: 77.700, east: 77.765}
-      boost_weight: 150000
-      reason: "Primary eastern IT corridor and tech parks (ITPL, EPIP Zone)"
-    - name: "Outer Ring Road (Bellandur - Marathahalli - Manyata)"
-      bbox: {south: 12.915, north: 13.050, west: 77.610, east: 77.710}
-      boost_weight: 150000
-      reason: "High-density tech parks along ORR corridor"
-    - name: "Central Business District (MG Road / Majestic / Vidhana Soudha)"
-      bbox: {south: 12.955, north: 12.995, west: 77.565, east: 77.625}
-      boost_weight: 120000
-      reason: "Historic commercial, civic, and retail core"
-    - name: "Peenya Industrial Area"
-      bbox: {south: 13.010, north: 13.050, west: 77.495, east: 77.545}
-      boost_weight: 90000
-      reason: "Largest industrial estate in north-west Bengaluru"
-    - name: "Hosur SIPCOT Industrial Phases I & II"
-      bbox: {south: 12.710, north: 12.785, west: 77.780, east: 77.880}
-      boost_weight: 80000
-      reason: "Major manufacturing and automotive cluster in Hosur (Tamil Nadu)"
-
-  # Phase 5: Congestion time-scaling factor applied to free-flow driving durations [ASSUMPTION]
-  # 1.8x reflects severe peak-hour congestion in Bengaluru relative to free-flow speeds.
+  - name: Kempegowda International Airport (BLR)
+    bbox:
+      south: 13.18
+      north: 13.22
+      west: 77.68
+      east: 77.73
+    boost_weight: 50000
+    reason: Major aviation, cargo, and aerospace hub at northern boundary
+  - name: Electronic City
+    bbox:
+      south: 12.825
+      north: 12.865
+      west: 77.645
+      east: 77.69
+    boost_weight: 120000
+    reason: Major IT/campus employment corridor in south-east Bengaluru
+  - name: Whitefield / ITPL
+    bbox:
+      south: 12.955
+      north: 13.005
+      west: 77.7
+      east: 77.765
+    boost_weight: 150000
+    reason: Primary eastern IT corridor and tech parks (ITPL, EPIP Zone)
+  - name: Outer Ring Road (Bellandur - Marathahalli - Manyata)
+    bbox:
+      south: 12.915
+      north: 13.05
+      west: 77.61
+      east: 77.71
+    boost_weight: 150000
+    reason: High-density tech parks along ORR corridor
+  - name: Central Business District (MG Road / Majestic / Vidhana Soudha)
+    bbox:
+      south: 12.955
+      north: 12.995
+      west: 77.565
+      east: 77.625
+    boost_weight: 120000
+    reason: Historic commercial, civic, and retail core
+  - name: Peenya Industrial Area
+    bbox:
+      south: 13.01
+      north: 13.05
+      west: 77.495
+      east: 77.545
+    boost_weight: 90000
+    reason: Largest industrial estate in north-west Bengaluru
+  - name: Hosur SIPCOT Industrial Phases I & II
+    bbox:
+      south: 12.71
+      north: 12.785
+      west: 77.78
+      east: 77.88
+    boost_weight: 80000
+    reason: Major manufacturing and automotive cluster in Hosur (Tamil Nadu)
   congestion_time_factor: 1.8
   routing:
-    max_snap_distance_m: 1500.0       # Points <= 1500m from Giant SCC road graph snap normally
-    drop_unroutable_above_m: 2500.0   # Points > 2500m from road graph (e.g. deep forest/reservoir) are dropped
-    access_circuity_factor: 1.3       # Local access circuity from cell centroid to nearest road node
-    access_speed_kmh: 22.0            # Local street access speed (km/h)
+    max_snap_distance_m: 1500.0
+    drop_unroutable_above_m: 2500.0
+    access_circuity_factor: 1.3
+    access_speed_kmh: 22.0
     default_speeds_kmh:
       motorway: 80.0
       motorway_link: 45.0
@@ -131,55 +126,102 @@ params:
       unclassified: 26.0
       road: 26.0
     test_od_pairs:
-      - name: "Majestic (KBS) -> Whitefield / ITPL"
-        origin: [77.5713, 12.9767]
-        destination: [77.7360, 12.9850]
-      - name: "Majestic (KBS) -> Electronic City Phase 1"
-        origin: [77.5713, 12.9767]
-        destination: [77.6602, 12.8452]
-      - name: "MG Road / Vidhana Soudha (CBD) -> Kempegowda Intl Airport (BLR)"
-        origin: [77.6066, 12.9756]
-        destination: [77.7066, 13.1986]
-      - name: "Silk Board Junction -> Marathahalli (ORR)"
-        origin: [77.6238, 12.9177]
-        destination: [77.7011, 12.9569]
-      - name: "Electronic City Phase 1 -> Hosur Bus Stand (Tamil Nadu)"
-        origin: [77.6602, 12.8452]
-        destination: [77.8253, 12.7409]
-      - name: "Hosur SIPCOT Phase I -> Bommasandra Industrial Area"
-        origin: [77.8068, 12.7606]
-        destination: [77.6910, 12.8160]
-      - name: "Yeshwanthpur / Malleshwaram -> Peenya Industrial Area"
-        origin: [77.5520, 13.0230]
-        destination: [77.5160, 13.0300]
-      - name: "Hebbal Flyover -> Manyata Tech Park"
-        origin: [77.5890, 13.0410]
-        destination: [77.6208, 13.0458]
-      - name: "Jayanagar 4th Block -> Koramangala"
-        origin: [77.5826, 12.9299]
-        destination: [77.6266, 12.9362]
-      - name: "Indiranagar -> Bagmane Tech Park (C V Raman Nagar)"
-        origin: [77.6408, 12.9784]
-        destination: [77.6602, 12.9801]
-      - name: "Banashankari -> Global Village Tech Park (Kengeri)"
-        origin: [77.5468, 12.9255]
-        destination: [77.5005, 12.9197]
-      - name: "Whitefield / ITPL -> Kempegowda Intl Airport (BLR)"
-        origin: [77.7360, 12.9850]
-        destination: [77.7066, 13.1986]
-
-  # Phase 6: Gravity model decay parameter (beta in exp(-beta * driving_minutes)) [ASSUMPTION]
-  # Calibrated in Phase 6 so mean commute distance/time matches CMP target range [8-14 km, 25-45 min].
-  gravity_beta: 0.140
+    - name: Majestic (KBS) -> Whitefield / ITPL
+      origin:
+      - 77.5713
+      - 12.9767
+      destination:
+      - 77.736
+      - 12.985
+    - name: Majestic (KBS) -> Electronic City Phase 1
+      origin:
+      - 77.5713
+      - 12.9767
+      destination:
+      - 77.6602
+      - 12.8452
+    - name: MG Road / Vidhana Soudha (CBD) -> Kempegowda Intl Airport (BLR)
+      origin:
+      - 77.6066
+      - 12.9756
+      destination:
+      - 77.7066
+      - 13.1986
+    - name: Silk Board Junction -> Marathahalli (ORR)
+      origin:
+      - 77.6238
+      - 12.9177
+      destination:
+      - 77.7011
+      - 12.9569
+    - name: Electronic City Phase 1 -> Hosur Bus Stand (Tamil Nadu)
+      origin:
+      - 77.6602
+      - 12.8452
+      destination:
+      - 77.8253
+      - 12.7409
+    - name: Hosur SIPCOT Phase I -> Bommasandra Industrial Area
+      origin:
+      - 77.8068
+      - 12.7606
+      destination:
+      - 77.691
+      - 12.816
+    - name: Yeshwanthpur / Malleshwaram -> Peenya Industrial Area
+      origin:
+      - 77.552
+      - 13.023
+      destination:
+      - 77.516
+      - 13.03
+    - name: Hebbal Flyover -> Manyata Tech Park
+      origin:
+      - 77.589
+      - 13.041
+      destination:
+      - 77.6208
+      - 13.0458
+    - name: Jayanagar 4th Block -> Koramangala
+      origin:
+      - 77.5826
+      - 12.9299
+      destination:
+      - 77.6266
+      - 12.9362
+    - name: Indiranagar -> Bagmane Tech Park (C V Raman Nagar)
+      origin:
+      - 77.6408
+      - 12.9784
+      destination:
+      - 77.6602
+      - 12.9801
+    - name: Banashankari -> Global Village Tech Park (Kengeri)
+      origin:
+      - 77.5468
+      - 12.9255
+      destination:
+      - 77.5005
+      - 12.9197
+    - name: Whitefield / ITPL -> Kempegowda Intl Airport (BLR)
+      origin:
+      - 77.736
+      - 12.985
+      destination:
+      - 77.7066
+      - 13.1986
+  gravity_beta: 0.095
   doubly_constrained_blend: 0.72
-  target_mean_commute_km: [8.0, 14.0]
-  target_mean_commute_min: [25.0, 45.0]
+  target_mean_commute_km:
+  - 8.0
+  - 14.0
+  target_mean_commute_min:
+  - 25.0
+  - 45.0
   top_k_destinations: 25
-
-  # Phase 8 & 9: Buildings & Tiles parameters [ASSUMPTION]
   default_foundation_depth_m: 7.0
   meters_per_building_level: 3.5
   foundation_depth_per_level_m: 2.5
-  buildings_grid_cell_deg: 0.0009  # Matches built-in cities (DET, PAR, TOK all use 0.0009 deg ~ 100m)
+  buildings_grid_cell_deg: 0.0009
   max_zoom: 15
   building_zoom_offset: 0.0
