@@ -1,4 +1,12 @@
-# Subway Builder City Mod Pipeline: Bengaluru + Hosur (BLR)
+<p align="center">
+  <img src="docs/images/namma_metro_logo.png" alt="Namma Metro Bengaluru Logo" width="360" />
+</p>
+
+# Subway Builder City Mod: Bengaluru + Hosur (BLR)
+
+[![Release](https://img.shields.io/github/v/release/Vadapao26/subway-builder-blr?style=flat-square)](https://github.com/Vadapao26/subway-builder-blr/releases/tag/v1.0.0)
+[![Status](https://img.shields.io/badge/status-active-success?style=flat-square)](#)
+[![Subway Builder](https://img.shields.io/badge/game-Subway%20Builder%20v1.7.2-blue?style=flat-square)](#)
 
 A complete, production-grade automated pipeline that generates custom city mods for **Subway Builder** (`v1.7.2`, `metro-maker4`, Modding API `1.0.0`). 
 

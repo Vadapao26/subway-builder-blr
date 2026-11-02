@@ -47,6 +47,19 @@ When creating the submission issue on the [Subway-Builder-Modded Registry](https
 | **Total Buildings** | `831116` |
 | **Data Sources** | `OpenStreetMap (Geofabrik Southern Zone, ODbL-1.0), WorldPop 2020 1km UNadj Population Raster (CC-BY-4.0), BBMP Ward Boundaries (CC-BY-4.0)` |
 | **Download Link** | `https://github.com/Vadapao26/subway-builder-blr/releases/download/v1.0.0/SubwayBuilder-BLR-v1.0.0.zip` |
+| **Gallery Images (Logo & Screenshots)** | Drag and drop `docs/gallery/screenshot1_logo.png` directly into the issue text box along with in-game screenshots |
+
+---
+
+## 3. How the Metro Logo Appears on the Download Page
+
+On **subwaybuildermodded.com** and in the **Railyard app gallery**, each city's mod download page displays a gallery carousel (`gallery/screenshot1.webp`, `screenshot2.webp`, etc.):
+
+- **Screenshot 1 (Primary Banner)**: The official **Namma Metro** logo (`docs/gallery/screenshot1_logo.png`).
+- **Screenshot 2**: The in-game Residents demand distribution map.
+- **Screenshot 3**: The in-game Workers demand distribution map.
+
+When submitting the issue on the Subway-Builder-Modded Registry, attaching `docs/gallery/screenshot1_logo.png` as the first image will make the registry maintainers set it as `gallery/screenshot1.webp` on your map's public download page (exactly how Kolkata, Delhi, and Mumbai did it).
 
 ---
 
