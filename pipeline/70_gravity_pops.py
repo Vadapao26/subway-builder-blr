@@ -408,7 +408,7 @@ def main() -> int:
     )
 
     if not (target_km[0] <= mean_km_c <= target_km[1] and target_min[0] <= mean_min_c <= target_min[1]):
-        for cand_beta, cand_blend in [(0.12, 0.75), (0.14, 0.72), (0.15, 0.68), (0.16, 0.65)]:
+        for cand_beta, cand_blend in [(0.033, 0.80), (0.035, 0.80), (0.030, 0.85), (0.040, 0.85)]:
             T_try, mk, mm = solve_gravity_for_beta(cand_beta, cand_blend)
             calibration_log.append({"beta": cand_beta, "blend": cand_blend, "mean_km": round(mk, 2), "mean_min": round(mm, 2)})
             if target_km[0] <= mk <= target_km[1] and target_min[0] <= mm <= target_min[1]:

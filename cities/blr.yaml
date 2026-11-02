@@ -210,8 +210,8 @@ params:
       destination:
       - 77.7066
       - 13.1986
-  gravity_beta: 0.095
-  doubly_constrained_blend: 0.72
+  gravity_beta: 0.033
+  doubly_constrained_blend: 0.80
   target_mean_commute_km:
   - 8.0
   - 14.0
