@@ -22,12 +22,18 @@ from datetime import datetime, timezone
 import json
 import math
 from pathlib import Path
+import sys
 import time
 
 import numpy as np
 import pandas as pd
 from shapely.geometry import Polygon, box
 import yaml
+
+pipeline_dir = Path(__file__).resolve().parent
+if str(pipeline_dir) not in sys.path:
+    sys.path.insert(0, str(pipeline_dir))
+from grid_utils import create_grid_spec
 
 
 OFFICE_BLDG_TYPES = {"office"}
@@ -112,11 +118,10 @@ def main() -> int:
     deg2_to_m2 = m_per_deg_lat * m_per_deg_lon
 
     params = cfg["params"]
-    grid_cell_m = float(params.get("grid_cell_m", 1000))
-    dlat = grid_cell_m / m_per_deg_lat
-    dlon = grid_cell_m / m_per_deg_lon
-    rows = int(math.ceil((north - south) / dlat))
-    cols = int(math.ceil((east - west) / dlon))
+    grid = create_grid_spec(cfg)
+    grid_cell_m = float(params.get("grid_cell_m", 500))
+    rows = grid.rows
+    cols = grid.cols
 
     weights_cfg = params["employment_weights"]
     w_office = float(weights_cfg.get("office", 0.08))
@@ -181,8 +186,8 @@ def main() -> int:
     ):
         if not (south <= clat <= north and west <= clon <= east):
             continue
-        r_idx = min(rows - 1, max(0, int((clat - south) / dlat)))
-        c_idx = min(cols - 1, max(0, int((clon - west) / dlon)))
+        r_idx = int(grid.map_lat_to_row(clat))
+        c_idx = int(grid.map_lon_to_col(clon, rows=r_idx))
 
         # Effective floor multiplier from levels or height
         eff_levels = 1.0
@@ -266,8 +271,8 @@ def main() -> int:
         if area_f < 25000.0:
             if not (south <= clat <= north and west <= clon <= east):
                 continue
-            r_idx = min(rows - 1, max(0, int((clat - south) / dlat)))
-            c_idx = min(cols - 1, max(0, int((clon - west) / dlon)))
+            r_idx = int(grid.map_lat_to_row(clat))
+            c_idx = int(grid.map_lon_to_col(clon, rows=r_idx))
             add_landuse_area(r_idx, c_idx, cat_str, area_f, name_str)
         else:
             coords = json.loads(coords_json)
@@ -277,16 +282,13 @@ def main() -> int:
             if poly.is_empty:
                 continue
             minx, miny, maxx, maxy = poly.bounds
-            gr0 = max(0, int((miny - south) / dlat))
-            gr1 = min(rows - 1, int((maxy - south) / dlat))
-            gc0 = max(0, int((minx - west) / dlon))
-            gc1 = min(cols - 1, int((maxx - west) / dlon))
+            gr0 = int(grid.map_lat_to_row(miny))
+            gr1 = int(grid.map_lat_to_row(maxy))
+            gc0 = int(grid.map_lon_to_col(minx))
+            gc1 = int(grid.map_lon_to_col(maxx))
             for gr in range(gr0, gr1 + 1):
-                cs = south + gr * dlat
-                cn = cs + dlat
                 for gc in range(gc0, gc1 + 1):
-                    cw = west + gc * dlon
-                    ce = cw + dlon
+                    cs, cn, cw, ce = grid.get_cell_bounds(gr, gc)
                     inter = poly.intersection(box(cw, cs, ce, cn))
                     if not inter.is_empty:
                         inter_m2 = inter.area * deg2_to_m2
@@ -311,16 +313,13 @@ def main() -> int:
         if poly.is_empty:
             continue
         minx, miny, maxx, maxy = poly.bounds
-        gr0 = max(0, int((miny - south) / dlat))
-        gr1 = min(rows - 1, int((maxy - south) / dlat))
-        gc0 = max(0, int((minx - west) / dlon))
-        gc1 = min(cols - 1, int((maxx - west) / dlon))
+        gr0 = int(grid.map_lat_to_row(miny))
+        gr1 = int(grid.map_lat_to_row(maxy))
+        gc0 = int(grid.map_lon_to_col(minx))
+        gc1 = int(grid.map_lon_to_col(maxx))
         for gr in range(gr0, gr1 + 1):
-            cs = south + gr * dlat
-            cn = cs + dlat
             for gc in range(gc0, gc1 + 1):
-                cw = west + gc * dlon
-                ce = cw + dlon
+                cs, cn, cw, ce = grid.get_cell_bounds(gr, gc)
                 inter = poly.intersection(box(cw, cs, ce, cn))
                 if not inter.is_empty:
                     inter_m2 = inter.area * deg2_to_m2
@@ -343,8 +342,8 @@ def main() -> int:
     ):
         if not (south <= lat <= north and west <= lon <= east):
             continue
-        r_idx = min(rows - 1, max(0, int((lat - south) / dlat)))
-        c_idx = min(cols - 1, max(0, int((lon - west) / dlon)))
+        r_idx = int(grid.map_lat_to_row(lat))
+        c_idx = int(grid.map_lon_to_col(lon, rows=r_idx))
         if off:
             poi_office_cnt[r_idx, c_idx] += 1
         elif shp:
@@ -392,10 +391,10 @@ def main() -> int:
         bweight = float(boost["boost_weight"])
         breason = boost.get("reason", "")
 
-        r0 = max(0, int((float(bb["south"]) - south) / dlat))
-        r1 = min(rows - 1, int((float(bb["north"]) - south) / dlat))
-        c0 = max(0, int((float(bb["west"]) - west) / dlon))
-        c1 = min(cols - 1, int((float(bb["east"]) - west) / dlon))
+        r0 = int(grid.map_lat_to_row(float(bb["south"])))
+        r1 = int(grid.map_lat_to_row(float(bb["north"])))
+        c0 = int(grid.map_lon_to_col(float(bb["west"])))
+        c1 = int(grid.map_lon_to_col(float(bb["east"])))
 
         # Distribute boost_weight across cells in the cluster bbox proportionally to
         # existing OSM employment weight + baseline floor so cells with real activity get most weight

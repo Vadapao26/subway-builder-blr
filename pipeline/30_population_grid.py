@@ -21,6 +21,7 @@ import json
 import math
 from pathlib import Path
 import struct
+import sys
 import time
 
 import numpy as np
@@ -28,6 +29,11 @@ import pandas as pd
 from shapely.geometry import Point, shape
 from shapely.prepared import prep
 import yaml
+
+pipeline_dir = Path(__file__).resolve().parent
+if str(pipeline_dir) not in sys.path:
+    sys.path.insert(0, str(pipeline_dir))
+from grid_utils import create_grid_spec
 
 
 def parse_tiff_header(f) -> dict:
@@ -264,12 +270,11 @@ def main() -> int:
     m_per_deg_lat = 111132.0
     m_per_deg_lon = 111320.0 * cos_lat
 
-    grid_cell_m = float(cfg["params"].get("grid_cell_m", 1000))
-    min_res_threshold = int(cfg["params"].get("min_residents_per_point", 50))
-    dlat = grid_cell_m / m_per_deg_lat
-    dlon = grid_cell_m / m_per_deg_lon
-    rows = int(math.ceil((north - south) / dlat))
-    cols = int(math.ceil((east - west) / dlon))
+    grid = create_grid_spec(cfg)
+    grid_cell_m = float(cfg["params"].get("grid_cell_m", 500))
+    rows = grid.rows
+    cols = grid.cols
+    min_res_threshold = int(cfg["params"].get("min_residents_per_point", 150))
 
     tif_url = cfg["population_raster"]["url"]
     tif_filename = tif_url.split("/")[-1]
@@ -284,74 +289,78 @@ def main() -> int:
     dx, dy = meta["dx"], meta["dy"]
     r_min, r_max = meta["win_r_min"], meta["win_r_max"]
     c_min, c_max = meta["win_c_min"], meta["win_c_max"]
-    px_area = dx * dy
 
-    # Area-weighted exact aggregation from WorldPop pixels onto the study grid
+    # Exact aggregation from WorldPop pixels onto the variable/staggered grid
     grid_pop_raw = np.zeros((rows, cols), dtype=np.float64)
     for pr in range(r_min, r_max + 1):
-        px_n = y0 - pr * dy
-        px_s = px_n - dy
-        if px_n <= south or px_s >= north:
+        px_mid_y = y0 - (pr + 0.5) * dy
+        if px_mid_y < south or px_mid_y >= north:
             continue
+        gr = int(grid.map_lat_to_row(px_mid_y))
         for pc in range(c_min, c_max + 1):
-            px_w = x0 + pc * dx
-            px_e = px_w + dx
-            if px_e <= west or px_w >= east:
+            px_mid_x = x0 + (pc + 0.5) * dx
+            if px_mid_x < west or px_mid_x >= east:
                 continue
             val = float(window[pr - r_min, pc - c_min])
-            if not math.isfinite(val) or val <= 0.0:
-                continue
-            gr0 = max(0, int((max(px_s, south) - south) / dlat))
-            gr1 = min(rows - 1, int((min(px_n, north) - south) / dlat))
-            gc0 = max(0, int((max(px_w, west) - west) / dlon))
-            gc1 = min(cols - 1, int((min(px_e, east) - west) / dlon))
-            for r in range(gr0, gr1 + 1):
-                cs = south + r * dlat
-                cn = min(north, cs + dlat)
-                ov_y = max(0.0, min(px_n, cn) - max(px_s, cs))
-                if ov_y <= 0.0:
-                    continue
-                for c in range(gc0, gc1 + 1):
-                    cw = west + c * dlon
-                    ce = min(east, cw + dlon)
-                    ov_x = max(0.0, min(px_e, ce) - max(px_w, cw))
-                    if ov_x > 0.0:
-                        grid_pop_raw[r, c] += val * (ov_x * ov_y / px_area)
+            if math.isfinite(val) and val > 0.0:
+                gc = int(grid.map_lon_to_col(px_mid_x, rows=gr))
+                grid_pop_raw[gr, gc] += val
 
-    # Load building activity directly from processed buildings parquet
+    # Load building activity and compute floor area per grid cell for dasymetric redistribution
     has_activity = np.zeros((rows, cols), dtype=bool)
+    bldg_floor_area = np.zeros((rows, cols), dtype=np.float64)
     bldg_p = repo_root / "data" / "processed" / f"{city_code}_buildings.parquet"
     if bldg_p.is_file():
-        b_df = pd.read_parquet(bldg_p, columns=["centroid_lon", "centroid_lat"])
-        b_r = np.clip(((b_df["centroid_lat"] - south) / dlat).astype(int), 0, rows - 1)
-        b_c = np.clip(((b_df["centroid_lon"] - west) / dlon).astype(int), 0, cols - 1)
-        has_activity[b_r, b_c] = True
+        print(f"[Phase 3] Computing dasymetric building floor area from {bldg_p.name} ...", flush=True)
+        b_df = pd.read_parquet(bldg_p, columns=["centroid_lon", "centroid_lat", "area_m2", "levels"])
+        lvls = pd.to_numeric(b_df["levels"], errors="coerce").fillna(1.0).clip(lower=1.0, upper=35.0).to_numpy(dtype=np.float64)
+        fa = b_df["area_m2"].to_numpy(dtype=np.float64) * lvls
+        br, bc = grid.map_coords_to_row_col(b_df["centroid_lon"].to_numpy(dtype=np.float64), b_df["centroid_lat"].to_numpy(dtype=np.float64))
+        for r_i, c_i, a_i in zip(br, bc, fa):
+            bldg_floor_area[r_i, c_i] += a_i
+        has_activity[bldg_floor_area > 0] = True
+
+    # Dasymetric population redistribution: blend raster baseline with actual building floor area
+    has_bldg = bldg_floor_area > 0
+    raw_pop_sum = float(grid_pop_raw.sum())
+    if has_bldg.any() and raw_pop_sum > 0:
+        print("[Phase 3] Performing dasymetric redistribution across building footprints ...", flush=True)
+        fa_k = bldg_floor_area / 1000.0  # floor area in thousand m2
+        # Building-weighted density power: strongly concentrates population into dense layouts and high-rises
+        dasymetric_w = (np.maximum(0.0, grid_pop_raw) ** 0.45) * ((fa_k + 0.20) ** 0.55)
+        dasymetric_w[~has_bldg] *= 0.10  # Suppress empty rural fields and lakes without buildings
+        dasym_sum = float(dasymetric_w.sum())
+        if dasym_sum > 0:
+            grid_pop_raw = dasymetric_w * (raw_pop_sum / dasym_sum)
 
     # Also mark any cell overlapping a configured named employment boost
     for boost in cfg["params"].get("named_employment_boosts", []):
         bb = boost["bbox"]
-        for r in range(rows):
-            clat = south + (r + 0.5) * dlat
-            if bb["south"] <= clat <= bb["north"]:
-                for c in range(cols):
-                    clon = west + (c + 0.5) * dlon
-                    if bb["west"] <= clon <= bb["east"]:
-                        has_activity[r, c] = True
+        r0 = int(grid.map_lat_to_row(float(bb["south"])))
+        r1 = int(grid.map_lat_to_row(float(bb["north"])))
+        c0 = int(grid.map_lon_to_col(float(bb["west"])))
+        c1 = int(grid.map_lon_to_col(float(bb["east"])))
+        has_activity[r0 : r1 + 1, c0 : c1 + 1] = True
 
-    # Apply configured localized population calibrations (e.g. for rapidly grown suburban commuter towns like Titwala)
+    # Apply configured localized population calibrations (e.g. BTM Layout, Koramangala, Jayanagar)
     for cal in cfg["params"].get("population_calibrations", []):
         bb = cal["bbox"]
         target_pop = float(cal.get("target_population", 0))
-        r0 = max(0, int((float(bb["south"]) - south) / dlat))
-        r1 = min(rows - 1, int((float(bb["north"]) - south) / dlat))
-        c0 = max(0, int((float(bb["west"]) - west) / dlon))
-        c1 = min(cols - 1, int((float(bb["east"]) - west) / dlon))
+        r0 = int(grid.map_lat_to_row(float(bb["south"])))
+        r1 = int(grid.map_lat_to_row(float(bb["north"])))
+        c0 = int(grid.map_lon_to_col(float(bb["west"])))
+        c1 = int(grid.map_lon_to_col(float(bb["east"])))
         curr_sub_pop = float(grid_pop_raw[r0 : r1 + 1, c0 : c1 + 1].sum())
         if target_pop > 0 and curr_sub_pop > 0:
             scale_fac = target_pop / curr_sub_pop
             grid_pop_raw[r0 : r1 + 1, c0 : c1 + 1] *= scale_fac
             has_activity[r0 : r1 + 1, c0 : c1 + 1] = True
             print(f"[Phase 3] Population Calibration: {cal['name']} scaled from {curr_sub_pop:,.0f} to {target_pop:,.0f} (factor {scale_fac:.2f}x)")
+
+    # Normalize total residents so sum(residents) matches reference target
+    cur_total = float(grid_pop_raw.sum())
+    if cur_total > 0 and ref_population > 0:
+        grid_pop_raw *= (ref_population / cur_total)
 
     # Optional BBMP ward boundary cross-check
     wards_path = repo_root / "data" / "raw" / f"{city_code}_admin_wards.geojson"
@@ -374,9 +383,8 @@ def main() -> int:
     bbmp_cell_count = 0
 
     for r in range(rows):
-        cell_lat = min(north - 1e-6, south + (r + 0.5) * dlat)
         for c in range(cols):
-            cell_lon = min(east - 1e-6, west + (c + 0.5) * dlon)
+            cell_lon, cell_lat = grid.get_cell_center(r, c)
             raw_pop = float(grid_pop_raw[r, c])
             if not math.isfinite(raw_pop) or raw_pop < 0.0:
                 raw_pop = 0.0
@@ -412,6 +420,7 @@ def main() -> int:
                     "location": [round(cell_lon, 6), round(cell_lat, 6)],
                     "residents": res_int,
                     "residents_raw": round(raw_pop, 2),
+                    "bldg_floor_area_m2": round(float(bldg_floor_area[r, c]), 1),
                     "in_bbmp": in_bbmp,
                     "ward_name": ward_name,
                 }

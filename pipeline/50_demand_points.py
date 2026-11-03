@@ -20,6 +20,7 @@ import json
 import math
 from pathlib import Path
 import struct
+import sys
 import time
 import zlib
 
@@ -28,6 +29,11 @@ import pandas as pd
 from shapely.geometry import Point
 from shapely.strtree import STRtree
 import yaml
+
+pipeline_dir = Path(__file__).resolve().parent
+if str(pipeline_dir) not in sys.path:
+    sys.path.insert(0, str(pipeline_dir))
+from grid_utils import create_grid_spec
 
 
 def write_png_rgb(path: Path, rgb: np.ndarray) -> None:
@@ -274,11 +280,12 @@ def main() -> int:
     m_per_deg_lon = 111320.0 * cos_lat
 
     params = cfg["params"]
-    grid_cell_m = float(params.get("grid_cell_m", 1000))
+    grid = create_grid_spec(cfg)
+    grid_cell_m = float(params.get("grid_cell_m", 500))
     dlat = grid_cell_m / m_per_deg_lat
     dlon = grid_cell_m / m_per_deg_lon
-    rows = int(math.ceil((north - south) / dlat))
-    cols = int(math.ceil((east - west) / dlon))
+    rows = grid.rows
+    cols = grid.cols
 
     emp_ratio = float(params.get("employment_ratio", 1.0))
 
@@ -317,8 +324,9 @@ def main() -> int:
     if bldg_parquet.is_file():
         print(f"[Phase 4.2] Generating organic coordinates from building centroids and road network snapping...")
         bldg_df = pd.read_parquet(bldg_parquet)
-        bldg_df["row"] = np.clip(((bldg_df["centroid_lat"] - south) / dlat).astype(int), 0, rows - 1)
-        bldg_df["col"] = np.clip(((bldg_df["centroid_lon"] - west) / dlon).astype(int), 0, cols - 1)
+        b_r, b_c = grid.map_coords_to_row_col(bldg_df["centroid_lon"].to_numpy(dtype=np.float64), bldg_df["centroid_lat"].to_numpy(dtype=np.float64))
+        bldg_df["row"] = b_r
+        bldg_df["col"] = b_c
         bldg_df["w_lon"] = bldg_df["centroid_lon"] * bldg_df["area_m2"]
         bldg_df["w_lat"] = bldg_df["centroid_lat"] * bldg_df["area_m2"]
         grp = bldg_df.groupby(["row", "col"]).agg({"w_lon": "sum", "w_lat": "sum", "area_m2": "sum"}).reset_index()
@@ -350,23 +358,24 @@ def main() -> int:
         for _, r in merged.iterrows():
             c = int(r["col"])
             row_idx = int(r["row"])
-            # Continuous non-lattice organic base within the cell
-            rand_u = rng.uniform(0.12, 0.88)
-            rand_v = rng.uniform(0.12, 0.88)
-            base_lon = west + (c + rand_u) * dlon
-            base_lat = south + (row_idx + rand_v) * dlat
+            # Continuous non-lattice organic base within the cell using variable bounds & stagger
+            s, n, w, e = grid.get_cell_bounds(row_idx, c)
+            rand_u = rng.uniform(0.15, 0.85)
+            rand_v = rng.uniform(0.15, 0.85)
+            base_lon = w + rand_u * (e - w)
+            base_lat = s + rand_v * (n - s)
 
             if pd.notnull(r["bldg_lon"]) and r["area_m2"] > 40.0:
-                l_lon = float(r["bldg_lon"]) + rng.uniform(-35.0, 35.0) / m_per_deg_lon
-                l_lat = float(r["bldg_lat"]) + rng.uniform(-35.0, 35.0) / m_per_deg_lat
+                l_lon = float(r["bldg_lon"]) + rng.uniform(-40.0, 40.0) / m_per_deg_lon
+                l_lat = float(r["bldg_lat"]) + rng.uniform(-40.0, 40.0) / m_per_deg_lat
             elif road_tree is not None:
                 pt = Point(base_lon, base_lat)
                 near_idx = road_tree.nearest(pt)
                 near_pt = road_points[near_idx]
                 dist_m = math.hypot((near_pt.x - base_lon) * m_per_deg_lon, (near_pt.y - base_lat) * m_per_deg_lat)
-                if dist_m <= max(450.0, grid_cell_m * 0.8):
-                    l_lon = near_pt.x + rng.uniform(-25.0, 25.0) / m_per_deg_lon
-                    l_lat = near_pt.y + rng.uniform(-25.0, 25.0) / m_per_deg_lat
+                if dist_m <= 600.0:
+                    l_lon = near_pt.x + rng.uniform(-30.0, 30.0) / m_per_deg_lon
+                    l_lat = near_pt.y + rng.uniform(-30.0, 30.0) / m_per_deg_lat
                 else:
                     l_lon, l_lat = base_lon, base_lat
             else:
@@ -375,8 +384,8 @@ def main() -> int:
             new_coords.append([l_lon, l_lat])
 
         coords_arr = np.array(new_coords)
-        # Fast spatial-hash collision relaxation (repulsion for points closer than ~220m)
-        min_sep_m = max(180.0, grid_cell_m * 0.55)
+        # Fast spatial-hash collision relaxation (repulsion for points closer than ~260m)
+        min_sep_m = 260.0
         bin_size = min_sep_m * 1.25
         coords_m_x = coords_arr[:, 0] * m_per_deg_lon
         coords_m_y = coords_arr[:, 1] * m_per_deg_lat
@@ -470,10 +479,10 @@ def main() -> int:
     boost_summaries = []
     for boost in params.get("named_employment_boosts", []):
         bb = boost["bbox"]
-        r0 = max(0, int((float(bb["south"]) - south) / dlat))
-        r1 = min(rows - 1, int((float(bb["north"]) - south) / dlat))
-        c0 = max(0, int((float(bb["west"]) - west) / dlon))
-        c1 = min(cols - 1, int((float(bb["east"]) - west) / dlon))
+        r0 = int(grid.map_lat_to_row(float(bb["south"])))
+        r1 = int(grid.map_lat_to_row(float(bb["north"])))
+        c0 = int(grid.map_lon_to_col(float(bb["west"])))
+        c1 = int(grid.map_lon_to_col(float(bb["east"])))
         boost_boxes.append((r0, r1, c0, c1))
         cluster_jobs = int(jobs_grid[r0 : r1 + 1, c0 : c1 + 1].sum())
         cluster_res = int(res_grid[r0 : r1 + 1, c0 : c1 + 1].sum())

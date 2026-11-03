@@ -29,9 +29,63 @@ admin_boundaries:
   url: https://raw.githubusercontent.com/datameet/Municipal_Spatial_Data/master/Bangalore/BBMP.geojson
   licence: CC-BY-4.0
 params:
-  grid_cell_m: 400
-  min_residents_per_point: 50
+  grid_cell_m: 500
+  min_residents_per_point: 150
   employment_ratio: 1.0
+  variable_grid:
+    enabled: true
+    col_steps_m: [400, 480, 600, 420, 550, 450, 520, 580]
+    row_steps_m: [420, 560, 400, 520, 480, 600, 450, 500]
+    stagger_offset_m: 240
+  population_calibrations:
+  - name: BTM Layout, Mico Layout & Kuvempu Nagar (Ward 176)
+    bbox:
+      south: 12.900
+      north: 12.925
+      west: 77.595
+      east: 77.625
+    target_population: 95000
+    reason: High-density residential hub, PG accommodations, tech commuter belt adjacent to Silk Board and Madiwala Lake
+  - name: Koramangala Core (Wards 151-152)
+    bbox:
+      south: 12.925
+      north: 12.948
+      west: 77.610
+      east: 77.645
+    target_population: 110000
+    reason: Major commercial and high-density residential enclave
+  - name: Jayanagar & JP Nagar Commuter Hub
+    bbox:
+      south: 12.895
+      north: 12.940
+      west: 77.570
+      east: 77.600
+    target_population: 165000
+    reason: High-density planned residential sectors with Green Line metro interchanges
+  - name: HSR Layout & Bellandur Residential Sectors
+    bbox:
+      south: 12.900
+      north: 12.935
+      west: 77.630
+      east: 77.670
+    target_population: 130000
+    reason: Primary tech workforce residential sector between ORR and Sarjapur Road
+  - name: Malleshwaram & Rajajinagar Urban Core
+    bbox:
+      south: 12.980
+      north: 13.020
+      west: 77.545
+      east: 77.580
+    target_population: 210000
+    reason: Historic high-density transit-oriented core with multiple metro stations
+  - name: Indiranagar & CV Raman Nagar
+    bbox:
+      south: 12.960
+      north: 12.990
+      west: 77.630
+      east: 77.665
+    target_population: 130000
+    reason: Dense mixed-use commercial and residential arterial corridor
   employment_weights:
     office: 0.08
     commercial: 0.05
@@ -50,6 +104,14 @@ params:
     poi_institutional: 8.0
     osm_named_polygon_multiplier: 1.5
   named_employment_boosts:
+  - name: BTM Layout & Silk Board Commercial Corridor
+    bbox:
+      south: 12.905
+      north: 12.925
+      west: 77.605
+      east: 77.630
+    boost_weight: 45000
+    reason: Commercial, retail, educational institutes, and Silk Board transit exchange hub
   - name: Kempegowda International Airport (BLR)
     bbox:
       south: 13.18
