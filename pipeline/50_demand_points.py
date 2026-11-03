@@ -416,8 +416,8 @@ def main() -> int:
                         shifts[i] += np.sum(norm * overlap[:, None] * 0.22, axis=0)
             pts_m += shifts
 
-        coords_arr[:, 0] = pts_m[:, 0] / m_per_deg_lon
-        coords_arr[:, 1] = pts_m[:, 1] / m_per_deg_lat
+        coords_arr[:, 0] = np.clip(pts_m[:, 0] / m_per_deg_lon, west + 1e-4, east - 1e-4)
+        coords_arr[:, 1] = np.clip(pts_m[:, 1] / m_per_deg_lat, south + 1e-4, north - 1e-4)
 
         merged["lon"] = [round(c[0], 6) for c in coords_arr]
         merged["lat"] = [round(c[1], 6) for c in coords_arr]
@@ -426,27 +426,34 @@ def main() -> int:
         merged["area_m2"] = 0.0
 
     # Dual-Tier Employment Allocation:
-    # 70% Regional Economic Anchors + 30% Neighborhood Local-Serving Commerce
-    tier1_target = int(round(0.70 * target_total_jobs))
+    # 52% Regional Economic Anchors (power-compressed to eliminate 100k spikes) +
+    # 48% Universal Neighborhood Commercial, Retail, Medical & Local Services
+    tier1_target = int(round(0.52 * target_total_jobs))
     tier2_target = target_total_jobs - tier1_target
 
     raw_weights = merged["raw_employment_weight"].to_numpy(dtype=np.float64, copy=True)
     valid_mask = merged["has_plausible_employment_landuse"].to_numpy(dtype=bool) | merged["has_named_boost"].to_numpy(dtype=bool)
     raw_weights[~valid_mask] = 0.0
-    t1_jobs = allocate_integer_jobs(raw_weights, tier1_target)
 
-    # Tier 2: Neighborhood Local Commerce (proportional to residents & local building density)
-    valid_local = (merged["residents"] >= 150) | (merged["area_m2"] >= 250) | (raw_weights > 0.0)
-    w_loc = np.zeros(len(merged), dtype=np.float64)
-    res_vals = merged.loc[valid_local, "residents"].to_numpy(dtype=np.float64)
-    bldg_vals = merged.loc[valid_local, "area_m2"].to_numpy(dtype=np.float64)
-    w_loc[valid_local] = (res_vals ** 0.8) * (1.0 + np.log1p(bldg_vals / 1000.0))
+    # Power compression spreads jobs across corridors so single hubs cap at ~25k-35k
+    t1_weights = np.where(raw_weights > 0.0, raw_weights ** 0.85, 0.0)
+    t1_jobs = allocate_integer_jobs(t1_weights, tier1_target)
+
+    # Tier 2: Universal Neighborhood Commerce (every inhabited area has local workers)
+    res_vals = merged["residents"].to_numpy(dtype=np.float64)
+    bldg_vals = merged["area_m2"].to_numpy(dtype=np.float64)
+    w_loc = np.where(res_vals > 0.0, (res_vals ** 0.88) * (1.0 + 0.5 * np.log1p(bldg_vals / 500.0)), 0.0)
+    # Also boost active commercial spots with raw weights
+    w_loc = np.where(raw_weights > 0.0, w_loc + (raw_weights ** 0.65) * 8.0, w_loc)
     t2_jobs = allocate_integer_jobs(w_loc, tier2_target)
 
     jobs_arr = t1_jobs + t2_jobs
     merged["jobs"] = jobs_arr
     # Mark local commerce cells as having valid local employment activity
     merged.loc[t2_jobs > 0, "has_plausible_employment_landuse"] = True
+
+    # Filter out dead points that have 0 residents and 0 jobs
+    merged = merged[(merged["residents"] > 0) | (merged["jobs"] > 0)].reset_index(drop=True)
 
     # Acceptance Sanity Check 1: No cell has jobs without plausible employment land use unless it has a named boost
     unexplained_mask = (merged["jobs"] > 0) & (~merged["has_plausible_employment_landuse"]) & (~merged["has_named_boost"])

@@ -1,22 +1,50 @@
 {
   "phase": "40_employment_weights",
   "city_code": "BLR",
-  "timestamp_utc": "2026-11-03T08:39:45.872635+00:00",
-  "runtime_seconds": 3.34,
+  "timestamp_utc": "2026-11-03T11:24:50.264234+00:00",
+  "runtime_seconds": 11.82,
   "counts": {
-    "total_demand_points": 18174,
-    "points_with_positive_weight": 6943,
-    "points_with_plausible_osm_employment": 6184,
-    "points_with_named_boost": 2603,
-    "points_with_zero_weight": 11231
+    "total_demand_points": 5814,
+    "points_with_positive_weight": 4417,
+    "points_with_plausible_osm_employment": 3881,
+    "points_with_named_boost": 2003,
+    "points_with_zero_weight": 1397
   },
   "weight_totals": {
-    "total_osm_base_weight": 5714278.2,
-    "total_named_boost_weight": 759922.3,
-    "total_raw_employment_weight": 6474200.8,
-    "osm_share_of_total_weight": 0.8826
+    "total_osm_base_weight": 5279760.8,
+    "total_named_boost_weight": 1364999.0,
+    "total_raw_employment_weight": 6644760.2,
+    "osm_share_of_total_weight": 0.7946
   },
   "configured_named_boosts": [
+    {
+      "name": "BTM Layout & Silk Board Commercial Corridor",
+      "bbox": {
+        "south": 12.905,
+        "north": 12.925,
+        "west": 77.605,
+        "east": 77.63
+      },
+      "boost_weight": 45000.0,
+      "reason": "Commercial, retail, educational institutes, and Silk Board transit exchange hub",
+      "grid_cells_covered": 42,
+      "osm_base_weight_in_bbox": 29950.5,
+      "total_weight_in_bbox": 74950.5,
+      "sample_osm_employers_in_bbox": [
+        "220/33kV GIS Sub Station, Central Silk Board",
+        "315 Work Avenue",
+        "7 Days",
+        "AXA",
+        "Adyar Ananda Bhavan",
+        "Ajmera Aditya Summit",
+        "Akshaya Complex",
+        "Alliance University Building",
+        "Annapoorna Complex",
+        "Aryaka Networks",
+        "Ashford Park View",
+        "Autoholics"
+      ]
+    },
     {
       "name": "Kempegowda International Airport (BLR)",
       "bbox": {
@@ -27,11 +55,10 @@
       },
       "boost_weight": 50000.0,
       "reason": "Major aviation, cargo, and aerospace hub at northern boundary",
-      "grid_cells_covered": 180,
-      "osm_base_weight_in_bbox": 240135.4,
-      "total_weight_in_bbox": 290135.4,
+      "grid_cells_covered": 120,
+      "osm_base_weight_in_bbox": 247432.8,
+      "total_weight_in_bbox": 297432.8,
       "sample_osm_employers_in_bbox": [
-        "Air Cargo Village",
         "Airport Rescue and Fire Fighting Station",
         "BIAL Central Warehouse",
         "BIAL Solar System",
@@ -42,7 +69,8 @@
         "Cargo District",
         "Centum Electronics Limited",
         "DHL",
-        "Disabled Aircraft Recovery Testing Centre"
+        "Disabled Aircraft Recovery Testing Centre",
+        "DoubleTree by Hilton Bengaluru Airport"
       ]
     },
     {
@@ -55,12 +83,13 @@
       },
       "boost_weight": 120000.0,
       "reason": "Major IT/campus employment corridor in south-east Bengaluru",
-      "grid_cells_covered": 156,
-      "osm_base_weight_in_bbox": 154434.0,
-      "total_weight_in_bbox": 274434.0,
+      "grid_cells_covered": 110,
+      "osm_base_weight_in_bbox": 148699.6,
+      "total_weight_in_bbox": 268699.6,
       "sample_osm_employers_in_bbox": [
         "360 Business Park",
         "3M",
+        "Act Secondary HPS , Beratena Agrahara",
         "Aliaxis Research and Technology Centre Asia",
         "Aluna Thai Spa in Electronic City",
         "Amenity Block",
@@ -69,8 +98,7 @@
         "Aurigene Oncology Limited",
         "B19/20",
         "B23/24",
-        "B25/26",
-        "B30/31"
+        "B25/26"
       ]
     },
     {
@@ -83,9 +111,9 @@
       },
       "boost_weight": 150000.0,
       "reason": "Primary eastern IT corridor and tech parks (ITPL, EPIP Zone)",
-      "grid_cells_covered": 270,
-      "osm_base_weight_in_bbox": 582125.0,
-      "total_weight_in_bbox": 732125.0,
+      "grid_cells_covered": 195,
+      "osm_base_weight_in_bbox": 567669.1,
+      "total_weight_in_bbox": 717669.1,
       "sample_osm_employers_in_bbox": [
         "100Whitefield",
         "1A",
@@ -97,8 +125,8 @@
         "A1 Bazaar",
         "AA Arcade",
         "ABV - Artisanal Bier Village",
-        "ACR Greens",
-        "AECS Layout Womens Welfare Association"
+        "AECS Layout Womens Welfare Association",
+        "ANM Arcade"
       ]
     },
     {
@@ -111,22 +139,22 @@
       },
       "boost_weight": 150000.0,
       "reason": "High-density tech parks along ORR corridor",
-      "grid_cells_covered": 1131,
-      "osm_base_weight_in_bbox": 1789176.5,
-      "total_weight_in_bbox": 1939176.5,
+      "grid_cells_covered": 736,
+      "osm_base_weight_in_bbox": 1750264.6,
+      "total_weight_in_bbox": 1900264.6,
       "sample_osm_employers_in_bbox": [
         "(U/C)",
         "1 OAR",
         "1085",
         "12/2",
-        "1A",
-        "1B",
         "220/33kV GIS Sub Station, Central Silk Board",
+        "2A",
+        "2B",
+        "2C",
         "315 Work Avenue",
         "315, Work Avenue, Gk Complex",
         "315Work Avenue",
-        "3B",
-        "3ST"
+        "3B"
       ]
     },
     {
@@ -139,9 +167,9 @@
       },
       "boost_weight": 120000.0,
       "reason": "Historic commercial, civic, and retail core",
-      "grid_cells_covered": 216,
-      "osm_base_weight_in_bbox": 390682.4,
-      "total_weight_in_bbox": 510682.4,
+      "grid_cells_covered": 150,
+      "osm_base_weight_in_bbox": 397862.5,
+      "total_weight_in_bbox": 517862.5,
       "sample_osm_employers_in_bbox": [
         "1 Sobha",
         "37 Cunningham",
@@ -167,9 +195,9 @@
       },
       "boost_weight": 90000.0,
       "reason": "Largest industrial estate in north-west Bengaluru",
-      "grid_cells_covered": 180,
-      "osm_base_weight_in_bbox": 124583.7,
-      "total_weight_in_bbox": 214583.7,
+      "grid_cells_covered": 120,
+      "osm_base_weight_in_bbox": 125064.4,
+      "total_weight_in_bbox": 215064.4,
       "sample_osm_employers_in_bbox": [
         "1Pharmacy Network",
         "A",
@@ -195,9 +223,9 @@
       },
       "boost_weight": 80000.0,
       "reason": "Major manufacturing and automotive cluster in Hosur (Tamil Nadu)",
-      "grid_cells_covered": 616,
-      "osm_base_weight_in_bbox": 181959.5,
-      "total_weight_in_bbox": 261959.5,
+      "grid_cells_covered": 414,
+      "osm_base_weight_in_bbox": 185262.3,
+      "total_weight_in_bbox": 265262.3,
       "sample_osm_employers_in_bbox": [
         "Adhiyamaan College of Engineering",
         "Ashok Leyland",
@@ -211,6 +239,202 @@
         "Hosur IT Park",
         "Hosur Industries Association",
         "Hydraulic Lab"
+      ]
+    },
+    {
+      "name": "KR Market, Chickpet, Avenue Road & City Market Trading Core",
+      "bbox": {
+        "south": 12.96,
+        "north": 12.975,
+        "west": 77.568,
+        "east": 77.585
+      },
+      "boost_weight": 90000.0,
+      "reason": "Historic wholesale, textile, commodity, and trade markets of Bengaluru",
+      "grid_cells_covered": 20,
+      "osm_base_weight_in_bbox": 43972.9,
+      "total_weight_in_bbox": 133972.9,
+      "sample_osm_employers_in_bbox": [
+        "Abbas Khan College",
+        "Abhinaya Theater",
+        "Alankar Plaza",
+        "Anekal Thimmaiah Balija Hostel",
+        "Annexe 2",
+        "Anupama Theatre",
+        "Aravind Bhavan",
+        "Babu Khadi Wear",
+        "Bangalore City Junction",
+        "Bangalore Junction",
+        "Bangalore Medical College Gents Hostel",
+        "Bangalore Medical College Hospitals"
+      ]
+    },
+    {
+      "name": "Shivajinagar, Commercial Street & Brigade Road Retail District",
+      "bbox": {
+        "south": 12.968,
+        "north": 12.99,
+        "west": 77.6,
+        "east": 77.618
+      },
+      "boost_weight": 80000.0,
+      "reason": "Major high-street shopping, commercial, and hospitality core",
+      "grid_cells_covered": 30,
+      "osm_base_weight_in_bbox": 143853.2,
+      "total_weight_in_bbox": 223853.2,
+      "sample_osm_employers_in_bbox": [
+        "1 Sobha",
+        "5th Avenue Mall",
+        "A Block",
+        "ACR Towers",
+        "ASC Colony",
+        "Ace Court",
+        "Adarsh Opus",
+        "Additional Director General of Police",
+        "Adventz Center",
+        "Al-Ameen Kambal Posh",
+        "Allied Grand Plaza",
+        "Anchorage"
+      ]
+    },
+    {
+      "name": "Jayanagar 4th Block & Gandhi Bazaar Commercial Hub",
+      "bbox": {
+        "south": 12.925,
+        "north": 12.945,
+        "west": 77.575,
+        "east": 77.595
+      },
+      "boost_weight": 75000.0,
+      "reason": "Southern commercial hub, shopping complexes, and financial services",
+      "grid_cells_covered": 25,
+      "osm_base_weight_in_bbox": 27068.6,
+      "total_weight_in_bbox": 102068.6,
+      "sample_osm_employers_in_bbox": [
+        "Abhaya Hospital",
+        "Anakra Community Hall",
+        "Apollo Speciality Hospital",
+        "Ayurveda Prathisthana Hospital",
+        "BBMP Complex (Jayanagar 2nd Block)",
+        "BBMP Contact Center",
+        "BDA Complex",
+        "BES Educational Institutions",
+        "BMTC Depot 4 (Jayanagara)",
+        "BSNL Office",
+        "BWSSB",
+        "Bangalore Higher Secondary School (BHSS)"
+      ]
+    },
+    {
+      "name": "Malleshwaram 8th Cross & Rajajinagar Commercial Core",
+      "bbox": {
+        "south": 12.985,
+        "north": 13.015,
+        "west": 77.55,
+        "east": 77.575
+      },
+      "boost_weight": 75000.0,
+      "reason": "Historic north-western commercial avenues and retail corridors",
+      "grid_cells_covered": 56,
+      "osm_base_weight_in_bbox": 84828.9,
+      "total_weight_in_bbox": 159828.9,
+      "sample_osm_employers_in_bbox": [
+        "@home",
+        "AV Varadachar Kalakshetra",
+        "Air Force Training Command",
+        "Allamandas School",
+        "Ananthashree",
+        "Animal Research Complex",
+        "Apollo Hospital",
+        "Arali Health Centre",
+        "Aranya Bhavan",
+        "Aruna Chetana",
+        "Assumption English High School",
+        "BBMP"
+      ]
+    },
+    {
+      "name": "Koramangala 80ft & 100ft Startup & Restaurant Corridor",
+      "bbox": {
+        "south": 12.928,
+        "north": 12.948,
+        "west": 77.615,
+        "east": 77.64
+      },
+      "boost_weight": 80000.0,
+      "reason": "Premier startup ecosystem, VC offices, dining, and co-working spaces",
+      "grid_cells_covered": 42,
+      "osm_base_weight_in_bbox": 105468.5,
+      "total_weight_in_bbox": 185468.5,
+      "sample_osm_employers_in_bbox": [
+        "315Work Avenue",
+        "AGIES",
+        "ANI Technologies Pvt Ltd.",
+        "Ajmera Aditya Summit",
+        "Ammashree Chambers",
+        "Amul",
+        "Annapoorna Complex",
+        "Army Service Corps - ASC North",
+        "Army Service Corps - ASC South",
+        "Art Arcade",
+        "Aryaka Networks",
+        "Asha Plaza"
+      ]
+    },
+    {
+      "name": "Bommasandra & Jigani Industrial Areas",
+      "bbox": {
+        "south": 12.78,
+        "north": 12.835,
+        "west": 77.635,
+        "east": 77.695
+      },
+      "boost_weight": 90000.0,
+      "reason": "Major manufacturing, biopharma, granite, and engineering hub",
+      "grid_cells_covered": 182,
+      "osm_base_weight_in_bbox": 84540.0,
+      "total_weight_in_bbox": 174540.0,
+      "sample_osm_employers_in_bbox": [
+        "Achiever's Academy",
+        "BTL Institute of Technology",
+        "Bangalore Metropolitian Transport",
+        "Bharat Petroleum",
+        "Biocon",
+        "Biocon Park",
+        "Bommasandra Industrial Estate",
+        "DMart",
+        "Decathlon",
+        "Delta Electronics",
+        "Dove Tail Industries",
+        "EC 2/3 Canteen"
+      ]
+    },
+    {
+      "name": "Higher Education & Healthcare Core (IISc, Bangalore Univ, Victoria, NIMHANS)",
+      "bbox": {
+        "south": 12.935,
+        "north": 12.97,
+        "west": 77.585,
+        "east": 77.605
+      },
+      "boost_weight": 70000.0,
+      "reason": "Major medical institutions, hospitals, and university research campuses",
+      "grid_cells_covered": 45,
+      "osm_base_weight_in_bbox": 123348.6,
+      "total_weight_in_bbox": 193348.6,
+      "sample_osm_employers_in_bbox": [
+        "5th Avenue Mall",
+        "601",
+        "602",
+        "A Block",
+        "ACR Towers",
+        "Abbas Khan College",
+        "Abhaya Hospital",
+        "Advaith Hyundai Service",
+        "Agadi Hospital",
+        "Ainley Centre of Learning",
+        "Airlines",
+        "Ajji House"
       ]
     }
   ],

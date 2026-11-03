@@ -1,8 +1,8 @@
 {
   "phase": "70_gravity_pops",
   "city_code": "BLR",
-  "timestamp_utc": "2026-11-03T08:46:08.451333+00:00",
-  "runtime_seconds": 78.13,
+  "timestamp_utc": "2026-11-03T11:27:21.151488+00:00",
+  "runtime_seconds": 30.71,
   "parameters": {
     "calibrated_gravity_beta": 0.033,
     "doubly_constrained_blend": 0.8,
@@ -20,43 +20,67 @@
       {
         "beta": 0.033,
         "blend": 0.8,
-        "mean_km": 12.16,
-        "mean_min": 27.18
+        "mean_km": 7.93,
+        "mean_min": 19.32
+      },
+      {
+        "beta": 0.033,
+        "blend": 0.8,
+        "mean_km": 7.93,
+        "mean_min": 19.32
+      },
+      {
+        "beta": 0.035,
+        "blend": 0.8,
+        "mean_km": 7.79,
+        "mean_min": 19.03
+      },
+      {
+        "beta": 0.03,
+        "blend": 0.85,
+        "mean_km": 8.16,
+        "mean_min": 19.78
+      },
+      {
+        "beta": 0.04,
+        "blend": 0.85,
+        "mean_km": 7.53,
+        "mean_min": 18.47
       }
     ]
   },
   "counts_and_totals": {
-    "point_count": 18173,
-    "pop_count": 428377,
-    "total_residents": 13888447,
-    "total_jobs": 13888447,
-    "total_pop_size": 13888447,
+    "point_count": 5814,
+    "pop_count": 133607,
+    "total_residents": 13534837,
+    "total_jobs": 13534837,
+    "total_pop_size": 13534837,
     "totals_internally_consistent": true,
-    "correlation_with_phase4_jobs": 0.8481,
+    "correlation_with_phase4_jobs": 0.8914,
     "unexplained_job_cells": 0
   },
   "commute_distribution": {
-    "mean_distance_km": 12.16,
-    "median_distance_km": 7.78,
-    "p90_distance_km": 29.91,
-    "mean_duration_min": 27.17,
-    "median_duration_min": 21.13,
-    "p90_duration_min": 56.1,
-    "mean_distance_in_target_range": true,
-    "mean_duration_in_target_range": true
+    "mean_distance_km": 7.93,
+    "median_distance_km": 5.46,
+    "p90_distance_km": 17.75,
+    "mean_duration_min": 19.32,
+    "median_duration_min": 15.58,
+    "p90_duration_min": 39.22,
+    "mean_distance_in_target_range": false,
+    "mean_duration_in_target_range": false
   },
   "schema_validation": {
     "valid": true,
-    "points_validated": 18173,
-    "pops_validated": 428377,
+    "points_validated": 5814,
+    "pops_validated": 133607,
     "origin_sums_exact_match": true,
     "destination_sums_exact_match": true
   },
   "file_sizes": {
-    "demand_data_json_bytes": 59884573,
-    "demand_data_json_mb": 57.11,
-    "demand_data_json_gz_bytes": 8857610,
-    "demand_data_json_gz_mb": 8.45
+    "demand_data_json_bytes": 18513374,
+    "demand_data_json_mb": 17.66,
+    "demand_data_json_gz_bytes": 2877069,
+    "demand_data_json_gz_mb": 2.74
   },
   "outputs": {
     "demand_data_json": "mod\\data\\BLR\\demand_data.json",

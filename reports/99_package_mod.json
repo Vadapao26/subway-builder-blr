@@ -1,12 +1,12 @@
 {
   "phase": 10,
   "script": "pipeline/99_package_mod.py",
-  "city_code": "BLR",
+  "city_code": "BOM",
   "status": "PASS",
-  "runtime_seconds": 19.63,
+  "runtime_seconds": 9.66,
   "mod_package": {
-    "id": "blr-bengaluru-hosur",
-    "name": "Bengaluru + Hosur (BLR)",
+    "id": "bom-mumbai-mmr",
+    "name": "Mumbai Metropolitan Region (BOM)",
     "version": "1.0.0",
     "manifest": "mod/manifest.json",
     "entry": "mod/index.js",
@@ -14,21 +14,21 @@
     "thumbnail_svg": "mod/thumbnail.svg"
   },
   "city_data_files": {
-    "config.json": 506,
-    "demand_data.json.gz": 8857610,
-    "roads.geojson.gz": 8267745,
-    "runways_taxiways.geojson.gz": 38296,
-    "tiles.pmtiles": 40553453,
-    "foundations.pmtiles": 20734240,
-    "buildings_index.bin.gz": 64396097,
-    "building_tags.json.gz": 301701,
-    "coastline.geojson.gz": 84,
-    "ocean_depth_index.json.gz": 119
+    "config.json": 627,
+    "demand_data.json.gz": 3513406,
+    "roads.geojson.gz": 6472876,
+    "runways_taxiways.geojson.gz": 63160,
+    "tiles.pmtiles": 23823682,
+    "foundations.pmtiles": 10609860,
+    "buildings_index.bin.gz": 25094267,
+    "building_tags.json.gz": 334761,
+    "coastline.geojson.gz": 1156248,
+    "ocean_depth_index.json.gz": 124
   },
-  "total_data_bytes": 143149851,
+  "total_data_bytes": 71069011,
   "deployment": {
     "appdata_detected": true,
-    "mod_path": "C:/Users/siddh/AppData/Roaming/metro-maker4/mods/blr-bengaluru-hosur",
-    "city_data_path": "C:/Users/siddh/AppData/Roaming/metro-maker4/cities/data/BLR"
+    "mod_path": null,
+    "city_data_path": null
   }
 }

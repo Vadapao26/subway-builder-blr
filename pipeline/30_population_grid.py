@@ -290,21 +290,37 @@ def main() -> int:
     r_min, r_max = meta["win_r_min"], meta["win_r_max"]
     c_min, c_max = meta["win_c_min"], meta["win_c_max"]
 
-    # Exact aggregation from WorldPop pixels onto the variable/staggered grid
+    # Area-weighted exact aggregation from WorldPop pixels onto the variable/staggered grid
     grid_pop_raw = np.zeros((rows, cols), dtype=np.float64)
+    px_area = dx * dy
     for pr in range(r_min, r_max + 1):
-        px_mid_y = y0 - (pr + 0.5) * dy
-        if px_mid_y < south or px_mid_y >= north:
+        px_n = y0 - pr * dy
+        px_s = px_n - dy
+        if px_n <= south or px_s >= north:
             continue
-        gr = int(grid.map_lat_to_row(px_mid_y))
+        r0 = int(grid.map_lat_to_row(max(px_s, south)))
+        r1 = int(grid.map_lat_to_row(min(px_n, north - 1e-7)))
         for pc in range(c_min, c_max + 1):
-            px_mid_x = x0 + (pc + 0.5) * dx
-            if px_mid_x < west or px_mid_x >= east:
+            px_w = x0 + pc * dx
+            px_e = px_w + dx
+            if px_e <= west or px_w >= east:
                 continue
             val = float(window[pr - r_min, pc - c_min])
-            if math.isfinite(val) and val > 0.0:
-                gc = int(grid.map_lon_to_col(px_mid_x, rows=gr))
-                grid_pop_raw[gr, gc] += val
+            if not math.isfinite(val) or val <= 0.0:
+                continue
+            for r in range(r0, r1 + 1):
+                s = grid.row_bounds[r]
+                n = grid.row_bounds[r + 1]
+                ov_y = max(0.0, min(px_n, n) - max(px_s, s))
+                if ov_y <= 0:
+                    continue
+                c0 = int(grid.map_lon_to_col(max(px_w, west), rows=r))
+                c1 = int(grid.map_lon_to_col(min(px_e, east - 1e-7), rows=r))
+                for c in range(c0, c1 + 1):
+                    cs, cn, cw, ce = grid.get_cell_bounds(r, c)
+                    ov_x = max(0.0, min(px_e, ce) - max(px_w, cw))
+                    if ov_x > 0:
+                        grid_pop_raw[r, c] += val * (ov_x * ov_y / px_area)
 
     # Load building activity and compute floor area per grid cell for dasymetric redistribution
     has_activity = np.zeros((rows, cols), dtype=bool)
@@ -318,7 +334,8 @@ def main() -> int:
         br, bc = grid.map_coords_to_row_col(b_df["centroid_lon"].to_numpy(dtype=np.float64), b_df["centroid_lat"].to_numpy(dtype=np.float64))
         for r_i, c_i, a_i in zip(br, bc, fa):
             bldg_floor_area[r_i, c_i] += a_i
-        has_activity[bldg_floor_area > 0] = True
+        # Substantial campus/commercial buildings
+        has_activity[bldg_floor_area >= 20000.0] = True
 
     # Dasymetric population redistribution: blend raster baseline with actual building floor area
     has_bldg = bldg_floor_area > 0
@@ -326,9 +343,9 @@ def main() -> int:
     if has_bldg.any() and raw_pop_sum > 0:
         print("[Phase 3] Performing dasymetric redistribution across building footprints ...", flush=True)
         fa_k = bldg_floor_area / 1000.0  # floor area in thousand m2
-        # Building-weighted density power: strongly concentrates population into dense layouts and high-rises
-        dasymetric_w = (np.maximum(0.0, grid_pop_raw) ** 0.45) * ((fa_k + 0.20) ** 0.55)
-        dasymetric_w[~has_bldg] *= 0.10  # Suppress empty rural fields and lakes without buildings
+        # Building-weighted density: every cell with buildings receives population proportional to its floor area
+        dasymetric_w = (np.maximum(15.0, grid_pop_raw) ** 0.35) * ((fa_k + 0.15) ** 0.65)
+        dasymetric_w[~has_bldg] *= 0.02  # Strongly suppress empty rural fields and lakes without buildings
         dasym_sum = float(dasymetric_w.sum())
         if dasym_sum > 0:
             grid_pop_raw = dasymetric_w * (raw_pop_sum / dasym_sum)
