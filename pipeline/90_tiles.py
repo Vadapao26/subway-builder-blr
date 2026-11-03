@@ -990,11 +990,11 @@ def load_context_polygons_and_labels(
         area = float(wt["area_m2"][i] or 0.0)
         if is_poly and len(coords) >= 3:
             mpts = [lonlat_to_mercator_norm(pt[0], pt[1]) for pt in coords]
-            poly_layers["water"].append((mpts, {"name": wt["name"][i] or ""}, max(area, 50000.0)))
+            poly_layers["water"].append((mpts, {"name": wt["name"][i] or "", "area": area}, area))
             poly_layers["ocean_foundations"].append(
-                (mpts, {"depth_min": -5, "depth_max": -8, "area": max(area, 50000.0)}, max(area, 50000.0))
+                (mpts, {"depth_min": -5, "depth_max": -8, "area": area}, area)
             )
-        elif not is_poly and len(coords) >= 2:
+        elif not is_poly and len(coords) >= 2 and code == "bom":
             is_major = any(r in wname for r in major_rivers)
             if is_major or wtype in ("river", "creek"):
                 hw = 65.0
@@ -1658,7 +1658,7 @@ def main() -> None:
         # 3a. Polygon layers: water, ocean_foundations, parks, commercial, airports
         for lname, poly_list in poly_layers.items():
             for mpts, props, area in poly_list:
-                if area < min_area and lname not in ("airports", "water", "ocean_foundations"):
+                if area < min_area and lname not in ("airports", "ocean_foundations"):
                     continue
                 xs_g = [int(round(pt[0] * scale)) for pt in mpts]
                 ys_g = [int(round(pt[1] * scale)) for pt in mpts]
