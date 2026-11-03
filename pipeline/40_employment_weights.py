@@ -166,8 +166,8 @@ def main() -> int:
     cell_osm_names: list[list[set[str]]] = [[set() for _ in range(cols)] for _ in range(rows)]
 
     print(f"[Phase 4.1] Classifying {len(bldg_df):,} buildings ...", flush=True)
-    # Vectorized or fast tuple iteration over buildings
-    for btype, lvls, hgt, amen, shp, off, area, r, c, bname in zip(
+    # Fast tuple iteration over buildings
+    for btype, lvls, hgt, amen, shp, off, area, clat, clon, bname in zip(
         bldg_df["building"],
         bldg_df["levels"],
         bldg_df["height"],
@@ -175,14 +175,14 @@ def main() -> int:
         bldg_df["shop"],
         bldg_df["office"],
         bldg_df["area_m2"],
-        bldg_df["row"],
-        bldg_df["col"],
+        bldg_df["centroid_lat"],
+        bldg_df["centroid_lon"],
         bldg_df["name"],
     ):
-        r_idx = int(r)
-        c_idx = int(c)
-        if not (0 <= r_idx < rows and 0 <= c_idx < cols):
+        if not (south <= clat <= north and west <= clon <= east):
             continue
+        r_idx = min(rows - 1, max(0, int((clat - south) / dlat)))
+        c_idx = min(cols - 1, max(0, int((clon - west) / dlon)))
 
         # Effective floor multiplier from levels or height
         eff_levels = 1.0
@@ -243,12 +243,12 @@ def main() -> int:
             lu_named_bonus_weight[r_idx, c_idx] += base_w * max(0.0, named_poly_mult - 1.0)
             cell_osm_names[r_idx][c_idx].add(name_str)
 
-    for cat, name, area, r, c, coords_json in zip(
+    for cat, name, area, clat, clon, coords_json in zip(
         lu_df["category"],
         lu_df["name"],
         lu_df["area_m2"],
-        lu_df["row"],
-        lu_df["col"],
+        lu_df["centroid_lat"],
+        lu_df["centroid_lon"],
         lu_df["coords_json"],
     ):
         if cat == "residential":
@@ -264,9 +264,11 @@ def main() -> int:
             )
 
         if area_f < 25000.0:
-            r_idx, c_idx = int(r), int(c)
-            if 0 <= r_idx < rows and 0 <= c_idx < cols:
-                add_landuse_area(r_idx, c_idx, cat_str, area_f, name_str)
+            if not (south <= clat <= north and west <= clon <= east):
+                continue
+            r_idx = min(rows - 1, max(0, int((clat - south) / dlat)))
+            c_idx = min(cols - 1, max(0, int((clon - west) / dlon)))
+            add_landuse_area(r_idx, c_idx, cat_str, area_f, name_str)
         else:
             coords = json.loads(coords_json)
             if len(coords) < 3:
@@ -426,7 +428,8 @@ def main() -> int:
         )
 
     # Build output table aligned with active points in points_residents.parquet
-    pts_df = pd.read_parquet(processed_dir / "points_residents.parquet")
+    city_pts = processed_dir / f"{city_code}_points_residents.parquet"
+    pts_df = pd.read_parquet(city_pts if city_pts.is_file() else (processed_dir / "points_residents.parquet"))
     records = []
     for _, pt in pts_df.iterrows():
         r_idx = int(pt["row"])
@@ -495,8 +498,10 @@ def main() -> int:
 
     out_df = pd.DataFrame(records)
     parquet_path = processed_dir / "employment_weights.parquet"
+    city_parquet_path = processed_dir / f"{city_code}_employment_weights.parquet"
     csv_path = processed_dir / "employment_weights.csv"
     out_df.to_parquet(parquet_path, index=False)
+    out_df.to_parquet(city_parquet_path, index=False)
     out_df.to_csv(csv_path, index=False)
 
     osm_named_clusters_summary.sort(key=lambda x: x["area_ha"], reverse=True)

@@ -554,12 +554,18 @@ def main() -> int:
                             }
                         )
 
-                    # 4. Parks & Green spaces
+                    # 4. Parks & Green spaces & Forests / Reserves / Mangroves
                     leisure_tag = tags.get("leisure")
                     lu_tag = tags.get("landuse")
+                    nat_tag = tags.get("natural")
+                    bnd_tag = tags.get("boundary")
+                    wet_tag = tags.get("wetland")
                     if (
                         leisure_tag in ("park", "garden", "nature_reserve", "golf_course", "pitch", "stadium", "playground")
                         or lu_tag in ("recreation_ground", "grass", "meadow", "forest", "village_green")
+                        or nat_tag in ("wood", "scrub", "wetland")
+                        or bnd_tag in ("national_park", "protected_area")
+                        or wet_tag == "mangrove"
                     ) and len(coords) >= 3:
                         poly_coords = coords if coords[0] == coords[-1] else coords + [coords[0]]
                         area_m2 = polygon_area_m2(poly_coords, cos_lat)
@@ -567,7 +573,7 @@ def main() -> int:
                             parks_records.append(
                                 {
                                     "osm_id": int(wid),
-                                    "kind": leisure_tag or lu_tag or "park",
+                                    "kind": leisure_tag or lu_tag or nat_tag or bnd_tag or "park",
                                     "name": tags.get("name") or tags.get("name:en") or "",
                                     "area_m2": round(area_m2, 2),
                                     "centroid_lon": round(cx, 7),

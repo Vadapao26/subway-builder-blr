@@ -29,7 +29,7 @@ admin_boundaries:
   url: https://raw.githubusercontent.com/datameet/Municipal_Spatial_Data/master/Bangalore/BBMP.geojson
   licence: CC-BY-4.0
 params:
-  grid_cell_m: 1000
+  grid_cell_m: 400
   min_residents_per_point: 50
   employment_ratio: 1.0
   employment_weights:

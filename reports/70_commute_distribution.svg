@@ -1,108 +1,108 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="980" height="420" viewBox="0 0 980 420">
 <rect width="980" height="420" fill="#0f172a"/>
-<text x="55" y="32" fill="#f8fafc" font-family="sans-serif" font-size="18" font-weight="bold">Mumbai (BLR) — Phase 6 Commute Distance &amp; Duration Distributions</text>
-<text x="55" y="54" fill="#94a3b8" font-family="sans-serif" font-size="12">Total Commuters: 24,582,669 across 375,650 Pop Groups | Mean Distance: 10.60 km (Median 5.75 km) | Mean Duration: 25.1 min (Median 16.4 min)</text>
-<text x="55" y="75" fill="#38bdf8" font-family="sans-serif" font-size="13" font-weight="bold">A. Commute Distance Distribution (Target Mean: 9–18 km)</text>
+<text x="55" y="32" fill="#f8fafc" font-family="sans-serif" font-size="18" font-weight="bold">Bengaluru (BLR) — Phase 6 Commute Distance &amp; Duration Distributions</text>
+<text x="55" y="54" fill="#94a3b8" font-family="sans-serif" font-size="12">Total Commuters: 13,888,447 across 428,377 Pop Groups | Mean Distance: 12.16 km (Median 7.78 km) | Mean Duration: 27.2 min (Median 21.1 min)</text>
+<text x="55" y="75" fill="#38bdf8" font-family="sans-serif" font-size="13" font-weight="bold">A. Commute Distance Distribution (Target Mean: 8–14 km)</text>
 <rect x="55" y="85" width="410" height="260" fill="#1e293b" stroke="#334155"/>
-<rect x="147.2" y="85" width="92.2" height="260" fill="#0284c7" fill-opacity="0.18"/>
-<rect x="55.5" y="240.0" width="9.2" height="105.0" fill="#38bdf8"/>
-<rect x="65.8" y="139.2" width="9.2" height="205.8" fill="#38bdf8"/>
+<rect x="137.0" y="85" width="61.5" height="260" fill="#0284c7" fill-opacity="0.18"/>
+<rect x="55.5" y="236.1" width="9.2" height="108.9" fill="#38bdf8"/>
+<rect x="65.8" y="128.2" width="9.2" height="216.8" fill="#38bdf8"/>
 <rect x="76.0" y="112.9" width="9.2" height="232.1" fill="#38bdf8"/>
-<rect x="86.2" y="143.7" width="9.2" height="201.3" fill="#38bdf8"/>
-<rect x="96.5" y="174.5" width="9.2" height="170.5" fill="#38bdf8"/>
-<rect x="106.8" y="213.7" width="9.2" height="131.3" fill="#38bdf8"/>
-<rect x="117.0" y="239.0" width="9.2" height="106.0" fill="#38bdf8"/>
-<rect x="127.2" y="264.0" width="9.2" height="81.0" fill="#38bdf8"/>
-<rect x="137.5" y="276.7" width="9.2" height="68.3" fill="#38bdf8"/>
-<rect x="147.8" y="284.7" width="9.2" height="60.3" fill="#38bdf8"/>
-<rect x="158.0" y="293.9" width="9.2" height="51.1" fill="#38bdf8"/>
-<rect x="168.2" y="301.4" width="9.2" height="43.6" fill="#38bdf8"/>
-<rect x="178.5" y="304.5" width="9.2" height="40.5" fill="#38bdf8"/>
-<rect x="188.8" y="308.2" width="9.2" height="36.8" fill="#38bdf8"/>
-<rect x="199.0" y="312.3" width="9.2" height="32.7" fill="#38bdf8"/>
-<rect x="209.2" y="315.4" width="9.2" height="29.6" fill="#38bdf8"/>
-<rect x="219.5" y="318.3" width="9.2" height="26.7" fill="#38bdf8"/>
-<rect x="229.8" y="319.9" width="9.2" height="25.1" fill="#38bdf8"/>
-<rect x="240.0" y="321.8" width="9.2" height="23.2" fill="#38bdf8"/>
-<rect x="250.2" y="324.9" width="9.2" height="20.1" fill="#38bdf8"/>
-<rect x="260.5" y="325.3" width="9.2" height="19.7" fill="#38bdf8"/>
-<rect x="270.8" y="324.1" width="9.2" height="20.9" fill="#38bdf8"/>
-<rect x="281.0" y="325.8" width="9.2" height="19.2" fill="#38bdf8"/>
-<rect x="291.2" y="325.7" width="9.2" height="19.3" fill="#38bdf8"/>
-<rect x="301.5" y="327.1" width="9.2" height="17.9" fill="#38bdf8"/>
-<rect x="311.8" y="328.3" width="9.2" height="16.7" fill="#38bdf8"/>
-<rect x="322.0" y="326.5" width="9.2" height="18.5" fill="#38bdf8"/>
-<rect x="332.2" y="330.7" width="9.2" height="14.3" fill="#38bdf8"/>
-<rect x="342.5" y="333.7" width="9.2" height="11.3" fill="#38bdf8"/>
-<rect x="352.8" y="333.1" width="9.2" height="11.9" fill="#38bdf8"/>
-<rect x="363.0" y="333.6" width="9.2" height="11.4" fill="#38bdf8"/>
-<rect x="373.2" y="335.4" width="9.2" height="9.6" fill="#38bdf8"/>
-<rect x="383.5" y="337.2" width="9.2" height="7.8" fill="#38bdf8"/>
-<rect x="393.8" y="336.8" width="9.2" height="8.2" fill="#38bdf8"/>
-<rect x="404.0" y="337.4" width="9.2" height="7.6" fill="#38bdf8"/>
-<rect x="414.2" y="338.4" width="9.2" height="6.6" fill="#38bdf8"/>
-<rect x="424.5" y="338.1" width="9.2" height="6.9" fill="#38bdf8"/>
-<rect x="434.8" y="338.9" width="9.2" height="6.1" fill="#38bdf8"/>
-<rect x="445.0" y="338.4" width="9.2" height="6.6" fill="#38bdf8"/>
-<rect x="455.2" y="244.6" width="9.2" height="100.4" fill="#38bdf8"/>
-<line x1="163.6" y1="85" x2="163.6" y2="345" stroke="#facc15" stroke-width="2"/>
-<line x1="113.9" y1="85" x2="113.9" y2="345" stroke="#4ade80" stroke-width="2" stroke-dasharray="4,3"/>
+<rect x="86.2" y="146.1" width="9.2" height="198.9" fill="#38bdf8"/>
+<rect x="96.5" y="173.2" width="9.2" height="171.8" fill="#38bdf8"/>
+<rect x="106.8" y="187.2" width="9.2" height="157.8" fill="#38bdf8"/>
+<rect x="117.0" y="208.8" width="9.2" height="136.2" fill="#38bdf8"/>
+<rect x="127.2" y="227.1" width="9.2" height="117.9" fill="#38bdf8"/>
+<rect x="137.5" y="242.8" width="9.2" height="102.2" fill="#38bdf8"/>
+<rect x="147.8" y="256.5" width="9.2" height="88.5" fill="#38bdf8"/>
+<rect x="158.0" y="265.6" width="9.2" height="79.4" fill="#38bdf8"/>
+<rect x="168.2" y="274.1" width="9.2" height="70.9" fill="#38bdf8"/>
+<rect x="178.5" y="277.7" width="9.2" height="67.3" fill="#38bdf8"/>
+<rect x="188.8" y="278.7" width="9.2" height="66.3" fill="#38bdf8"/>
+<rect x="199.0" y="279.4" width="9.2" height="65.6" fill="#38bdf8"/>
+<rect x="209.2" y="284.6" width="9.2" height="60.4" fill="#38bdf8"/>
+<rect x="219.5" y="284.2" width="9.2" height="60.8" fill="#38bdf8"/>
+<rect x="229.8" y="285.7" width="9.2" height="59.3" fill="#38bdf8"/>
+<rect x="240.0" y="288.4" width="9.2" height="56.6" fill="#38bdf8"/>
+<rect x="250.2" y="297.4" width="9.2" height="47.6" fill="#38bdf8"/>
+<rect x="260.5" y="308.5" width="9.2" height="36.5" fill="#38bdf8"/>
+<rect x="270.8" y="315.1" width="9.2" height="29.9" fill="#38bdf8"/>
+<rect x="281.0" y="321.5" width="9.2" height="23.5" fill="#38bdf8"/>
+<rect x="291.2" y="324.7" width="9.2" height="20.3" fill="#38bdf8"/>
+<rect x="301.5" y="325.7" width="9.2" height="19.3" fill="#38bdf8"/>
+<rect x="311.8" y="327.0" width="9.2" height="18.0" fill="#38bdf8"/>
+<rect x="322.0" y="328.9" width="9.2" height="16.1" fill="#38bdf8"/>
+<rect x="332.2" y="330.2" width="9.2" height="14.8" fill="#38bdf8"/>
+<rect x="342.5" y="331.7" width="9.2" height="13.3" fill="#38bdf8"/>
+<rect x="352.8" y="330.9" width="9.2" height="14.1" fill="#38bdf8"/>
+<rect x="363.0" y="330.5" width="9.2" height="14.5" fill="#38bdf8"/>
+<rect x="373.2" y="331.6" width="9.2" height="13.4" fill="#38bdf8"/>
+<rect x="383.5" y="331.5" width="9.2" height="13.5" fill="#38bdf8"/>
+<rect x="393.8" y="332.5" width="9.2" height="12.5" fill="#38bdf8"/>
+<rect x="404.0" y="331.9" width="9.2" height="13.1" fill="#38bdf8"/>
+<rect x="414.2" y="330.5" width="9.2" height="14.5" fill="#38bdf8"/>
+<rect x="424.5" y="330.7" width="9.2" height="14.3" fill="#38bdf8"/>
+<rect x="434.8" y="330.4" width="9.2" height="14.6" fill="#38bdf8"/>
+<rect x="445.0" y="329.4" width="9.2" height="15.6" fill="#38bdf8"/>
+<rect x="455.2" y="209.3" width="9.2" height="135.7" fill="#38bdf8"/>
+<line x1="179.6" y1="85" x2="179.6" y2="345" stroke="#facc15" stroke-width="2"/>
+<line x1="134.7" y1="85" x2="134.7" y2="345" stroke="#4ade80" stroke-width="2" stroke-dasharray="4,3"/>
 <text x="55.0" y="363" fill="#cbd5e1" font-family="sans-serif" font-size="10" text-anchor="middle">0 km</text>
 <text x="157.5" y="363" fill="#cbd5e1" font-family="sans-serif" font-size="10" text-anchor="middle">10 km</text>
 <text x="260.0" y="363" fill="#cbd5e1" font-family="sans-serif" font-size="10" text-anchor="middle">20 km</text>
 <text x="362.5" y="363" fill="#cbd5e1" font-family="sans-serif" font-size="10" text-anchor="middle">30 km</text>
 <text x="465.0" y="363" fill="#cbd5e1" font-family="sans-serif" font-size="10" text-anchor="middle">40 km</text>
-<text x="530" y="75" fill="#f472b6" font-family="sans-serif" font-size="13" font-weight="bold">B. Commute Duration Distribution (Target Mean: 28–55 min)</text>
+<text x="530" y="75" fill="#f472b6" font-family="sans-serif" font-size="13" font-weight="bold">B. Commute Duration Distribution (Target Mean: 25–45 min)</text>
 <rect x="530" y="85" width="410" height="260" fill="#1e293b" stroke="#334155"/>
-<rect x="673.5" y="85" width="138.4" height="260" fill="#db2777" fill-opacity="0.18"/>
-<rect x="530.5" y="339.0" width="9.2" height="6.0" fill="#f472b6"/>
-<rect x="540.8" y="200.2" width="9.2" height="144.8" fill="#f472b6"/>
-<rect x="551.0" y="167.4" width="9.2" height="177.6" fill="#f472b6"/>
-<rect x="561.2" y="118.1" width="9.2" height="226.9" fill="#f472b6"/>
+<rect x="658.1" y="85" width="102.5" height="260" fill="#db2777" fill-opacity="0.18"/>
+<rect x="530.5" y="337.8" width="9.2" height="7.2" fill="#f472b6"/>
+<rect x="540.8" y="191.8" width="9.2" height="153.2" fill="#f472b6"/>
+<rect x="551.0" y="157.4" width="9.2" height="187.6" fill="#f472b6"/>
+<rect x="561.2" y="120.0" width="9.2" height="225.0" fill="#f472b6"/>
 <rect x="571.5" y="112.9" width="9.2" height="232.1" fill="#f472b6"/>
-<rect x="581.8" y="128.7" width="9.2" height="216.3" fill="#f472b6"/>
-<rect x="592.0" y="161.9" width="9.2" height="183.1" fill="#f472b6"/>
-<rect x="602.2" y="186.0" width="9.2" height="159.0" fill="#f472b6"/>
-<rect x="612.5" y="207.3" width="9.2" height="137.7" fill="#f472b6"/>
-<rect x="622.8" y="231.5" width="9.2" height="113.5" fill="#f472b6"/>
-<rect x="633.0" y="250.9" width="9.2" height="94.1" fill="#f472b6"/>
-<rect x="643.2" y="260.4" width="9.2" height="84.6" fill="#f472b6"/>
-<rect x="653.5" y="273.8" width="9.2" height="71.2" fill="#f472b6"/>
-<rect x="663.8" y="280.7" width="9.2" height="64.3" fill="#f472b6"/>
-<rect x="674.0" y="287.0" width="9.2" height="58.0" fill="#f472b6"/>
-<rect x="684.2" y="291.3" width="9.2" height="53.7" fill="#f472b6"/>
-<rect x="694.5" y="295.4" width="9.2" height="49.6" fill="#f472b6"/>
-<rect x="704.8" y="298.3" width="9.2" height="46.7" fill="#f472b6"/>
-<rect x="715.0" y="303.4" width="9.2" height="41.6" fill="#f472b6"/>
-<rect x="725.2" y="304.8" width="9.2" height="40.2" fill="#f472b6"/>
-<rect x="735.5" y="308.6" width="9.2" height="36.4" fill="#f472b6"/>
-<rect x="745.8" y="311.3" width="9.2" height="33.7" fill="#f472b6"/>
-<rect x="756.0" y="312.1" width="9.2" height="32.9" fill="#f472b6"/>
-<rect x="766.2" y="313.9" width="9.2" height="31.1" fill="#f472b6"/>
-<rect x="776.5" y="315.7" width="9.2" height="29.3" fill="#f472b6"/>
-<rect x="786.8" y="317.7" width="9.2" height="27.3" fill="#f472b6"/>
-<rect x="797.0" y="317.6" width="9.2" height="27.4" fill="#f472b6"/>
-<rect x="807.2" y="316.6" width="9.2" height="28.4" fill="#f472b6"/>
-<rect x="817.5" y="319.7" width="9.2" height="25.3" fill="#f472b6"/>
-<rect x="827.8" y="323.9" width="9.2" height="21.1" fill="#f472b6"/>
-<rect x="838.0" y="322.9" width="9.2" height="22.1" fill="#f472b6"/>
-<rect x="848.2" y="324.6" width="9.2" height="20.4" fill="#f472b6"/>
-<rect x="858.5" y="326.0" width="9.2" height="19.0" fill="#f472b6"/>
-<rect x="868.8" y="329.0" width="9.2" height="16.0" fill="#f472b6"/>
-<rect x="879.0" y="330.4" width="9.2" height="14.6" fill="#f472b6"/>
-<rect x="889.2" y="331.7" width="9.2" height="13.3" fill="#f472b6"/>
-<rect x="899.5" y="334.1" width="9.2" height="10.9" fill="#f472b6"/>
-<rect x="909.8" y="335.4" width="9.2" height="9.6" fill="#f472b6"/>
-<rect x="920.0" y="334.8" width="9.2" height="10.2" fill="#f472b6"/>
-<rect x="930.2" y="224.9" width="9.2" height="120.1" fill="#f472b6"/>
-<line x1="658.6" y1="85" x2="658.6" y2="345" stroke="#facc15" stroke-width="2"/>
-<line x1="614.0" y1="85" x2="614.0" y2="345" stroke="#4ade80" stroke-width="2" stroke-dasharray="4,3"/>
+<rect x="581.8" y="127.9" width="9.2" height="217.1" fill="#f472b6"/>
+<rect x="592.0" y="147.9" width="9.2" height="197.1" fill="#f472b6"/>
+<rect x="602.2" y="157.8" width="9.2" height="187.2" fill="#f472b6"/>
+<rect x="612.5" y="172.6" width="9.2" height="172.4" fill="#f472b6"/>
+<rect x="622.8" y="190.7" width="9.2" height="154.3" fill="#f472b6"/>
+<rect x="633.0" y="205.3" width="9.2" height="139.7" fill="#f472b6"/>
+<rect x="643.2" y="222.1" width="9.2" height="122.9" fill="#f472b6"/>
+<rect x="653.5" y="225.7" width="9.2" height="119.3" fill="#f472b6"/>
+<rect x="663.8" y="238.2" width="9.2" height="106.8" fill="#f472b6"/>
+<rect x="674.0" y="244.0" width="9.2" height="101.0" fill="#f472b6"/>
+<rect x="684.2" y="249.8" width="9.2" height="95.2" fill="#f472b6"/>
+<rect x="694.5" y="246.5" width="9.2" height="98.5" fill="#f472b6"/>
+<rect x="704.8" y="253.0" width="9.2" height="92.0" fill="#f472b6"/>
+<rect x="715.0" y="250.8" width="9.2" height="94.2" fill="#f472b6"/>
+<rect x="725.2" y="250.0" width="9.2" height="95.0" fill="#f472b6"/>
+<rect x="735.5" y="258.3" width="9.2" height="86.7" fill="#f472b6"/>
+<rect x="745.8" y="267.9" width="9.2" height="77.1" fill="#f472b6"/>
+<rect x="756.0" y="277.5" width="9.2" height="67.5" fill="#f472b6"/>
+<rect x="766.2" y="289.8" width="9.2" height="55.2" fill="#f472b6"/>
+<rect x="776.5" y="295.8" width="9.2" height="49.2" fill="#f472b6"/>
+<rect x="786.8" y="297.6" width="9.2" height="47.4" fill="#f472b6"/>
+<rect x="797.0" y="303.8" width="9.2" height="41.2" fill="#f472b6"/>
+<rect x="807.2" y="304.0" width="9.2" height="41.0" fill="#f472b6"/>
+<rect x="817.5" y="312.5" width="9.2" height="32.5" fill="#f472b6"/>
+<rect x="827.8" y="316.4" width="9.2" height="28.6" fill="#f472b6"/>
+<rect x="838.0" y="317.1" width="9.2" height="27.9" fill="#f472b6"/>
+<rect x="848.2" y="321.3" width="9.2" height="23.7" fill="#f472b6"/>
+<rect x="858.5" y="321.4" width="9.2" height="23.6" fill="#f472b6"/>
+<rect x="868.8" y="324.6" width="9.2" height="20.4" fill="#f472b6"/>
+<rect x="879.0" y="325.5" width="9.2" height="19.5" fill="#f472b6"/>
+<rect x="889.2" y="325.4" width="9.2" height="19.6" fill="#f472b6"/>
+<rect x="899.5" y="328.5" width="9.2" height="16.5" fill="#f472b6"/>
+<rect x="909.8" y="330.2" width="9.2" height="14.8" fill="#f472b6"/>
+<rect x="920.0" y="329.4" width="9.2" height="15.6" fill="#f472b6"/>
+<rect x="930.2" y="222.9" width="9.2" height="122.1" fill="#f472b6"/>
+<line x1="669.3" y1="85" x2="669.3" y2="345" stroke="#facc15" stroke-width="2"/>
+<line x1="638.3" y1="85" x2="638.3" y2="345" stroke="#4ade80" stroke-width="2" stroke-dasharray="4,3"/>
 <text x="530.0" y="363" fill="#cbd5e1" font-family="sans-serif" font-size="10" text-anchor="middle">0 min</text>
 <text x="632.5" y="363" fill="#cbd5e1" font-family="sans-serif" font-size="10" text-anchor="middle">20 min</text>
 <text x="735.0" y="363" fill="#cbd5e1" font-family="sans-serif" font-size="10" text-anchor="middle">40 min</text>
 <text x="837.5" y="363" fill="#cbd5e1" font-family="sans-serif" font-size="10" text-anchor="middle">60 min</text>
 <text x="940.0" y="363" fill="#cbd5e1" font-family="sans-serif" font-size="10" text-anchor="middle">80 min</text>
-<text x="55" y="395" fill="#facc15" font-family="sans-serif" font-size="11" font-weight="bold">Solid Yellow Line = Mean (10.60 km / 25.1 min)</text>
-<text x="360" y="395" fill="#4ade80" font-family="sans-serif" font-size="11" font-weight="bold">Dashed Green Line = Median (5.75 km / 16.4 min)</text>
+<text x="55" y="395" fill="#facc15" font-family="sans-serif" font-size="11" font-weight="bold">Solid Yellow Line = Mean (12.16 km / 27.2 min)</text>
+<text x="360" y="395" fill="#4ade80" font-family="sans-serif" font-size="11" font-weight="bold">Dashed Green Line = Median (7.78 km / 21.1 min)</text>
 <text x="690" y="395" fill="#94a3b8" font-family="sans-serif" font-size="11">Shaded Band = CMP Target Mean Range</text>
 </svg>

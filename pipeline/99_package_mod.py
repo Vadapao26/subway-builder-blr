@@ -3,9 +3,9 @@
 Phase 10: Mod Packaging and Integration (pipeline/99_package_mod.py)
 
 Tasks:
-  1. Generate mod/manifest.json and mod/index.js (if not already up to date).
+  1. Generate mod/manifest.json, mod/index.js, and config.json.
   2. Generate modern SVG & PNG mod thumbnail (mod/thumbnail.png and thumbnail.svg).
-  3. Validate all required mod data files in mod/data/BLR/:
+  3. Validate all required mod data files in mod/data/<CITY>/:
        - demand_data.json.gz (and demand_data.json)
        - roads.geojson.gz (and roads.geojson)
        - runways_taxiways.geojson.gz (and runways_taxiways.geojson)
@@ -16,13 +16,15 @@ Tasks:
        - coastline.geojson.gz
        - ocean_depth_index.json.gz
   4. Automatically deploy into Subway Builder local directories:
-       - %APPDATA%/metro-maker4/mods/blr-bengaluru-hosur/
-       - %APPDATA%/metro-maker4/cities/data/BLR/
+       - %APPDATA%/metro-maker4/mods/<mod_id>/
+       - %APPDATA%/metro-maker4/cities/data/<CITY>/
   5. Generate comprehensive summary report reports/99_package_mod.json.
 """
 
 from __future__ import annotations
 
+import argparse
+import gzip
 import json
 import os
 import shutil
@@ -38,7 +40,7 @@ import yaml
 ROOT = Path(__file__).resolve().parent.parent
 
 
-def create_thumbnail_png(png_path: Path, svg_path: Path) -> None:
+def create_thumbnail_png(png_path: Path, svg_path: Path, code: str = "BLR", name: str = "Bengaluru") -> None:
     """Generate a high-contrast thumbnail for Subway Builder UI."""
     W = 400
     H = 260
@@ -52,17 +54,69 @@ def create_thumbnail_png(png_path: Path, svg_path: Path) -> None:
         b = int(42 + ratio * (60 - 42))
         rgb[y, :] = (r, g, b)
 
-    # Abstract transit metro network lines
-    lines = [
-        # Purple Line (East-West: Whitefield to Kengeri)
-        ([(40, 140), (120, 135), (200, 130), (280, 125), (360, 120)], (168, 85, 247), 4),
-        # Green Line (North-South: KIA/Hebbal to Silk Board/Hosur)
-        ([(200, 30), (200, 80), (200, 130), (210, 180), (260, 230)], (34, 197, 94), 4),
-        # Yellow Line (Electronic City to Hosur branch)
-        ([(210, 180), (280, 200), (350, 220)], (234, 179, 8), 3),
-        # Blue Line (Airport to ORR)
-        ([(200, 30), (270, 70), (310, 110), (280, 160)], (56, 189, 248), 3),
-    ]
+    if code == "PNQ":
+        # Pune Metro Transit Lines: Line 1 (Purple), Line 2 (Aqua), Line 3 (Red Puneri Metro) + Bhosari/Chakan & Airport Spurs
+        lines = [
+            # Line 1 (Purple Line: PCMC/Nigdi to Swargate)
+            ([(170, 40), (175, 75), (180, 105), (190, 135), (200, 160), (205, 175), (210, 220)], (168, 85, 247), 4),
+            # Line 2 (Aqua Line: Vanaz/Kothrud to Ramwadi/Viman Nagar)
+            ([(90, 205), (150, 185), (205, 175), (235, 165), (270, 145), (330, 130)], (6, 182, 212), 4),
+            # Line 3 (Red Line: Hinjawadi Phase 3 to Civil Court)
+            ([(45, 105), (85, 120), (130, 135), (165, 150), (205, 175)], (239, 68, 68), 3),
+            # Bhosari MIDC to Chakan Auto Cluster Spur
+            ([(180, 105), (225, 80), (255, 35)], (249, 115, 22), 3),
+            # Yerawada to Lohegaon Pune Airport Spur
+            ([(270, 145), (310, 105), (345, 85)], (56, 189, 248), 3),
+        ]
+        centers = [(205, 175), (200, 160), (235, 165), (210, 220), (85, 120), (225, 80)]
+        title_text = "PUNE + PCMC TWIN-CITY REGION"
+        sub_text = "PNQ • 7.46M POP • 300K BUILDINGS • HINJAWADI & CHAKAN"
+    elif code == "HYD":
+        # Hyderabad Metro Transit Lines: Red Line (Miyapur-LB Nagar), Blue Line (Raidurg-Nagole), Green Line (JBS-MGBS), Airport Express
+        lines = [
+            # Red Line (Corridor 1: Miyapur / Kukatpally -> Ameerpet -> MGBS -> LB Nagar)
+            ([(70, 65), (120, 95), (170, 120), (220, 160), (265, 190), (320, 220)], (239, 68, 68), 4),
+            # Blue Line (Corridor 3: Raidurg / HITEC City -> Ameerpet -> Parade Ground -> Uppal / Nagole)
+            ([(55, 150), (110, 135), (170, 120), (240, 105), (290, 115), (345, 135)], (37, 99, 235), 4),
+            # Green Line (Corridor 2: JBS / Parade Ground -> Musheerabad -> MGBS -> Falaknuma)
+            ([(240, 65), (240, 105), (235, 135), (220, 160), (210, 215)], (34, 197, 94), 4),
+            # Airport Express (Raidurg / Gachibowli -> Shamshabad RGIA)
+            ([(55, 150), (85, 180), (130, 215), (175, 245)], (245, 158, 11), 3),
+            # Industrial Radial Spur (Patancheru / BHEL -> Miyapur)
+            ([(30, 45), (70, 65)], (168, 85, 247), 3),
+        ]
+        # Major interchanges: Ameerpet (Red/Blue), MGBS (Red/Green), Parade Ground (Blue/Green), Raidurg (Blue/Airport)
+        centers = [(170, 120), (220, 160), (240, 105), (55, 150)]
+        title_text = "GREATER HYDERABAD METROPOLITAN AREA"
+        sub_text = "HYD • 10.0M POP • CYBERABAD • CHARMINAR • RGIA AIRPORT"
+    elif code == "BOM":
+        # Mumbai Transit Lines: Western Line, Central Line, Aqua Line 3, Line 1 Versova-Ghatkopar
+        lines = [
+            # Western Suburban Line (Churchgate to Virar)
+            ([(90, 240), (95, 180), (100, 130), (105, 80), (110, 30)], (239, 68, 68), 4),
+            # Central Main Line (CSMT to Thane, Kalyan, Titwala)
+            ([(110, 230), (120, 170), (145, 120), (185, 95), (250, 75), (320, 55)], (249, 115, 22), 4),
+            # Aqua Line 3 (Colaba - BKC - SEEPZ)
+            ([(95, 235), (105, 175), (125, 130), (140, 105)], (6, 182, 212), 3),
+            # Metro Line 1 & Line 2 (East-West & Western suburbs)
+            ([(70, 115), (105, 115), (155, 115)], (234, 179, 8), 3),
+            # Harbour / Atal Setu Line (to Panvel & NMIAL)
+            ([(110, 230), (160, 200), (220, 180), (280, 195), (340, 210)], (56, 189, 248), 3),
+        ]
+        centers = [(105, 175), (125, 130), (185, 95), (250, 75)]
+        title_text = "MUMBAI METROPOLITAN REGION"
+        sub_text = "BOM • 24.5M POP • 254K BUILDINGS • TITWALA INCL."
+    else:
+        # Abstract Bengaluru transit metro network lines
+        lines = [
+            ([(40, 140), (120, 135), (200, 130), (280, 125), (360, 120)], (168, 85, 247), 4),
+            ([(200, 30), (200, 80), (200, 130), (210, 180), (260, 230)], (34, 197, 94), 4),
+            ([(210, 180), (280, 200), (350, 220)], (234, 179, 8), 3),
+            ([(200, 30), (270, 70), (310, 110), (280, 160)], (56, 189, 248), 3),
+        ]
+        centers = [(200, 130), (210, 180), (120, 135), (280, 125)]
+        title_text = "BENGALURU + HOSUR"
+        sub_text = "BLR • 13.98M POP • 831K BUILDINGS"
 
     for pts, col, th in lines:
         for i in range(len(pts) - 1):
@@ -77,8 +131,6 @@ def create_thumbnail_png(png_path: Path, svg_path: Path) -> None:
                     xc = np.clip(xs + dx, 0, W - 1)
                     rgb[yc, xc] = col
 
-    # Central interchange rings
-    centers = [(200, 130), (210, 180), (120, 135), (280, 125)]
     for cx, cy in centers:
         for r in range(4, 8):
             for deg in range(0, 360, 5):
@@ -118,38 +170,132 @@ def create_thumbnail_png(png_path: Path, svg_path: Path) -> None:
     </linearGradient>
   </defs>
   <rect width="{W}" height="{H}" fill="url(#bg)" />
-  <polyline points="40,140 120,135 200,130 280,125 360,120" stroke="#a855f7" stroke-width="4" fill="none" stroke-linecap="round"/>
-  <polyline points="200,30 200,80 200,130 210,180 260,230" stroke="#22c55e" stroke-width="4" fill="none" stroke-linecap="round"/>
-  <polyline points="210,180 280,200 350,220" stroke="#eab308" stroke-width="3" fill="none" stroke-linecap="round"/>
-  <polyline points="200,30 270,70 310,110 280,160" stroke="#38bdf8" stroke-width="3" fill="none" stroke-linecap="round"/>
-  <circle cx="200" cy="130" r="6" fill="#ffffff" stroke="#a855f7" stroke-width="2"/>
-  <circle cx="210" cy="180" r="5" fill="#ffffff" stroke="#22c55e" stroke-width="2"/>
-  <circle cx="120" cy="135" r="5" fill="#ffffff" stroke="#a855f7" stroke-width="2"/>
-  <circle cx="280" cy="125" r="5" fill="#ffffff" stroke="#a855f7" stroke-width="2"/>
-  <text x="20" y="32" fill="#f8fafc" font-family="sans-serif" font-size="16" font-weight="bold">BENGALURU + HOSUR</text>
-  <text x="20" y="48" fill="#94a3b8" font-family="sans-serif" font-size="10">BLR • 13.98M POP • 831K BUILDINGS</text>
+  <text x="20" y="32" fill="#f8fafc" font-family="sans-serif" font-size="15" font-weight="bold">{title_text}</text>
+  <text x="20" y="48" fill="#94a3b8" font-family="sans-serif" font-size="10">{sub_text}</text>
 </svg>"""
     svg_path.write_text(svg_doc, encoding="utf-8")
 
 
-def package_and_deploy() -> Dict[str, Any]:
+def package_and_deploy(city_config_path: Path | None = None) -> Dict[str, Any]:
     t0 = time.perf_counter()
-    with open(ROOT / "cities" / "blr.yaml", "r", encoding="utf-8") as f:
+    if city_config_path is None:
+        city_config_path = ROOT / "cities" / "bom.yaml"
+        if not city_config_path.exists():
+            city_config_path = ROOT / "cities" / "blr.yaml"
+
+    with open(city_config_path, "r", encoding="utf-8") as f:
         cfg = yaml.safe_load(f)
 
-    code = cfg["code"]
+    code = cfg["code"].upper()
+    name = cfg["name"]
+    if code == "PNQ":
+        mod_id = "pnq-pune-pcmc"
+        mod_name = f"Pune + PCMC ({code})"
+    elif code == "BOM":
+        mod_id = f"{code.lower()}-mumbai-mmr"
+        mod_name = f"Mumbai Metropolitan Region ({code})"
+    elif code == "HYD":
+        mod_id = f"{code.lower()}-greater-hyderabad"
+        mod_name = f"Greater Hyderabad ({code})"
+    else:
+        mod_id = "blr-bengaluru-hosur"
+        mod_name = f"Bengaluru + Hosur ({code})"
+
     mod_dir = ROOT / "mod"
     data_dir = mod_dir / "data" / code
     reports_dir = ROOT / "reports"
+    mod_dir.mkdir(parents=True, exist_ok=True)
+    data_dir.mkdir(parents=True, exist_ok=True)
     reports_dir.mkdir(parents=True, exist_ok=True)
 
     # 1. Generate thumbnails
     thumb_png = mod_dir / "thumbnail.png"
     thumb_svg = mod_dir / "thumbnail.svg"
-    create_thumbnail_png(thumb_png, thumb_svg)
+    create_thumbnail_png(thumb_png, thumb_svg, code=code, name=name)
 
-    # 2. Check and manifest required city files
+    # 2. Write mod manifest.json
+    manifest = {
+        "id": mod_id,
+        "name": mod_name,
+        "version": "1.0.0",
+        "description": cfg.get("description", f"High-density transit network mod for {name} ({code})"),
+        "author": cfg.get("creator", "Vadapao26"),
+        "main": "index.js",
+        "thumbnail": "thumbnail.png",
+        "dependencies": {
+            "subway-builder": ">=1.0.0"
+        }
+    }
+    manifest_path = mod_dir / "manifest.json"
+    with open(manifest_path, "w", encoding="utf-8") as f:
+        json.dump(manifest, f, indent=2)
+
+    # 3. Write mod index.js
+    index_js = f"""// Subway Builder Mod Entry - {name} ({code})
+(function () {{
+  if (typeof window === "undefined" || !window.SubwayBuilderAPI) return;
+  const api = window.SubwayBuilderAPI;
+  api.cities.registerCity({{
+    code: "{code}",
+    name: "{name}",
+    country: "{cfg.get('country', 'IN')}",
+    creator: "{cfg.get('creator', 'Vadapao26')}",
+    bbox: [{cfg['bbox']['west']}, {cfg['bbox']['south']}, {cfg['bbox']['east']}, {cfg['bbox']['north']}],
+    initialViewState: {{
+      latitude: {cfg['initialViewState']['latitude']},
+      longitude: {cfg['initialViewState']['longitude']},
+      zoom: {cfg['initialViewState']['zoom']},
+      bearing: {cfg['initialViewState'].get('bearing', 0)}
+    }},
+    demandDotScaling: {cfg.get('demandDotScaling', 0.20)}
+  }});
+}})();
+"""
+    index_path = mod_dir / "index.js"
+    index_path.write_text(index_js, encoding="utf-8")
+
+    # 4. Write data config.json (Go deserialization compatible: integer zoom, valid bbox, creator)
+    config_json = {
+        "code": code,
+        "name": name,
+        "bbox": [cfg["bbox"]["west"], cfg["bbox"]["south"], cfg["bbox"]["east"], cfg["bbox"]["north"]],
+        "description": cfg.get("description", f"High-density transit network mod for {name} ({code})"),
+        "population": cfg.get("population", 7500000),
+        "minZoom": int(cfg.get("minZoom", cfg["initialViewState"].get("minZoom", 10))),
+        "maxZoom": int(cfg.get("maxZoom", cfg["initialViewState"].get("maxZoom", 16))),
+        "initialViewState": {
+            "latitude": cfg["initialViewState"]["latitude"],
+            "longitude": cfg["initialViewState"]["longitude"],
+            "zoom": int(round(cfg["initialViewState"]["zoom"])),
+            "bearing": int(round(cfg["initialViewState"].get("bearing", 0))),
+            "minZoom": int(cfg.get("minZoom", cfg["initialViewState"].get("minZoom", 10))),
+            "maxZoom": int(cfg.get("maxZoom", cfg["initialViewState"].get("maxZoom", 16))),
+        },
+        "creator": cfg.get("creator", "Vadapao26"),
+        "version": "1.0.0",
+        "country": cfg.get("country", "IN"),
+        "demandDotScaling": cfg.get("demandDotScaling", 0.20),
+    }
+    cfg_json_path = data_dir / "config.json"
+    with open(cfg_json_path, "w", encoding="utf-8") as f:
+        json.dump(config_json, f, indent=2)
+
+    # Ensure uncompressed ocean_depth_index.json & coastline.geojson exist alongside .gz
+    ocean_gz = data_dir / "ocean_depth_index.json.gz"
+    ocean_json = data_dir / "ocean_depth_index.json"
+    if ocean_gz.exists() and not ocean_json.exists():
+        with gzip.open(ocean_gz, "rt", encoding="utf-8") as f_in, open(ocean_json, "w", encoding="utf-8") as f_out:
+            f_out.write(f_in.read())
+
+    coast_gz = data_dir / "coastline.geojson.gz"
+    coast_json = data_dir / "coastline.geojson"
+    if coast_gz.exists():
+        with gzip.open(coast_gz, "rt", encoding="utf-8") as f_in, open(coast_json, "w", encoding="utf-8") as f_out:
+            f_out.write(f_in.read())
+
+    # 5. Check and manifest required city files
     required_data_files = [
+        "config.json",
         "demand_data.json.gz",
         "roads.geojson.gz",
         "runways_taxiways.geojson.gz",
@@ -168,27 +314,25 @@ def package_and_deploy() -> Dict[str, Any]:
             raise FileNotFoundError(f"Missing required city data file: {fp}")
         file_manifest[fn] = fp.stat().st_size
 
-    # 3. Deploy to Subway Builder AppData directories
+    # 6. Deploy to Subway Builder AppData directories
     appdata = os.environ.get("APPDATA")
     deployed_mod_path = None
     deployed_city_data_path = None
 
     if appdata:
         mm_dir = Path(appdata) / "metro-maker4"
-        dest_mod = mm_dir / "mods" / "blr-bengaluru-hosur"
+        dest_mod = mm_dir / "mods" / mod_id
         dest_city_data = mm_dir / "cities" / "data" / code
 
         try:
             dest_mod.mkdir(parents=True, exist_ok=True)
             dest_city_data.mkdir(parents=True, exist_ok=True)
 
-            # Copy mod files (manifest, index.js, thumbnail)
             for mf in ["manifest.json", "index.js", "thumbnail.png", "thumbnail.svg"]:
                 src_f = mod_dir / mf
                 if src_f.exists():
                     shutil.copy2(src_f, dest_mod / mf)
 
-            # Copy city data files
             for fn in os.listdir(data_dir):
                 src_file = data_dir / fn
                 if src_file.is_file():
@@ -204,6 +348,48 @@ def package_and_deploy() -> Dict[str, Any]:
                 f"Mod package and data files are prepared in mod/ and ready for manual or bypass copy."
             )
 
+    # 7. Create distributable zip archive in dist/ matching Railyard requirements
+    dist_dir = ROOT / "dist"
+    dist_dir.mkdir(parents=True, exist_ok=True)
+    zip_path = dist_dir / f"SubwayBuilder-{code}-v1.0.0.zip"
+    import zipfile
+    with zipfile.ZipFile(zip_path, "w", zipfile.ZIP_DEFLATED, compresslevel=6) as zf:
+        # A. Root-level files (strictly required by Railyard "Review Import" scanner):
+        # config.json, demand_data.json, roads.geojson, runways_taxiways.geojson,
+        # tiles.pmtiles, foundations.pmtiles, ocean_foundations.pmtiles, buildings_index.bin, etc.
+        written_root_files = set()
+        for fn in sorted(os.listdir(data_dir)):
+            fpath = data_dir / fn
+            if fpath.is_file():
+                zf.write(fpath, arcname=fn)
+                written_root_files.add(fn)
+
+        # Duplicate tiles as <CODE>.pmtiles, <CODE>_foundations.pmtiles, <CODE>_ocean_foundations.pmtiles for community loaders if not already written
+        tiles_p = data_dir / "tiles.pmtiles"
+        if tiles_p.exists() and f"{code}.pmtiles" not in written_root_files:
+            zf.write(tiles_p, arcname=f"{code}.pmtiles")
+        fnd_p = data_dir / "foundations.pmtiles"
+        if fnd_p.exists() and f"{code}_foundations.pmtiles" not in written_root_files:
+            zf.write(fnd_p, arcname=f"{code}_foundations.pmtiles")
+        ocn_p = data_dir / "ocean_foundations.pmtiles"
+        if ocn_p.exists() and f"{code}_ocean_foundations.pmtiles" not in written_root_files:
+            zf.write(ocn_p, arcname=f"{code}_ocean_foundations.pmtiles")
+        for mf in ["manifest.json", "thumbnail.png", "thumbnail.svg"]:
+            fpath = mod_dir / mf
+            if fpath.exists():
+                zf.write(fpath, arcname=mf)
+
+        # B. Nested files (required by Subway Builder mod engine and file scanners):
+        for mf in ["manifest.json", "index.js", "thumbnail.png", "thumbnail.svg"]:
+            fpath = mod_dir / mf
+            if fpath.exists():
+                zf.write(fpath, arcname=f"mods/{mod_id}/{mf}")
+        for fn in sorted(os.listdir(data_dir)):
+            fpath = data_dir / fn
+            if fpath.is_file():
+                zf.write(fpath, arcname=f"cities/data/{code}/{fn}")
+    print(f"[99_package_mod] Distributable zip created: {zip_path} ({zip_path.stat().st_size / 1e6:.2f} MB)")
+
     elapsed = round(time.perf_counter() - t0, 2)
     summary = {
         "phase": 10,
@@ -212,13 +398,13 @@ def package_and_deploy() -> Dict[str, Any]:
         "status": "PASS",
         "runtime_seconds": elapsed,
         "mod_package": {
-            "id": "blr-bengaluru-hosur",
-            "name": "Bengaluru + Hosur (BLR)",
+            "id": mod_id,
+            "name": mod_name,
             "version": "1.0.0",
-            "manifest": "mod/manifest.json",
-            "entry": "mod/index.js",
-            "thumbnail_png": "mod/thumbnail.png",
-            "thumbnail_svg": "mod/thumbnail.svg",
+            "manifest": str(manifest_path.relative_to(ROOT)).replace("\\", "/"),
+            "entry": str(index_path.relative_to(ROOT)).replace("\\", "/"),
+            "thumbnail_png": str(thumb_png.relative_to(ROOT)).replace("\\", "/"),
+            "thumbnail_svg": str(thumb_svg.relative_to(ROOT)).replace("\\", "/"),
         },
         "city_data_files": file_manifest,
         "total_data_bytes": sum(file_manifest.values()),
@@ -237,7 +423,12 @@ def package_and_deploy() -> Dict[str, Any]:
 
 
 def main() -> None:
-    res = package_and_deploy()
+    parser = argparse.ArgumentParser(description="Phase 10: Mod packaging and integration")
+    parser.add_argument("--city", type=Path, default=Path("cities/bom.yaml"), help="Path to city YAML config")
+    args = parser.parse_args()
+    city_path = args.city if args.city.is_absolute() else (ROOT / args.city)
+
+    res = package_and_deploy(city_path)
     print(
         f"[99_package_mod] Phase 10 Complete ({res['runtime_seconds']}s): "
         f"Mod packaged with {len(res['city_data_files'])} data files "
@@ -247,3 +438,4 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
+

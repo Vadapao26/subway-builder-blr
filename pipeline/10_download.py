@@ -158,13 +158,33 @@ def ensure_downloaded(
 ) -> dict:
     """Download `url` to `dest` if not already verified in `manifest`."""
     existing = manifest.get("files", {}).get(key)
-    if existing and dest.is_file():
+    if dest.is_file() and dest.stat().st_size > 0:
         actual_size = dest.stat().st_size
-        if actual_size == existing.get("size_bytes") and actual_size > 0:
+        if existing and existing.get("filename") == dest.name and actual_size == existing.get("size_bytes"):
             actual_hash = sha256_file(dest)
             if actual_hash == existing.get("sha256"):
                 print(f"[SKIP] {dest.name} already verified (SHA-256: {actual_hash[:16]}...)")
                 return {**existing, "skipped": True}
+        else:
+            # File exists on disk but was not in manifest for this key/filename (e.g. pre-existing asset)
+            actual_hash = sha256_file(dest)
+            entry = {
+                "key": key,
+                "filename": dest.name,
+                "path": str(dest.relative_to(dest.parent.parent.parent)),
+                "url": url,
+                "licence": licence,
+                "downloaded_at_utc": datetime.now(timezone.utc).isoformat(),
+                "size_bytes": actual_size,
+                "sha256": actual_hash,
+                "download_seconds": 0.0,
+                "skipped": True,
+            }
+            manifest.setdefault("files", {})[key] = entry
+            with open(manifest_path, "w", encoding="utf-8") as f:
+                json.dump(manifest, f, indent=2)
+            print(f"[FOUND] {dest.name} ({actual_size / 1e6:.2f} MB, SHA-256: {actual_hash[:16]}...) recorded in manifest")
+            return entry
 
     print(f"[FETCH] Probing {url} ...", flush=True)
     total_size, supports_range = probe_url(url)
@@ -295,6 +315,7 @@ def main() -> int:
     clip_stats = {}
     if (
         existing_clip
+        and existing_clip.get("filename") == clipped_dest.name
         and clipped_dest.is_file()
         and clipped_dest.stat().st_size == existing_clip.get("size_bytes")
         and existing_clip.get("source_sha256") == osm_entry["sha256"]

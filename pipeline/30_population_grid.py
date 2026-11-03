@@ -318,17 +318,14 @@ def main() -> int:
                     if ov_x > 0.0:
                         grid_pop_raw[r, c] += val * (ov_x * ov_y / px_area)
 
-    # Load Phase 2 coverage grid if present to preserve cells with building/employment activity
-    cov_csv = repo_root / "reports" / "20_coverage_grid.csv"
+    # Load building activity directly from processed buildings parquet
     has_activity = np.zeros((rows, cols), dtype=bool)
-    if cov_csv.is_file():
-        cov_df = pd.read_csv(cov_csv)
-        for _, row_data in cov_df.iterrows():
-            r_idx = int(row_data["row"])
-            c_idx = int(row_data["col"])
-            if 0 <= r_idx < rows and 0 <= c_idx < cols:
-                if row_data["building_count"] > 0 or row_data["employment_landuse_m2"] > 0:
-                    has_activity[r_idx, c_idx] = True
+    bldg_p = repo_root / "data" / "processed" / f"{city_code}_buildings.parquet"
+    if bldg_p.is_file():
+        b_df = pd.read_parquet(bldg_p, columns=["centroid_lon", "centroid_lat"])
+        b_r = np.clip(((b_df["centroid_lat"] - south) / dlat).astype(int), 0, rows - 1)
+        b_c = np.clip(((b_df["centroid_lon"] - west) / dlon).astype(int), 0, cols - 1)
+        has_activity[b_r, b_c] = True
 
     # Also mark any cell overlapping a configured named employment boost
     for boost in cfg["params"].get("named_employment_boosts", []):
@@ -340,6 +337,21 @@ def main() -> int:
                     clon = west + (c + 0.5) * dlon
                     if bb["west"] <= clon <= bb["east"]:
                         has_activity[r, c] = True
+
+    # Apply configured localized population calibrations (e.g. for rapidly grown suburban commuter towns like Titwala)
+    for cal in cfg["params"].get("population_calibrations", []):
+        bb = cal["bbox"]
+        target_pop = float(cal.get("target_population", 0))
+        r0 = max(0, int((float(bb["south"]) - south) / dlat))
+        r1 = min(rows - 1, int((float(bb["north"]) - south) / dlat))
+        c0 = max(0, int((float(bb["west"]) - west) / dlon))
+        c1 = min(cols - 1, int((float(bb["east"]) - west) / dlon))
+        curr_sub_pop = float(grid_pop_raw[r0 : r1 + 1, c0 : c1 + 1].sum())
+        if target_pop > 0 and curr_sub_pop > 0:
+            scale_fac = target_pop / curr_sub_pop
+            grid_pop_raw[r0 : r1 + 1, c0 : c1 + 1] *= scale_fac
+            has_activity[r0 : r1 + 1, c0 : c1 + 1] = True
+            print(f"[Phase 3] Population Calibration: {cal['name']} scaled from {curr_sub_pop:,.0f} to {target_pop:,.0f} (factor {scale_fac:.2f}x)")
 
     # Optional BBMP ward boundary cross-check
     wards_path = repo_root / "data" / "raw" / f"{city_code}_admin_wards.geojson"

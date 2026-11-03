@@ -173,7 +173,10 @@ def main() -> int:
 
     processed_dir = repo_root / "data" / "processed"
     roads_df = pd.read_parquet(processed_dir / f"{city_code}_roads.parquet")
-    pts_df = pd.read_parquet(processed_dir / "demand_points.parquet")
+    pts_file = processed_dir / f"{city_code}_demand_points.parquet"
+    if not pts_file.is_file():
+        pts_file = processed_dir / "demand_points.parquet"
+    pts_df = pd.read_parquet(pts_file)
 
     main_hw = set(default_speeds.keys())
     sub_roads = roads_df[roads_df["highway"].isin(main_hw)]
@@ -333,15 +336,12 @@ def main() -> int:
     total_routable_res = int(routable_df["residents"].sum())
     target_routable_jobs = int(round(emp_ratio * total_routable_res))
     if int(routable_df["jobs"].sum()) != target_routable_jobs:
-        rw = routable_df["raw_employment_weight"].to_numpy(dtype=np.float64, copy=True)
-        valid_mask = routable_df["has_plausible_employment_landuse"].to_numpy(dtype=bool) | routable_df[
-            "has_named_boost"
-        ].to_numpy(dtype=bool)
-        rw[~valid_mask] = 0.0
-        routable_df["jobs"] = allocate_integer_jobs(rw, target_routable_jobs)
+        curr_jobs = routable_df["jobs"].to_numpy(dtype=np.float64, copy=True)
+        routable_df["jobs"] = allocate_integer_jobs(curr_jobs, target_routable_jobs)
 
-    routable_parquet = processed_dir / "routable_demand_points.parquet"
+    routable_parquet = processed_dir / f"{city_code}_routable_demand_points.parquet"
     routable_df.to_parquet(routable_parquet, index=False)
+    routable_df.to_parquet(processed_dir / "routable_demand_points.parquet", index=False)
 
     # Also snap test OD pairs to nearest SCC node so their exact shortest paths are included in the batch
     test_od_pairs = routing_cfg.get("test_od_pairs", [])
@@ -455,9 +455,16 @@ def main() -> int:
 
     congested_seconds = freeflow_seconds * np.float32(congestion_factor)
 
-    npz_path = processed_dir / "routing_matrix.npz"
+    npz_path = processed_dir / f"{city_code}_routing_matrix.npz"
     np.savez_compressed(
         npz_path,
+        point_ids=routable_df["id"].to_numpy(dtype=str),
+        freeflow_seconds=freeflow_seconds,
+        congested_seconds=congested_seconds,
+        distance_m=distance_m,
+    )
+    np.savez_compressed(
+        processed_dir / "routing_matrix.npz",
         point_ids=routable_df["id"].to_numpy(dtype=str),
         freeflow_seconds=freeflow_seconds,
         congested_seconds=congested_seconds,

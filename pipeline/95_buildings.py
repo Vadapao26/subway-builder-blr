@@ -20,6 +20,7 @@ Generates:
 
 from __future__ import annotations
 
+import argparse
 import gzip
 import json
 import math
@@ -425,14 +426,79 @@ def encode_buildings_index_sbib(
     return bytes(buf), {**header, "layout": layout, "encode_seconds": encode_sec}
 
 
-def export_building_tags(proc_dir: Path, out_gz: Path) -> Dict[str, Any]:
+def export_coastline_and_water(proc_dir: Path, out_gz: Path, city_code: str) -> int:
+    """Generate authentic coastline and water polygons (ocean, rivers, lakes) matching game schema."""
+    from shapely.geometry import LineString, Polygon, mapping
+
+    features = []
+    # 1. Ocean polygons
+    ocean_path = proc_dir / f"{city_code}_ocean_water.geojson"
+    if ocean_path.is_file():
+        with open(ocean_path, "r", encoding="utf-8") as f:
+            ocean_fc = json.load(f)
+        for feat in ocean_fc.get("features", []):
+            features.append({
+                "type": "Feature",
+                "geometry": feat.get("geometry", {}),
+                "properties": {"name": "Arabian Sea & Thane Creek", "natural": "water", "type": "water", "area": 100000000.0}
+            })
+
+    # 2. Water bodies and rivers from water parquet
+    water_p = proc_dir / f"{city_code}_water.parquet"
+    if water_p.is_file():
+        wt = pq.read_table(water_p).to_pydict()
+        major_rivers = {
+            "ulhas", "mithi", "kalu", "bhatsa", "vaitarna", "dahisar", "poisar",
+            "oshiwara", "kalundre", "patalganga", "taloja", "taloje", "gadi", "kasadi",
+            "waldhuni", "kamvadi", "gadhe", "surya", "pinjal", "pej", "barvi", "shil",
+            "malad", "mahim", "irla", "vashi"
+        }
+        m_per_deg_lat = 111132.0
+        for i in range(len(wt["osm_id"])):
+            coords = json.loads(wt["coords_json"][i])
+            is_poly = wt["is_polygon"][i]
+            wtype = wt["water_type"][i]
+            wname = (wt["name"][i] or "").lower()
+            area = float(wt["area_m2"][i] or 0.0)
+
+            if is_poly and len(coords) >= 3:
+                features.append({
+                    "type": "Feature",
+                    "geometry": {"type": "Polygon", "coordinates": [coords if coords[0] == coords[-1] else coords + [coords[0]]]},
+                    "properties": {"name": wt["name"][i] or "", "natural": "water", "type": "water", "area": max(area, 5000.0)}
+                })
+            elif not is_poly and len(coords) >= 2:
+                is_maj = any(r in wname for r in major_rivers)
+                hw_m = 75.0 if is_maj or wtype in ("river", "creek") else (40.0 if wtype in ("canal", "stream") else 25.0)
+                hw_deg = hw_m / m_per_deg_lat
+                line = LineString(coords)
+                buf = line.buffer(hw_deg, cap_style=2, join_style=2)
+                if not buf.is_empty:
+                    features.append({
+                        "type": "Feature",
+                        "geometry": mapping(buf),
+                        "properties": {"name": wt["name"][i] or "", "natural": "water", "type": "water", "area": 500000.0}
+                    })
+
+    fc = {"type": "FeatureCollection", "features": features}
+    with gzip.open(out_gz, "wt", encoding="utf-8") as f:
+        json.dump(fc, f)
+    uncompressed_path = out_gz.parent / "coastline.geojson"
+    with open(uncompressed_path, "w", encoding="utf-8") as f:
+        json.dump(fc, f)
+    print(f"[95_buildings] Exported {len(features):,} water features to {out_gz.name} and {uncompressed_path.name}")
+    return len(features)
+
+
+def export_building_tags(proc_dir: Path, out_gz: Path, city_code: str = "blr") -> Dict[str, Any]:
     """
-    Export mod/data/BLR/building_tags.json.gz keyed by stringified OSM ID for
+    Export mod/data/<CITY>/building_tags.json.gz keyed by stringified OSM ID for
     buildings with semantic tags (name, amenity, shop, office, or specific building type).
     """
     t0 = time.perf_counter()
+    code = city_code.lower()
     tbl = pq.read_table(
-        proc_dir / "blr_buildings.parquet",
+        proc_dir / f"{code}_buildings.parquet",
         columns=["osm_id", "building", "name", "amenity", "shop", "office"],
     )
     osm_ids = tbl["osm_id"].to_pylist()
@@ -573,10 +639,15 @@ def render_buildings_index_preview(
 
 def main() -> None:
     t_start = time.perf_counter()
-    with open(ROOT / "cities" / "blr.yaml", "r", encoding="utf-8") as f:
+    parser = argparse.ArgumentParser(description="Phase 9: Buildings spatial collision index encoder")
+    parser.add_argument("--city", type=Path, default=Path("cities/blr.yaml"), help="Path to city YAML config")
+    args = parser.parse_args()
+
+    city_path = args.city if args.city.is_absolute() else (ROOT / args.city)
+    with open(city_path, "r", encoding="utf-8") as f:
         cfg = yaml.safe_load(f)
 
-    code = cfg["code"]
+    code = cfg["code"].upper()
     bbox = cfg["bbox"]
     cell_size = float(cfg["params"].get("buildings_grid_cell_deg", 0.0009))
     proc_dir = ROOT / "data" / "processed"
@@ -612,11 +683,10 @@ def main() -> None:
 
     # 4. Export building_tags.json.gz + inland coastline/ocean_depth placeholders
     tags_gz_path = mod_data_dir / "building_tags.json.gz"
-    tags_info = export_building_tags(proc_dir, tags_gz_path)
+    tags_info = export_building_tags(proc_dir, tags_gz_path, city_code=code)
 
     coastline_gz_path = mod_data_dir / "coastline.geojson.gz"
-    with gzip.open(coastline_gz_path, "wt", encoding="utf-8") as f:
-        json.dump({"type": "FeatureCollection", "features": []}, f)
+    export_coastline_and_water(proc_dir, coastline_gz_path, city_code=code)
 
     ocean_gz_path = mod_data_dir / "ocean_depth_index.json.gz"
     with gzip.open(ocean_gz_path, "wt", encoding="utf-8") as f:

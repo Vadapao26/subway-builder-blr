@@ -1,19 +1,19 @@
 {
   "phase": "50_demand_points",
-  "city_code": "BOM",
-  "timestamp_utc": "2026-11-02T15:25:48.715671+00:00",
-  "runtime_seconds": 3.95,
+  "city_code": "BLR",
+  "timestamp_utc": "2026-11-03T08:40:00.866368+00:00",
+  "runtime_seconds": 5.38,
   "totals": {
-    "demand_point_count": 15449,
-    "points_with_residents_gt_0": 15416,
-    "points_with_jobs_gt_0": 12280,
-    "points_with_zero_jobs": 3169,
-    "total_residents": 24637990,
+    "demand_point_count": 18174,
+    "points_with_residents_gt_0": 18174,
+    "points_with_jobs_gt_0": 12685,
+    "points_with_zero_jobs": 5489,
+    "total_residents": 13888500,
     "configured_employment_ratio": 1.0,
-    "target_total_jobs": 24637990,
-    "actual_total_jobs": 24637990,
-    "bbmp_jobs": 0,
-    "non_bbmp_bmrda_and_hosur_jobs": 24637990
+    "target_total_jobs": 13888500,
+    "actual_total_jobs": 13888500,
+    "bbmp_jobs": 9575406,
+    "non_bbmp_bmrda_and_hosur_jobs": 4313094
   },
   "sanity_checks": {
     "unexplained_job_cells_count": 0,
@@ -23,479 +23,283 @@
   },
   "jobs_distribution": {
     "min_jobs": 0,
-    "median_jobs_all_points": 83.0,
-    "median_jobs_active_emp_points": 165.0,
-    "mean_jobs_all_points": 1594.8,
-    "mean_jobs_active_emp_points": 2006.4,
-    "p90_jobs": 4750.800000000003,
-    "max_jobs": 86974
+    "median_jobs_all_points": 57.0,
+    "median_jobs_active_emp_points": 160.0,
+    "mean_jobs_all_points": 764.2,
+    "mean_jobs_active_emp_points": 1094.9,
+    "p90_jobs": 2450.0,
+    "max_jobs": 82413
   },
   "named_cluster_job_totals": [
     {
-      "name": "Titwala Growth Hub & Kalu River Corridor",
+      "name": "Kempegowda International Airport (BLR)",
       "bbox": {
-        "south": 19.28,
-        "north": 19.325,
-        "west": 73.19,
-        "east": 73.235
+        "south": 13.18,
+        "north": 13.22,
+        "west": 77.68,
+        "east": 77.73
       },
-      "reason": "Regional temple, market town, fast-growing residential node, and Central Railway commuter terminus",
-      "residents": 195003,
-      "jobs": 282324,
-      "share_of_city_jobs_pct": 1.15,
-      "jobs_to_residents_ratio_in_cluster": 1.45
+      "reason": "Major aviation, cargo, and aerospace hub at northern boundary",
+      "residents": 96434,
+      "jobs": 454267,
+      "share_of_city_jobs_pct": 3.27,
+      "jobs_to_residents_ratio_in_cluster": 4.71
     },
     {
-      "name": "Bandra Kurla Complex (BKC)",
+      "name": "Electronic City",
       "bbox": {
-        "south": 19.055,
-        "north": 19.075,
-        "west": 72.855,
-        "east": 72.88
+        "south": 12.825,
+        "north": 12.865,
+        "west": 77.645,
+        "east": 77.69
       },
-      "reason": "Premier central financial district, NSE, major corporate headquarters, and diamond bourses",
-      "residents": 402329,
-      "jobs": 828755,
-      "share_of_city_jobs_pct": 3.36,
-      "jobs_to_residents_ratio_in_cluster": 2.06
+      "reason": "Major IT/campus employment corridor in south-east Bengaluru",
+      "residents": 46087,
+      "jobs": 434225,
+      "share_of_city_jobs_pct": 3.13,
+      "jobs_to_residents_ratio_in_cluster": 9.42
     },
     {
-      "name": "Nariman Point, Fort & Colaba",
+      "name": "Whitefield / ITPL",
       "bbox": {
-        "south": 18.915,
-        "north": 18.945,
-        "west": 72.815,
-        "east": 72.845
+        "south": 12.955,
+        "north": 13.005,
+        "west": 77.7,
+        "east": 77.765
       },
-      "reason": "Historic financial hub, RBI, BSE, Mantralaya, high court, and colonial commercial spine",
-      "residents": 338124,
-      "jobs": 1076314,
-      "share_of_city_jobs_pct": 4.37,
-      "jobs_to_residents_ratio_in_cluster": 3.18
+      "reason": "Primary eastern IT corridor and tech parks (ITPL, EPIP Zone)",
+      "residents": 22652,
+      "jobs": 1139388,
+      "share_of_city_jobs_pct": 8.2,
+      "jobs_to_residents_ratio_in_cluster": 50.3
     },
     {
-      "name": "Lower Parel & Worli Mill District",
+      "name": "Outer Ring Road (Bellandur - Marathahalli - Manyata)",
       "bbox": {
-        "south": 18.985,
-        "north": 19.02,
-        "west": 72.815,
-        "east": 72.84
+        "south": 12.915,
+        "north": 13.05,
+        "west": 77.61,
+        "east": 77.71
       },
-      "reason": "Modern corporate skyscraper corridor, media houses, banking hubs, and High Street Phoenix",
-      "residents": 516148,
-      "jobs": 940510,
-      "share_of_city_jobs_pct": 3.82,
-      "jobs_to_residents_ratio_in_cluster": 1.82
+      "reason": "High-density tech parks along ORR corridor",
+      "residents": 1694475,
+      "jobs": 3671938,
+      "share_of_city_jobs_pct": 26.44,
+      "jobs_to_residents_ratio_in_cluster": 2.17
     },
     {
-      "name": "SEEPZ & Andheri East MIDC",
+      "name": "Central Business District (MG Road / Majestic / Vidhana Soudha)",
       "bbox": {
-        "south": 19.11,
-        "north": 19.135,
-        "west": 72.86,
-        "east": 72.89
+        "south": 12.955,
+        "north": 12.995,
+        "west": 77.565,
+        "east": 77.625
       },
-      "reason": "Major IT export processing zone, electronics, gems, and commercial offices",
-      "residents": 395408,
-      "jobs": 674882,
-      "share_of_city_jobs_pct": 2.74,
-      "jobs_to_residents_ratio_in_cluster": 1.71
+      "reason": "Historic commercial, civic, and retail core",
+      "residents": 1510644,
+      "jobs": 1290369,
+      "share_of_city_jobs_pct": 9.29,
+      "jobs_to_residents_ratio_in_cluster": 0.85
     },
     {
-      "name": "Chhatrapati Shivaji Maharaj International Airport (CSMIA)",
+      "name": "Peenya Industrial Area",
       "bbox": {
-        "south": 19.08,
-        "north": 19.105,
-        "west": 72.86,
-        "east": 72.885
+        "south": 13.01,
+        "north": 13.05,
+        "west": 77.495,
+        "east": 77.545
       },
-      "reason": "Primary aviation, maintenance, hotel, and cargo logistics hub of Mumbai",
-      "residents": 458251,
-      "jobs": 726107,
-      "share_of_city_jobs_pct": 2.95,
-      "jobs_to_residents_ratio_in_cluster": 1.58
+      "reason": "Largest industrial estate in north-west Bengaluru",
+      "residents": 1048889,
+      "jobs": 644355,
+      "share_of_city_jobs_pct": 4.64,
+      "jobs_to_residents_ratio_in_cluster": 0.61
     },
     {
-      "name": "Mindspace Malad & Goregaon West",
+      "name": "Hosur SIPCOT Industrial Phases I & II",
       "bbox": {
-        "south": 19.165,
-        "north": 19.195,
-        "west": 72.825,
-        "east": 72.85
+        "south": 12.71,
+        "north": 12.785,
+        "west": 77.78,
+        "east": 77.88
       },
-      "reason": "Major western suburbs IT/BPO tech parks and corporate back-offices",
-      "residents": 441689,
-      "jobs": 491505,
-      "share_of_city_jobs_pct": 1.99,
-      "jobs_to_residents_ratio_in_cluster": 1.11
-    },
-    {
-      "name": "Goregaon East IT & Corporate Corridor (NESCO, Nirlon, Oberoi Commerz)",
-      "bbox": {
-        "south": 19.145,
-        "north": 19.175,
-        "west": 72.85,
-        "east": 72.872
-      },
-      "reason": "High-density corporate parks, NESCO exhibition center, Oberoi Commerz, and Nirlon Knowledge Park along WEH",
-      "residents": 292044,
-      "jobs": 567934,
-      "share_of_city_jobs_pct": 2.31,
-      "jobs_to_residents_ratio_in_cluster": 1.94
-    },
-    {
-      "name": "Dadasaheb Phalke Chitranagari (Film City & Aarey Media Studios)",
-      "bbox": {
-        "south": 19.155,
-        "north": 19.185,
-        "west": 72.875,
-        "east": 72.905
-      },
-      "reason": "India's premier television and motion picture production studios, sound stages, and media workforce",
-      "residents": 152714,
-      "jobs": 231189,
-      "share_of_city_jobs_pct": 0.94,
-      "jobs_to_residents_ratio_in_cluster": 1.51
-    },
-    {
-      "name": "Goregaon Station & Commercial Spine",
-      "bbox": {
-        "south": 19.155,
-        "north": 19.175,
-        "west": 72.835,
-        "east": 72.855
-      },
-      "reason": "High-density retail markets, SV Road commercial spine, and station transit plazas",
-      "residents": 311997,
-      "jobs": 468313,
-      "share_of_city_jobs_pct": 1.9,
-      "jobs_to_residents_ratio_in_cluster": 1.5
-    },
-    {
-      "name": "Powai & Kanjurmarg IT Corridor (Hiranandani, Godrej One, IIT Bombay)",
-      "bbox": {
-        "south": 19.11,
-        "north": 19.14,
-        "west": 72.9,
-        "east": 72.935
-      },
-      "reason": "Hiranandani Business Park, Kensington tech center, Godrej One headquarters, and IIT Bombay campus",
-      "residents": 549338,
-      "jobs": 678021,
-      "share_of_city_jobs_pct": 2.75,
-      "jobs_to_residents_ratio_in_cluster": 1.23
-    },
-    {
-      "name": "Thane Wagle Estate & Ghodbunder Corridor",
-      "bbox": {
-        "south": 19.18,
-        "north": 19.22,
-        "west": 72.94,
-        "east": 72.975
-      },
-      "reason": "Massive industrial estate, manufacturing, IT parks, and corporate offices in Thane",
-      "residents": 888799,
-      "jobs": 841442,
-      "share_of_city_jobs_pct": 3.42,
-      "jobs_to_residents_ratio_in_cluster": 0.95
-    },
-    {
-      "name": "Airoli Mindspace & TTC Industrial Area (Thane-Belapur)",
-      "bbox": {
-        "south": 19.14,
-        "north": 19.18,
-        "west": 72.99,
-        "east": 73.02
-      },
-      "reason": "Giant IT corridor, data centers (Airoli Knowledge Park), and TTC chemical/engineering belt",
-      "residents": 212736,
-      "jobs": 620932,
-      "share_of_city_jobs_pct": 2.52,
-      "jobs_to_residents_ratio_in_cluster": 2.92
-    },
-    {
-      "name": "Navi Mumbai Belapur CBD & Vashi Commercial",
-      "bbox": {
-        "south": 19.01,
-        "north": 19.08,
-        "west": 72.99,
-        "east": 73.05
-      },
-      "reason": "Administrative and financial headquarters of Navi Mumbai, CIDCO, RBI branch, and APMC market",
-      "residents": 239472,
-      "jobs": 918367,
-      "share_of_city_jobs_pct": 3.73,
-      "jobs_to_residents_ratio_in_cluster": 3.83
-    },
-    {
-      "name": "Navi Mumbai International Airport (NMIAL) & Ulwe Aerocity",
-      "bbox": {
-        "south": 18.975,
-        "north": 19.005,
-        "west": 73.045,
-        "east": 73.09
-      },
-      "reason": "New greenfield international airport cluster and aero-city logistics zone",
-      "residents": 21537,
-      "jobs": 721246,
-      "share_of_city_jobs_pct": 2.93,
-      "jobs_to_residents_ratio_in_cluster": 33.49
-    },
-    {
-      "name": "Jawaharlal Nehru Port Trust (JNPT) & Uran",
-      "bbox": {
-        "south": 18.93,
-        "north": 18.965,
-        "west": 72.93,
-        "east": 72.97
-      },
-      "reason": "India's largest container shipping gateway, freight logistics, and maritime CFS yards",
-      "residents": 20767,
-      "jobs": 508917,
-      "share_of_city_jobs_pct": 2.07,
-      "jobs_to_residents_ratio_in_cluster": 24.51
-    },
-    {
-      "name": "Kalyan Station & Administrative Core",
-      "bbox": {
-        "south": 19.225,
-        "north": 19.255,
-        "west": 73.11,
-        "east": 73.15
-      },
-      "reason": "Major regional rail terminus, central markets, municipal headquarters, and commercial centers",
-      "residents": 234171,
-      "jobs": 388145,
-      "share_of_city_jobs_pct": 1.58,
-      "jobs_to_residents_ratio_in_cluster": 1.66
-    },
-    {
-      "name": "Dombivli MIDC Industrial Area (Phase 1 & Phase 2)",
-      "bbox": {
-        "south": 19.195,
-        "north": 19.225,
-        "west": 73.085,
-        "east": 73.115
-      },
-      "reason": "Major engineering, chemical, and pharmaceutical industrial employment zone along Kalyan-Shilphata road",
-      "residents": 148477,
-      "jobs": 440803,
-      "share_of_city_jobs_pct": 1.79,
-      "jobs_to_residents_ratio_in_cluster": 2.97
-    },
-    {
-      "name": "Dombivli Station Market Core & Manpada Road",
-      "bbox": {
-        "south": 19.21,
-        "north": 19.23,
-        "west": 73.075,
-        "east": 73.095
-      },
-      "reason": "Dense commuter station retail, commercial establishments, coaching institutes, and local commerce",
-      "residents": 88225,
-      "jobs": 256358,
-      "share_of_city_jobs_pct": 1.04,
-      "jobs_to_residents_ratio_in_cluster": 2.91
-    },
-    {
-      "name": "Titwala Growth Hub & Kalu River Corridor",
-      "bbox": {
-        "south": 19.28,
-        "north": 19.325,
-        "west": 73.19,
-        "east": 73.235
-      },
-      "reason": "Regional temple, market town, fast-growing residential node, and Central Railway commuter terminus",
-      "residents": 195003,
-      "jobs": 282324,
-      "share_of_city_jobs_pct": 1.15,
-      "jobs_to_residents_ratio_in_cluster": 1.45
-    },
-    {
-      "name": "Ambernath & Badlapur MIDC Corridors",
-      "bbox": {
-        "south": 19.15,
-        "north": 19.215,
-        "west": 73.175,
-        "east": 73.265
-      },
-      "reason": "Heavy engineering, ordnance factories, chemical MIDC, and expanding commuter settlements",
-      "residents": 754133,
-      "jobs": 668265,
-      "share_of_city_jobs_pct": 2.71,
-      "jobs_to_residents_ratio_in_cluster": 0.89
+      "reason": "Major manufacturing and automotive cluster in Hosur (Tamil Nadu)",
+      "residents": 158093,
+      "jobs": 424777,
+      "share_of_city_jobs_pct": 3.06,
+      "jobs_to_residents_ratio_in_cluster": 2.69
     }
   ],
   "top_15_job_cells": [
     {
-      "id": "pt_053_028",
-      "cell_id": "R053_C028",
-      "lat": 19.097079,
-      "lon": 72.87364,
-      "residents": 9938,
-      "jobs": 86974,
-      "ward_name": "",
-      "named_boost_clusters": "Chhatrapati Shivaji Maharaj International Airport (CSMIA)",
-      "sample_osm_names": "Chhatrapati Shivaji Maharaj International Airport; Terminal 2"
+      "id": "pt_079_082",
+      "cell_id": "R079_C082",
+      "lat": 12.986319,
+      "lon": 77.70376,
+      "residents": 100,
+      "jobs": 82413,
+      "ward_name": "Ward 108: Dodda Nekkundi",
+      "named_boost_clusters": "Whitefield / ITPL; Outer Ring Road (Bellandur - Marathahalli - Manyata)",
+      "sample_osm_names": "Bagmane Angkor East; Bagmane Angkor West; Bagmane Apollo; Bagmane Capital; Bagmane Kyoto East Tower"
     },
     {
-      "id": "pt_044_026",
-      "cell_id": "R044_C026",
-      "lat": 19.06031,
-      "lon": 72.863753,
-      "residents": 9404,
-      "jobs": 84836,
-      "ward_name": "",
-      "named_boost_clusters": "Bandra Kurla Complex (BKC)",
-      "sample_osm_names": "Baroda Sun Tower; Canara Bank; Godrej BKC; Indian Oil; K Raheja Corp Homes"
+      "id": "pt_078_079",
+      "cell_id": "R078_C079",
+      "lat": 12.982936,
+      "lon": 77.692909,
+      "residents": 101,
+      "jobs": 65505,
+      "ward_name": "Ward 90: Mahadevapura",
+      "named_boost_clusters": "Outer Ring Road (Bellandur - Marathahalli - Manyata)",
+      "sample_osm_names": "Bagmane Aquamarine Block A; Bagmane Aquamarine Block B; Bagmane Citrine; Bagmane Goldstone; Bagmane Rio Business Park"
     },
     {
-      "id": "pt_011_017",
-      "cell_id": "R011_C017",
-      "lat": 18.926596,
-      "lon": 72.82512,
-      "residents": 9291,
-      "jobs": 83258,
-      "ward_name": "",
-      "named_boost_clusters": "Nariman Point, Fort & Colaba",
-      "sample_osm_names": "Bank House; Dalamal Tower; Dalamal Towers; ICICI Centre; Maharashtra Vidhan Bhavan"
+      "id": "pt_064_079",
+      "cell_id": "R064_C079",
+      "lat": 12.931977,
+      "lon": 77.693318,
+      "residents": 79,
+      "jobs": 56954,
+      "ward_name": "Ward 114: Marathahalli",
+      "named_boost_clusters": "Outer Ring Road (Bellandur - Marathahalli - Manyata)",
+      "sample_osm_names": "Block 2B; Block 2C; Block 2D; Block 3A; Cessna Business Park"
     },
     {
-      "id": "pt_031_019",
-      "cell_id": "R031_C019",
-      "lat": 19.007259,
-      "lon": 72.833039,
-      "residents": 7233,
-      "jobs": 73796,
-      "ward_name": "",
-      "named_boost_clusters": "Lower Parel & Worli Mill District",
-      "sample_osm_names": "Central Railway Loco Workshop - Parel; Elphinstone Road Municipal School; Holy Cross High School; Indiabulls Finance Centre; Indiabulls Tower"
+      "id": "pt_061_077",
+      "cell_id": "R061_C077",
+      "lat": 12.920858,
+      "lon": 77.685982,
+      "residents": 67,
+      "jobs": 56545,
+      "ward_name": "Ward 113: Munnekollala",
+      "named_boost_clusters": "Outer Ring Road (Bellandur - Marathahalli - Manyata)",
+      "sample_osm_names": "Campus 30; Campus 31; Campus 32; Campus 33; Campus 5A"
     },
     {
-      "id": "pt_034_062",
-      "cell_id": "R034_C062",
-      "lat": 19.020757,
-      "lon": 73.018038,
-      "residents": 1162,
-      "jobs": 71764,
-      "ward_name": "",
-      "named_boost_clusters": "Navi Mumbai Belapur CBD & Vashi Commercial",
-      "sample_osm_names": "Neelakanth Plaza; Sadguru Plaza; Seawoods Grand Central Mall; Seawoods Grand Central Tower 2; Seawoods Mall Complex"
+      "id": "pt_090_039",
+      "cell_id": "R090_C039",
+      "lat": 13.025741,
+      "lon": 77.545999,
+      "residents": 6424,
+      "jobs": 48371,
+      "ward_name": "Ward 36: Chatrapati Shivaji",
+      "named_boost_clusters": "Peenya Industrial Area",
+      "sample_osm_names": "Amenity Block; Brigade Deccan Heights; DNR Altitude; Hotel Leroy Grand; Sattva Knowledge Point"
     },
     {
-      "id": "pt_057_037",
-      "cell_id": "R057_C037",
-      "lat": 19.111827,
-      "lon": 72.910225,
-      "residents": 7833,
-      "jobs": 70528,
-      "ward_name": "",
-      "named_boost_clusters": "Powai & Kanjurmarg IT Corridor (Hiranandani, Godrej One, IIT Bombay)",
-      "sample_osm_names": "Kensington-A; Kensington-B"
+      "id": "pt_063_078",
+      "cell_id": "R063_C078",
+      "lat": 12.928624,
+      "lon": 77.689284,
+      "residents": 96,
+      "jobs": 46310,
+      "ward_name": "Ward 114: Marathahalli",
+      "named_boost_clusters": "Outer Ring Road (Bellandur - Marathahalli - Manyata)",
+      "sample_osm_names": "Block 7; Block 8A; Block 8B; Block 8C; Block 8D"
     },
     {
-      "id": "pt_067_024",
-      "cell_id": "R067_C024",
-      "lat": 19.153285,
-      "lon": 72.854704,
-      "residents": 8832,
-      "jobs": 70175,
-      "ward_name": "",
-      "named_boost_clusters": "Goregaon East IT & Corporate Corridor (NESCO, Nirlon, Oberoi Commerz); Goregaon Station & Commercial Spine",
-      "sample_osm_names": "Bombay Exhibition Center; CliQmates Pvt Ltd; Hub Mall; Nesco IT Park; Nirlon Knowledge Park"
+      "id": "pt_064_078",
+      "cell_id": "R064_C078",
+      "lat": 12.932049,
+      "lon": 77.689389,
+      "residents": 95,
+      "jobs": 46303,
+      "ward_name": "Ward 114: Marathahalli",
+      "named_boost_clusters": "Outer Ring Road (Bellandur - Marathahalli - Manyata)",
+      "sample_osm_names": "Block 1; Block 2A; Block 9A; Block 9B; Block 9C"
     },
     {
-      "id": "pt_045_027",
-      "cell_id": "R045_C027",
-      "lat": 19.064088,
-      "lon": 72.867632,
-      "residents": 7212,
-      "jobs": 67610,
-      "ward_name": "",
-      "named_boost_clusters": "Bandra Kurla Complex (BKC)",
-      "sample_osm_names": "Bharat Diamond Bourse; Consulate General of the United States of America in Mumbai; Jio World Centre; Jio World Convention Centre; Jio World Offices"
+      "id": "pt_078_091",
+      "cell_id": "R078_C091",
+      "lat": 12.982604,
+      "lon": 77.737825,
+      "residents": 57,
+      "jobs": 45669,
+      "ward_name": "Ward 105: Belathur",
+      "named_boost_clusters": "Whitefield / ITPL",
+      "sample_osm_names": "Anchor Annex; Aviator; ITPB; Pioneer; Tata Consultancy Services"
     },
     {
-      "id": "pt_058_026",
-      "cell_id": "R058_C026",
-      "lat": 19.116693,
-      "lon": 72.863286,
-      "residents": 5680,
-      "jobs": 64901,
-      "ward_name": "",
-      "named_boost_clusters": "SEEPZ & Andheri East MIDC",
-      "sample_osm_names": "Ahura Center; Greysell; Holy Family High School; Kanakia Wall Street; MIDC Industrial Estate"
+      "id": "pt_063_079",
+      "cell_id": "R063_C079",
+      "lat": 12.927818,
+      "lon": 77.693158,
+      "residents": 59,
+      "jobs": 45064,
+      "ward_name": "Ward 114: Marathahalli",
+      "named_boost_clusters": "Outer Ring Road (Bellandur - Marathahalli - Manyata)",
+      "sample_osm_names": "Block 3B; Block 5A; Block 5B; Block 5C; Block 5D"
     },
     {
-      "id": "pt_066_024",
-      "cell_id": "R066_C024",
-      "lat": 19.148964,
-      "lon": 72.854144,
-      "residents": 8956,
-      "jobs": 63319,
-      "ward_name": "",
-      "named_boost_clusters": "Goregaon East IT & Corporate Corridor (NESCO, Nirlon, Oberoi Commerz)",
-      "sample_osm_names": "Bombay Exhibition Center; Hall 5; Hall 6; Hall 7; Hall 8"
+      "id": "pt_061_076",
+      "cell_id": "R061_C076",
+      "lat": 12.921652,
+      "lon": 77.681949,
+      "residents": 70,
+      "jobs": 44926,
+      "ward_name": "Ward 116: Doddakanahalli",
+      "named_boost_clusters": "Outer Ring Road (Bellandur - Marathahalli - Manyata)",
+      "sample_osm_names": "Bay; Building 14; Building 6; Campus 5B; Campus 7"
     },
     {
-      "id": "pt_028_017",
-      "cell_id": "R028_C017",
-      "lat": 18.995092,
-      "lon": 72.824304,
-      "residents": 7183,
-      "jobs": 61882,
-      "ward_name": "",
-      "named_boost_clusters": "Lower Parel & Worli Mill District",
-      "sample_osm_names": "East Zone; Grand Zone; H&M; High Street Phoenix; Mahalakshmi Industrial Estate"
+      "id": "pt_067_079",
+      "cell_id": "R067_C079",
+      "lat": 12.943097,
+      "lon": 77.693437,
+      "residents": 100,
+      "jobs": 43458,
+      "ward_name": "Ward 115: Bellanduru",
+      "named_boost_clusters": "Outer Ring Road (Bellandur - Marathahalli - Manyata)",
+      "sample_osm_names": "Block 1; Block 3; Block C; Electra; Gravity"
     },
     {
-      "id": "pt_032_017",
-      "cell_id": "R032_C017",
-      "lat": 19.011569,
-      "lon": 72.825031,
-      "residents": 10569,
-      "jobs": 61420,
-      "ward_name": "",
-      "named_boost_clusters": "Lower Parel & Worli Mill District",
-      "sample_osm_names": "Babasaheb Worlikar Fire Station; Century Bhavan; Century Mills; HSBC Cnergy Building"
+      "id": "pt_076_084",
+      "cell_id": "R076_C084",
+      "lat": 12.975022,
+      "lon": 77.711816,
+      "residents": 135,
+      "jobs": 41965,
+      "ward_name": "Ward 110: Whitefield",
+      "named_boost_clusters": "Whitefield / ITPL; Outer Ring Road (Bellandur - Marathahalli - Manyata)",
+      "sample_osm_names": "Building 1; Prestige Technostar; RMZ Centennial; SNN Raj Pinnacle; Salarpuria Sattva Knowledge Court"
     },
     {
-      "id": "pt_100_107",
-      "cell_id": "R100_C107",
-      "lat": 19.287264,
-      "lon": 73.209225,
-      "residents": 2020,
-      "jobs": 60372,
-      "ward_name": "",
-      "named_boost_clusters": "Titwala Growth Hub & Kalu River Corridor; Titwala Growth Hub & Kalu River Corridor",
-      "sample_osm_names": ""
+      "id": "pt_106_065",
+      "cell_id": "R106_C065",
+      "lat": 13.083559,
+      "lon": 77.641466,
+      "residents": 696,
+      "jobs": 41458,
+      "ward_name": "Ward 6: Kogilu",
+      "named_boost_clusters": "",
+      "sample_osm_names": "Bhartiya Centre of Information Technology; Bhartiya City Block-1; Bhartiya City Block-2; Bhartiya City Block-3 (Wing A); Bhartiya City Block-3 (Wing B)"
     },
     {
-      "id": "pt_045_058",
-      "cell_id": "R045_C058",
-      "lat": 19.06413,
-      "lon": 72.999709,
-      "residents": 1612,
-      "jobs": 57610,
-      "ward_name": "",
-      "named_boost_clusters": "Navi Mumbai Belapur CBD & Vashi Commercial",
-      "sample_osm_names": "Elkem South Asia Pvt ltd; Inorbit Mall; Vashi; Vashi Railway Station; ZOOT DIGITAL PRIVATE LTD."
+      "id": "pt_078_080",
+      "cell_id": "R078_C080",
+      "lat": 12.981587,
+      "lon": 77.697294,
+      "residents": 101,
+      "jobs": 39244,
+      "ward_name": "Ward 107: Garudachar Playa",
+      "named_boost_clusters": "Outer Ring Road (Bellandur - Marathahalli - Manyata)",
+      "sample_osm_names": "Bagmane Aquila; Bagmane Carina West Tower; Bagmane Constellation Business Park; Bagmane Taurus 3; Bagmane Virgo"
     },
     {
-      "id": "pt_046_025",
-      "cell_id": "R046_C025",
-      "lat": 19.068314,
-      "lon": 72.859104,
-      "residents": 11143,
-      "jobs": 57550,
-      "ward_name": "",
-      "named_boost_clusters": "Bandra Kurla Complex (BKC)",
-      "sample_osm_names": "Alkesh Dinesh Modi Institute; Chhatrapati Shivaji Maharaj Bhavan; IT Park Mumbai University; Maulana Azad Bhavan; Pariksha Bhavan"
+      "id": "pt_082_061",
+      "cell_id": "R082_C061",
+      "lat": 12.997061,
+      "lon": 77.626972,
+      "residents": 6159,
+      "jobs": 39125,
+      "ward_name": "Ward 103: Maruthi Seva Nagar",
+      "named_boost_clusters": "Outer Ring Road (Bellandur - Marathahalli - Manyata)",
+      "sample_osm_names": "ITC; ITC Green Centre; North Tower; South Tower"
     }
   ],
   "outputs": {
     "demand_points_parquet": "data\\processed\\demand_points.parquet",
-    "city_demand_points_parquet": "data\\processed\\bom_demand_points.parquet",
+    "city_demand_points_parquet": "data\\processed\\blr_demand_points.parquet",
     "demand_points_csv": "data\\processed\\demand_points.csv",
     "residents_map_png": "reports\\40_residents_map.png",
     "jobs_map_png": "reports\\40_jobs_map.png",

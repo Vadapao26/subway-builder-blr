@@ -267,6 +267,38 @@ def main() -> int:
             }
         )
 
+    # Inject Mumbai Suburban Railway & Metro corridors from railways parquet so tracks render on map
+    rail_parquet = processed_dir / f"{city_code_lower}_railways.parquet"
+    if rail_parquet.is_file():
+        rail_df = pd.read_parquet(rail_parquet)
+        injected_rails = 0
+        for rtype, rname, coords_s in zip(rail_df["railway"], rail_df["name"], rail_df["coords_json"]):
+            if rtype not in ("rail", "subway", "monorail", "light_rail", "construction"):
+                continue
+            coords = json.loads(coords_s)
+            if len(coords) < 2:
+                continue
+            rc_str = "major" if rtype in ("rail", "subway") else "medium"
+            nm_str = str(rname) if pd.notna(rname) and rname else ("Railway Corridor" if rtype == "rail" else "Metro Corridor")
+            class_counts[rc_str] += 1
+            struct_counts["normal"] += 1
+            road_features.append(
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "LineString",
+                        "coordinates": coords,
+                    },
+                    "properties": {
+                        "roadClass": rc_str,
+                        "structure": "normal",
+                        "name": nm_str,
+                    },
+                }
+            )
+            injected_rails += 1
+        print(f"[Phase 7] Injected {injected_rails:,} railway tracks (Central/Western Railway & Metros) into roads.geojson", flush=True)
+
     roads_fc = {"type": "FeatureCollection", "features": road_features}
     roads_val = validate_roads_geojson(roads_fc)
 

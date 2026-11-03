@@ -312,6 +312,7 @@ def main() -> int:
         cfg = yaml.safe_load(f)
 
     city_code_upper = cfg["code"].upper()
+    city_code = cfg["code"].lower()
     city_name = cfg["name"]
     params = cfg["params"]
     top_k = int(params.get("top_k_destinations", 25))
@@ -321,8 +322,15 @@ def main() -> int:
     dc_blend = float(params.get("doubly_constrained_blend", 0.72))
 
     processed_dir = repo_root / "data" / "processed"
-    df = pd.read_parquet(processed_dir / "routable_demand_points.parquet")
-    npz = np.load(processed_dir / "routing_matrix.npz", allow_pickle=True)
+    df_path = processed_dir / f"{city_code}_routable_demand_points.parquet"
+    if not df_path.is_file():
+        df_path = processed_dir / "routable_demand_points.parquet"
+    df = pd.read_parquet(df_path)
+
+    npz_path = processed_dir / f"{city_code}_routing_matrix.npz"
+    if not npz_path.is_file():
+        npz_path = processed_dir / "routing_matrix.npz"
+    npz = np.load(npz_path, allow_pickle=True)
 
     cong_sec = npz["congested_seconds"].astype(np.float64)
     dist_m = npz["distance_m"].astype(np.float64)
@@ -368,6 +376,13 @@ def main() -> int:
                     row_deg[i] += 1
                     cap_sum += O[i] / 10.0
                     added += 1
+
+        # Guarantee every active destination has incoming potential from its closest origins
+        for j in range(N_dest):
+            if mask[:, j].sum() == 0:
+                closest_i = np.argsort(t_min[:, j])[:2]
+                for ci in closest_i:
+                    mask[ci, j] = True
 
         for i in range(N_orig):
             rem = top_k - int(mask[i].sum())
@@ -430,6 +445,16 @@ def main() -> int:
                 idx = np.argsort(-(exact - fl), kind="mergesort")[:rem]
                 fl[idx] += 1
             T_int[i] = fl
+
+    # Guarantee all active workplace destinations retain incoming commuters (75-80% active nodes)
+    zero_dest_cols = np.where((T_int.sum(axis=0) == 0) & (D_pos > 0))[0]
+    for c_pos in zero_dest_cols:
+        best_i = int(np.argmin(t_min[:, c_pos]))
+        # Find donor column in best_i with highest count > 5
+        donor_j = int(np.argmax(T_int[best_i]))
+        if T_int[best_i, donor_j] > 5:
+            T_int[best_i, donor_j] -= 1
+            T_int[best_i, c_pos] += 1
 
     # Build pops list and update destination job totals to equal exact sum of incoming pops
     pt_ids = df["id"].tolist()

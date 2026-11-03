@@ -1,0 +1,87 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="480" viewBox="0 0 800 480">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#090d16"/>
+      <stop offset="100%" stop-color="#111827"/>
+    </linearGradient>
+    <linearGradient id="lineGradRed" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#ef4444"/>
+      <stop offset="100%" stop-color="#b91c1c"/>
+    </linearGradient>
+    <linearGradient id="lineGradCyan" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#06b6d4"/>
+      <stop offset="100%" stop-color="#0284c7"/>
+    </linearGradient>
+    <linearGradient id="lineGradOrange" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#f97316"/>
+      <stop offset="100%" stop-color="#ea580c"/>
+    </linearGradient>
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="6" result="blur"/>
+      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+    </filter>
+  </defs>
+
+  <!-- Background Canvas -->
+  <rect width="800" height="480" fill="url(#bgGrad)"/>
+
+  <!-- Dynamic Transit Waveforms -->
+  <path d="M 0,260 Q 200,210 400,280 T 800,240" fill="none" stroke="#ef4444" stroke-width="4" opacity="0.35"/>
+  <path d="M 0,280 Q 200,340 400,260 T 800,300" fill="none" stroke="#f97316" stroke-width="4" opacity="0.4"/>
+  <path d="M 0,310 Q 250,230 450,330 T 800,280" fill="none" stroke="#06b6d4" stroke-width="3" opacity="0.5"/>
+  <path d="M 0,340 Q 300,390 500,290 T 800,350" fill="none" stroke="#10b981" stroke-width="2.5" opacity="0.35"/>
+
+  <!-- Central Logo Emblem Badge -->
+  <g transform="translate(400, 175)">
+    <circle r="72" fill="#0f172a" stroke="#38bdf8" stroke-width="2.5" filter="url(#glow)"/>
+    <circle r="65" fill="#1e293b" stroke="#334155" stroke-width="1.5"/>
+
+    <!-- Stylized Modern Maha Mumbai Metro 'M' Motif -->
+    <!-- Left red upright -->
+    <path d="M -36,-38 L -24,-38 L -24,38 L -36,38 Z" fill="url(#lineGradRed)" rx="3"/>
+    <!-- Right orange upright -->
+    <path d="M 24,-38 L 36,-38 L 36,38 L 24,38 Z" fill="url(#lineGradOrange)" rx="3"/>
+    <!-- Diagonal chevron center -->
+    <path d="M -24,-38 L 0,8 L -10,8 L -24,-20 Z" fill="#06b6d4"/>
+    <path d="M 24,-38 L 0,8 L 10,8 L 24,-20 Z" fill="#10b981"/>
+    <!-- Center interchange node dot -->
+    <circle cx="0" cy="8" r="7" fill="#ffffff" stroke="#0284c7" stroke-width="2"/>
+  </g>
+
+  <!-- Typography -->
+  <!-- Devanagari Script -->
+  <text x="400" y="285" fill="#94a3b8" font-family="'Noto Sans', 'Segoe UI', sans-serif" font-size="14" font-weight="600" text-anchor="middle" letter-spacing="4">
+    महा मुंबई मेट्रो • उपनगरीय रेल्वे
+  </text>
+  <!-- English Header -->
+  <text x="400" y="325" fill="#f8fafc" font-family="'Segoe UI', Roboto, sans-serif" font-size="28" font-weight="900" text-anchor="middle" letter-spacing="2">
+    MUMBAI METROPOLITAN REGION
+  </text>
+  <!-- Subtitle -->
+  <text x="400" y="354" fill="#38bdf8" font-family="'Segoe UI', Roboto, sans-serif" font-size="14" font-weight="600" text-anchor="middle" letter-spacing="1">
+    Official BOM Mod for Subway Builder v1.7.2
+  </text>
+
+  <!-- Spec Badges Bar -->
+  <g transform="translate(400, 410)">
+    <!-- Badge 1: Population -->
+    <rect x="-310" y="-18" width="145" height="32" rx="8" fill="#1e293b" stroke="#334155" stroke-width="1"/>
+    <circle cx="-294" cy="-2" r="4" fill="#10b981"/>
+    <text x="-215" y="3" fill="#e2e8f0" font-family="sans-serif" font-size="11" font-weight="bold" text-anchor="middle">24.5M+ Residents</text>
+
+    <!-- Badge 2: Buildings -->
+    <rect x="-150" y="-18" width="145" height="32" rx="8" fill="#1e293b" stroke="#334155" stroke-width="1"/>
+    <circle cx="-134" cy="-2" r="4" fill="#38bdf8"/>
+    <text x="-55" y="3" fill="#e2e8f0" font-family="sans-serif" font-size="11" font-weight="bold" text-anchor="middle">254k Buildings</text>
+
+    <!-- Badge 3: Extended Scope (Titwala & NMIAL) -->
+    <rect x="10" y="-18" width="160" height="32" rx="8" fill="#1e293b" stroke="#f59e0b" stroke-width="1.2"/>
+    <circle cx="26" cy="-2" r="4" fill="#f59e0b"/>
+    <text x="96" y="3" fill="#fef3c7" font-family="sans-serif" font-size="11" font-weight="bold" text-anchor="middle">Titwala &amp; NMIAL</text>
+
+    <!-- Badge 4: Crisp Starfields -->
+    <rect x="185" y="-18" width="130" height="32" rx="8" fill="#1e293b" stroke="#334155" stroke-width="1"/>
+    <circle cx="201" cy="-2" r="4" fill="#ec4899"/>
+    <text x="255" y="3" fill="#e2e8f0" font-family="sans-serif" font-size="11" font-weight="bold" text-anchor="middle">Anti-Blobbing</text>
+  </g>
+</svg>

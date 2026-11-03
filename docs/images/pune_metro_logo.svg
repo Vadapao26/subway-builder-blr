@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="800" height="500">
+  <defs>
+    <linearGradient id="pune-orange" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FF7A00" />
+      <stop offset="100%" stop-color="#E34E00" />
+    </linearGradient>
+    <linearGradient id="pune-blue" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0066B3" />
+      <stop offset="100%" stop-color="#00438A" />
+    </linearGradient>
+    <linearGradient id="pune-green" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00A651" />
+      <stop offset="100%" stop-color="#007A38" />
+    </linearGradient>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-opacity="0.15" />
+    </filter>
+  </defs>
+
+  <!-- Clean card background -->
+  <rect width="800" height="500" rx="24" fill="#FFFFFF" />
+
+  <!-- Maha Metro Tri-Ribbon Monogram Emblem -->
+  <g transform="translate(400, 155)" filter="url(#shadow)">
+    <!-- Top Saffron/Orange Track Ribbon -->
+    <path d="M -115,-55 C -85,-105 15,-115 75,-65 C 105,-40 120,5 95,45 C 80,70 50,85 15,80 C 45,65 65,40 60,5 C 55,-30 20,-65 -25,-60 C -60,-55 -90,-35 -115,-55 Z" fill="url(#pune-orange)" />
+    
+    <!-- Central Dynamic Royal Blue Ribbon -->
+    <path d="M -130,-15 C -95,-60 5,-70 55,-25 C 85,0 95,45 70,80 C 50,110 5,120 -35,105 C 5,95 30,75 35,45 C 40,15 15,-20 -25,-25 C -65,-30 -100,-5 -130,-15 Z" fill="url(#pune-blue)" />
+    
+    <!-- Bottom Emerald Green Track Ribbon -->
+    <path d="M -145,25 C -115,-15 -25,-25 25,15 C 55,40 65,80 40,115 C 20,140 -20,150 -60,135 C -25,125 0,105 5,80 C 10,55 -10,25 -45,15 C -85,10 -115,35 -145,25 Z" fill="url(#pune-green)" />
+
+    <!-- Aerodynamic Speed Train Silhouette -->
+    <path d="M -35,-15 C -15,-25 15,-25 35,-15 C 50,-5 58,15 50,35 C 42,55 20,70 -5,70 C -30,70 -48,50 -48,25 C -48,8 -42,-5 -35,-15 Z" fill="#FFFFFF" opacity="0.95" />
+    <path d="M -18,-5 C -8,-12 8,-12 18,-5 C 25,0 28,12 24,24 C 20,34 8,42 -4,42 C -16,42 -26,32 -26,20 C -26,8 -22,0 -18,-5 Z" fill="url(#pune-blue)" />
+    <circle cx="-1" cy="17" r="6" fill="#FFFFFF" />
+  </g>
+
+  <!-- Bilingual Pune Metro Typography -->
+  <!-- Devanagari Title -->
+  <text x="400" y="335" text-anchor="middle" font-family="'Noto Sans Devanagari', 'Mukta', 'Mangal', 'Segoe UI', Arial, sans-serif" font-size="44" font-weight="800" fill="#00438A" letter-spacing="2">पुणे मेट्रो</text>
+
+  <!-- English Title -->
+  <text x="400" y="382" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif" font-size="34" font-weight="900" fill="#E34E00" letter-spacing="6">PUNE METRO</text>
+
+  <!-- Corporation Sub-label -->
+  <g transform="translate(400, 425)">
+    <rect x="-140" y="-18" width="280" height="32" rx="16" fill="#0066B3" />
+    <text x="0" y="4" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="14" font-weight="700" fill="#FFFFFF" letter-spacing="3">MAHA METRO</text>
+  </g>
+</svg>

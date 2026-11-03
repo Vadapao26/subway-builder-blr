@@ -3,14 +3,14 @@
   "script": "pipeline/90_tiles.py",
   "city_code": "BLR",
   "status": "PASS",
-  "runtime_seconds": 64.14,
+  "runtime_seconds": 44.17,
   "tiles_pmtiles": {
     "path": "mod/data/BLR/tiles.pmtiles",
-    "file_size_bytes": 42964089,
-    "num_tiles": 3115,
-    "root_dir_bytes": 6599,
+    "file_size_bytes": 40553453,
+    "num_tiles": 2975,
+    "root_dir_bytes": 6341,
     "leaf_dir_bytes": 0,
-    "data_bytes": 42957030,
+    "data_bytes": 40546652,
     "min_zoom": 5,
     "max_zoom": 15
   },
@@ -34,12 +34,12 @@
     "11": 20,
     "12": 56,
     "13": 168,
-    "14": 634,
-    "15": 2225
+    "14": 621,
+    "15": 2098
   },
   "layer_feature_counts": {
-    "water": 88611,
-    "ocean_foundations": 88611,
+    "water": 11535,
+    "ocean_foundations": 15625,
     "parks": 32613,
     "landuse": 35543,
     "commercial": 41972,
@@ -58,7 +58,7 @@
     "foundations_z14": 748254,
     "buildings_z15": 831116,
     "foundations_z15": 831116,
-    "buildings_encode_seconds": 5.71
+    "buildings_encode_seconds": 5.94
   },
   "total_unique_buildings_indexed": 831116,
   "building_id_source": "blr_buildings.parquet osm_id (cached in data/processed/blr_buildings_flat.npz for 100% parity with Phase 9 buildings_index.bin.gz)"
