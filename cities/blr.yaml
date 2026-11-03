@@ -104,14 +104,6 @@ params:
     poi_institutional: 8.0
     osm_named_polygon_multiplier: 1.5
   named_employment_boosts:
-  - name: BTM Layout & Silk Board Commercial Corridor
-    bbox:
-      south: 12.905
-      north: 12.925
-      west: 77.605
-      east: 77.630
-    boost_weight: 45000
-    reason: Commercial, retail, educational institutes, and Silk Board transit exchange hub
   - name: Kempegowda International Airport (BLR)
     bbox:
       south: 13.18
@@ -176,38 +168,6 @@ params:
       east: 77.585
     boost_weight: 90000
     reason: Historic wholesale, textile, commodity, and trade markets of Bengaluru
-  - name: Shivajinagar, Commercial Street & Brigade Road Retail District
-    bbox:
-      south: 12.968
-      north: 12.990
-      west: 77.600
-      east: 77.618
-    boost_weight: 80000
-    reason: Major high-street shopping, commercial, and hospitality core
-  - name: Jayanagar 4th Block & Gandhi Bazaar Commercial Hub
-    bbox:
-      south: 12.925
-      north: 12.945
-      west: 77.575
-      east: 77.595
-    boost_weight: 75000
-    reason: Southern commercial hub, shopping complexes, and financial services
-  - name: Malleshwaram 8th Cross & Rajajinagar Commercial Core
-    bbox:
-      south: 12.985
-      north: 13.015
-      west: 77.550
-      east: 77.575
-    boost_weight: 75000
-    reason: Historic north-western commercial avenues and retail corridors
-  - name: Koramangala 80ft & 100ft Startup & Restaurant Corridor
-    bbox:
-      south: 12.928
-      north: 12.948
-      west: 77.615
-      east: 77.640
-    boost_weight: 80000
-    reason: Premier startup ecosystem, VC offices, dining, and co-working spaces
   - name: Bommasandra & Jigani Industrial Areas
     bbox:
       south: 12.780
@@ -216,14 +176,6 @@ params:
       east: 77.695
     boost_weight: 90000
     reason: Major manufacturing, biopharma, granite, and engineering hub
-  - name: Higher Education & Healthcare Core (IISc, Bangalore Univ, Victoria, NIMHANS)
-    bbox:
-      south: 12.935
-      north: 12.970
-      west: 77.585
-      east: 77.605
-    boost_weight: 70000
-    reason: Major medical institutions, hospitals, and university research campuses
   congestion_time_factor: 1.8
   routing:
     max_snap_distance_m: 1500.0
