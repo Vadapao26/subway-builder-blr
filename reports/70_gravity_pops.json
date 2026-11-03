@@ -1,66 +1,90 @@
 {
   "phase": "70_gravity_pops",
-  "city_code": "BLR",
-  "timestamp_utc": "2026-11-02T08:26:06.197948+00:00",
-  "runtime_seconds": 2.85,
+  "city_code": "BOM",
+  "timestamp_utc": "2026-11-02T15:33:14.942078+00:00",
+  "runtime_seconds": 193.19,
   "parameters": {
-    "calibrated_gravity_beta": 0.033,
-    "doubly_constrained_blend": 0.8,
+    "calibrated_gravity_beta": 0.031,
+    "doubly_constrained_blend": 0.82,
     "top_k_destinations": 25,
     "max_destinations_per_origin_actual": 25,
     "target_mean_commute_km": [
-      8.0,
-      14.0
+      9.0,
+      18.0
     ],
     "target_mean_commute_min": [
-      25.0,
-      45.0
+      28.0,
+      55.0
     ],
     "calibration_runs": [
       {
+        "beta": 0.031,
+        "blend": 0.82,
+        "mean_km": 10.6,
+        "mean_min": 25.09
+      },
+      {
         "beta": 0.033,
         "blend": 0.8,
-        "mean_km": 11.06,
-        "mean_min": 25.98
+        "mean_km": 10.29,
+        "mean_min": 24.47
+      },
+      {
+        "beta": 0.035,
+        "blend": 0.8,
+        "mean_km": 10.01,
+        "mean_min": 23.93
+      },
+      {
+        "beta": 0.03,
+        "blend": 0.85,
+        "mean_km": 10.81,
+        "mean_min": 25.5
+      },
+      {
+        "beta": 0.04,
+        "blend": 0.85,
+        "mean_km": 9.56,
+        "mean_min": 22.97
       }
     ]
   },
   "counts_and_totals": {
-    "point_count": 3375,
-    "pop_count": 83521,
-    "total_residents": 13978303,
-    "total_jobs": 13978303,
-    "total_pop_size": 13978303,
+    "point_count": 15160,
+    "pop_count": 375650,
+    "total_residents": 24582669,
+    "total_jobs": 24582669,
+    "total_pop_size": 24582669,
     "totals_internally_consistent": true,
-    "correlation_with_phase4_jobs": 0.9691,
+    "correlation_with_phase4_jobs": 0.9321,
     "unexplained_job_cells": 0
   },
   "commute_distribution": {
-    "mean_distance_km": 11.06,
-    "median_distance_km": 7.71,
-    "p90_distance_km": 24.87,
-    "mean_duration_min": 25.98,
-    "median_duration_min": 20.98,
-    "p90_duration_min": 52.12,
+    "mean_distance_km": 10.6,
+    "median_distance_km": 5.75,
+    "p90_distance_km": 27.32,
+    "mean_duration_min": 25.09,
+    "median_duration_min": 16.4,
+    "p90_duration_min": 58.23,
     "mean_distance_in_target_range": true,
-    "mean_duration_in_target_range": true
+    "mean_duration_in_target_range": false
   },
   "schema_validation": {
     "valid": true,
-    "points_validated": 3375,
-    "pops_validated": 83521,
+    "points_validated": 15160,
+    "pops_validated": 375650,
     "origin_sums_exact_match": true,
     "destination_sums_exact_match": true
   },
   "file_sizes": {
-    "demand_data_json_bytes": 11509172,
-    "demand_data_json_mb": 10.98,
-    "demand_data_json_gz_bytes": 1787040,
-    "demand_data_json_gz_mb": 1.7
+    "demand_data_json_bytes": 52473009,
+    "demand_data_json_mb": 50.04,
+    "demand_data_json_gz_bytes": 7897609,
+    "demand_data_json_gz_mb": 7.53
   },
   "outputs": {
-    "demand_data_json": "mod\\data\\BLR\\demand_data.json",
-    "demand_data_json_gz": "mod\\data\\BLR\\demand_data.json.gz",
+    "demand_data_json": "mod\\data\\BOM\\demand_data.json",
+    "demand_data_json_gz": "mod\\data\\BOM\\demand_data.json.gz",
     "commute_distribution_png": "reports\\70_commute_distribution.png",
     "commute_distribution_svg": "reports\\70_commute_distribution.svg"
   }

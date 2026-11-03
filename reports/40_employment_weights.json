@@ -1,344 +1,698 @@
 {
   "phase": "40_employment_weights",
-  "city_code": "BLR",
-  "timestamp_utc": "2026-10-31T02:56:09.486948+00:00",
-  "runtime_seconds": 2.53,
+  "city_code": "BOM",
+  "timestamp_utc": "2026-11-02T14:36:22.855068+00:00",
+  "runtime_seconds": 1.5,
   "counts": {
-    "total_demand_points": 3381,
-    "points_with_positive_weight": 1803,
-    "points_with_plausible_osm_employment": 1745,
-    "points_with_named_boost": 457,
-    "points_with_zero_weight": 1578
+    "total_demand_points": 15449,
+    "points_with_positive_weight": 5037,
+    "points_with_plausible_osm_employment": 4269,
+    "points_with_named_boost": 1873,
+    "points_with_zero_weight": 10412
   },
   "weight_totals": {
-    "total_osm_base_weight": 5796605.0,
-    "total_named_boost_weight": 760000.1,
-    "total_raw_employment_weight": 6556605.2,
-    "osm_share_of_total_weight": 0.8841
+    "total_osm_base_weight": 3912064.0,
+    "total_named_boost_weight": 1779895.4,
+    "total_raw_employment_weight": 5691959.5,
+    "osm_share_of_total_weight": 0.6873
   },
   "configured_named_boosts": [
     {
-      "name": "Kempegowda International Airport (BLR)",
+      "name": "Titwala Growth Hub & Kalu River Corridor",
       "bbox": {
-        "south": 13.18,
-        "north": 13.22,
-        "west": 77.68,
-        "east": 77.73
+        "south": 19.28,
+        "north": 19.325,
+        "west": 73.19,
+        "east": 73.235
       },
-      "boost_weight": 50000.0,
-      "reason": "Major aviation, cargo, and aerospace hub at northern boundary",
-      "grid_cells_covered": 30,
-      "osm_base_weight_in_bbox": 245873.6,
-      "total_weight_in_bbox": 295873.6,
+      "boost_weight": 45000.0,
+      "reason": "Regional temple, market town, fast-growing residential node, and Central Railway commuter terminus",
+      "grid_cells_covered": 144,
+      "osm_base_weight_in_bbox": 3912.5,
+      "total_weight_in_bbox": 48912.5,
       "sample_osm_employers_in_bbox": [
-        "Air Cargo Village",
-        "Airport Rescue and Fire Fighting Station",
-        "BIAL Central Warehouse",
-        "BIAL Solar System",
-        "Bengaluru Aerospace Park",
-        "Bengaluru Airport Bus Depot",
-        "Blue Dart Express",
-        "Boeing India Engineering and Technology Center",
-        "Cargo District",
-        "Centum Electronics Limited",
-        "DHL",
-        "Disabled Aircraft Recovery Testing Centre"
+        "Temple Market",
+        "Titwala Railway Station"
       ]
     },
     {
-      "name": "Electronic City",
+      "name": "Bandra Kurla Complex (BKC)",
       "bbox": {
-        "south": 12.825,
-        "north": 12.865,
-        "west": 77.645,
-        "east": 77.69
+        "south": 19.055,
+        "north": 19.075,
+        "west": 72.855,
+        "east": 72.88
       },
-      "boost_weight": 120000.0,
-      "reason": "Major IT/campus employment corridor in south-east Bengaluru",
-      "grid_cells_covered": 36,
-      "osm_base_weight_in_bbox": 182797.5,
-      "total_weight_in_bbox": 302797.5,
+      "boost_weight": 180000.0,
+      "reason": "Premier central financial district, NSE, major corporate headquarters, and diamond bourses",
+      "grid_cells_covered": 42,
+      "osm_base_weight_in_bbox": 52638.0,
+      "total_weight_in_bbox": 232638.0,
       "sample_osm_employers_in_bbox": [
-        "360 Business Park",
-        "3M",
-        "701 Production",
-        "703",
-        "Act Secondary HPS , Beratena Agrahara",
-        "Admin Block",
-        "Aliaxis Research and Technology Centre Asia",
-        "Aluna Thai Spa in Electronic City",
-        "Amenity Block",
-        "American Power Corporation",
-        "Apollo Clinic",
-        "Arowana Consulting Limited"
+        "ATI Primary School",
+        "Akash Theater",
+        "Alkesh Dinesh Modi Institute",
+        "American School of Bombay",
+        "Anjuman E Islam High School",
+        "Anjuman Khairul Islams Shining Stars School",
+        "Apran General Hospital",
+        "Arya Vidya Mandir",
+        "Asian",
+        "Asian Heart Institute",
+        "Avery",
+        "Bank of India"
       ]
     },
     {
-      "name": "Whitefield / ITPL",
+      "name": "Nariman Point, Fort & Colaba",
       "bbox": {
-        "south": 12.955,
-        "north": 13.005,
-        "west": 77.7,
-        "east": 77.765
+        "south": 18.915,
+        "north": 18.945,
+        "west": 72.815,
+        "east": 72.845
       },
-      "boost_weight": 150000.0,
-      "reason": "Primary eastern IT corridor and tech parks (ITPL, EPIP Zone)",
-      "grid_cells_covered": 48,
-      "osm_base_weight_in_bbox": 660913.4,
-      "total_weight_in_bbox": 810913.4,
+      "boost_weight": 160000.0,
+      "reason": "Historic financial hub, RBI, BSE, Mantralaya, high court, and colonial commercial spine",
+      "grid_cells_covered": 72,
+      "osm_base_weight_in_bbox": 153539.9,
+      "total_weight_in_bbox": 313539.9,
       "sample_osm_employers_in_bbox": [
-        "100Whitefield",
-        "1A",
-        "1B",
-        "2A",
-        "2B",
-        "2C",
-        "A Block",
-        "A1 Bazaar",
-        "AA Arcade",
-        "ABV - Artisanal Bier Village",
-        "ACR Greens",
-        "AECS Layout Womens Welfare Association"
+        "Aaykar Bhavan",
+        "Air India",
+        "Anjuman-I-Islam's Allana English High School",
+        "Annexure Building",
+        "Apsara International",
+        "Arcadia",
+        "Archbishop's House",
+        "Archdiocese of Bombay",
+        "Army And Navy Building",
+        "Asiatic Society Town Hall;Asiatic Society Municipal Library",
+        "Assistant Garrison Engineer",
+        "Assistant Residential Engineer Mumbai Port Trust Office"
       ]
     },
     {
-      "name": "Outer Ring Road (Bellandur - Marathahalli - Manyata)",
+      "name": "Lower Parel & Worli Mill District",
       "bbox": {
-        "south": 12.915,
-        "north": 13.05,
-        "west": 77.61,
-        "east": 77.71
+        "south": 18.985,
+        "north": 19.02,
+        "west": 72.815,
+        "east": 72.84
       },
-      "boost_weight": 150000.0,
-      "reason": "High-density tech parks along ORR corridor",
-      "grid_cells_covered": 192,
-      "osm_base_weight_in_bbox": 1862008.7,
-      "total_weight_in_bbox": 2012008.7,
+      "boost_weight": 140000.0,
+      "reason": "Modern corporate skyscraper corridor, media houses, banking hubs, and High Street Phoenix",
+      "grid_cells_covered": 70,
+      "osm_base_weight_in_bbox": 105578.6,
+      "total_weight_in_bbox": 245578.6,
       "sample_osm_employers_in_bbox": [
-        "(U/C)",
-        "1 OAR",
-        "1085",
-        "12/2",
-        "1A",
-        "1B",
-        "220/33kV GIS Sub Station, Central Silk Board",
-        "315 Work Avenue",
-        "315, Work Avenue, Gk Complex",
-        "315Work Avenue",
-        "3B",
-        "3ST"
+        "Abhyudaya Nagar Municipal School",
+        "Adfactors PR",
+        "Ahmedoomer Building",
+        "Apollo Mills",
+        "Atria Mall",
+        "Awfis",
+        "Axis Bank",
+        "BMC G South Ward Office",
+        "Babasaheb Worlikar Fire Station",
+        "Birla Centurion",
+        "Bismillah",
+        "Bombay Dyeing"
       ]
     },
     {
-      "name": "Central Business District (MG Road / Majestic / Vidhana Soudha)",
+      "name": "SEEPZ & Andheri East MIDC",
       "bbox": {
-        "south": 12.955,
-        "north": 12.995,
-        "west": 77.565,
-        "east": 77.625
+        "south": 19.11,
+        "north": 19.135,
+        "west": 72.86,
+        "east": 72.89
       },
       "boost_weight": 120000.0,
-      "reason": "Historic commercial, civic, and retail core",
-      "grid_cells_covered": 40,
-      "osm_base_weight_in_bbox": 415816.3,
-      "total_weight_in_bbox": 535816.3,
+      "reason": "Major IT export processing zone, electronics, gems, and commercial offices",
+      "grid_cells_covered": 56,
+      "osm_base_weight_in_bbox": 55663.1,
+      "total_weight_in_bbox": 175663.1,
       "sample_osm_employers_in_bbox": [
-        "1 Sobha",
-        "37 Cunningham",
-        "37th Crescent Hotel",
-        "5th Avenue Mall",
-        "A Block",
-        "ACR Towers",
-        "APMC",
-        "ASC Abattoir",
-        "ASC Colony",
-        "AV Varadachar Kalakshetra",
-        "Aavishkar Academy",
-        "Abbas Khan College"
+        "215 Atrium",
+        "ADANI Energy Training Centre",
+        "Aarey Metro Depot",
+        "Ahura Center",
+        "Airport Road",
+        "Aljamea-Tus-Saifiyah",
+        "Andheri Veravali Reservoir",
+        "Ansa Industrial Estate",
+        "Bollywood Design Hotel",
+        "Canossa High School",
+        "Chakala - J.B. Nagar",
+        "Datamatics"
       ]
     },
     {
-      "name": "Peenya Industrial Area",
+      "name": "Chhatrapati Shivaji Maharaj International Airport (CSMIA)",
       "bbox": {
-        "south": 13.01,
-        "north": 13.05,
-        "west": 77.495,
-        "east": 77.545
+        "south": 19.08,
+        "north": 19.105,
+        "west": 72.86,
+        "east": 72.885
+      },
+      "boost_weight": 75000.0,
+      "reason": "Primary aviation, maintenance, hotel, and cargo logistics hub of Mumbai",
+      "grid_cells_covered": 49,
+      "osm_base_weight_in_bbox": 122134.8,
+      "total_weight_in_bbox": 197134.8,
+      "sample_osm_employers_in_bbox": [
+        "Adani Electricity Mumbai Ltd",
+        "Agashe Hospital",
+        "Agastya Corporate Park",
+        "Alembic Pharmaceuticals Corporate Office",
+        "Amar Idustries",
+        "Ayesha Banquet hall",
+        "Bail Bazar Police Station",
+        "Bazar Ward Municipal High School",
+        "Bharath Coal Compound",
+        "Bhavna Ford",
+        "Bindal Estate",
+        "Bombay Cambridge International School"
+      ]
+    },
+    {
+      "name": "Mindspace Malad & Goregaon West",
+      "bbox": {
+        "south": 19.165,
+        "north": 19.195,
+        "west": 72.825,
+        "east": 72.85
+      },
+      "boost_weight": 85000.0,
+      "reason": "Major western suburbs IT/BPO tech parks and corporate back-offices",
+      "grid_cells_covered": 56,
+      "osm_base_weight_in_bbox": 16559.9,
+      "total_weight_in_bbox": 101559.9,
+      "sample_osm_employers_in_bbox": [
+        "A.B.Goregaonkar English School",
+        "Aspee Nutan English Medium School",
+        "Athena",
+        "Bangur Nagar Link Road Police Station",
+        "Cafe Coffee Day",
+        "Central Ordanance Depot",
+        "Croma Mall",
+        "Dr. S. Radhakrishnan International School, Malad West",
+        "Evershine Mall",
+        "Filmistan Studio",
+        "Goregaon Bus Station East",
+        "Goregaon Railway Station"
+      ]
+    },
+    {
+      "name": "Goregaon East IT & Corporate Corridor (NESCO, Nirlon, Oberoi Commerz)",
+      "bbox": {
+        "south": 19.145,
+        "north": 19.175,
+        "west": 72.85,
+        "east": 72.872
       },
       "boost_weight": 90000.0,
-      "reason": "Largest industrial estate in north-west Bengaluru",
-      "grid_cells_covered": 30,
-      "osm_base_weight_in_bbox": 120239.2,
-      "total_weight_in_bbox": 210239.2,
+      "reason": "High-density corporate parks, NESCO exhibition center, Oberoi Commerz, and Nirlon Knowledge Park along WEH",
+      "grid_cells_covered": 48,
+      "osm_base_weight_in_bbox": 39409.4,
+      "total_weight_in_bbox": 129409.4,
       "sample_osm_employers_in_bbox": [
-        "1Pharmacy Network",
-        "A",
-        "ALIMCO",
-        "APMC Lorry Stand",
-        "Airforce Technical College - AFTC",
-        "Airtel Store",
-        "Amenity Block",
-        "Ammaji Arcade",
-        "Arvind Motors Private Limited",
-        "Ati Motors",
-        "Avana Electrosystems Pvt Ltd",
-        "Avana Electrosystems Pvt. Ltd."
+        "Aarey Metro Station",
+        "Atlanta Center",
+        "Bombay Exhibition Center",
+        "Cafe Coffee Day",
+        "Can be made to a possible public parking space",
+        "CliQmates Pvt Ltd",
+        "Commerz",
+        "Commerz 2",
+        "Commerz III",
+        "Corporate Avenue by cello&sonal realty",
+        "Daily Tiffin Service",
+        "Dairy Science Institute"
       ]
     },
     {
-      "name": "Hosur SIPCOT Industrial Phases I & II",
+      "name": "Dadasaheb Phalke Chitranagari (Film City & Aarey Media Studios)",
       "bbox": {
-        "south": 12.71,
-        "north": 12.785,
-        "west": 77.78,
-        "east": 77.88
+        "south": 19.155,
+        "north": 19.185,
+        "west": 72.875,
+        "east": 72.905
       },
-      "boost_weight": 80000.0,
-      "reason": "Major manufacturing and automotive cluster in Hosur (Tamil Nadu)",
-      "grid_cells_covered": 108,
-      "osm_base_weight_in_bbox": 196766.8,
-      "total_weight_in_bbox": 276766.8,
+      "boost_weight": 50000.0,
+      "reason": "India's premier television and motion picture production studios, sound stages, and media workforce",
+      "grid_cells_covered": 72,
+      "osm_base_weight_in_bbox": 13134.9,
+      "total_weight_in_bbox": 63134.9,
       "sample_osm_employers_in_bbox": [
-        "Adhiyamaan College of Engineering",
-        "Advaith Matriculation School",
-        "Ashok Leyland",
-        "Bharathi Vidhyalaya Matriculation School",
-        "Chemical and electrical department",
-        "Civil and architectural block",
-        "Cricket gala",
-        "Electrical laboratory",
-        "Fire and Rescue Service Station",
-        "Green Valley Higher Secondary School",
-        "Hosur IT Park",
-        "Hosur Industries Association"
+        "Aarey Central Dairy",
+        "Abu Village",
+        "Conservation Education Centre",
+        "Guest House",
+        "ISHIKA ELECTRONICS",
+        "Indira Gandhi Institute of Development Research",
+        "Infinity Park",
+        "Reliance MediaWorks",
+        "Smart Sahakari Bhandar",
+        "Whistling Woods International",
+        "YouTube Space Mumbai"
+      ]
+    },
+    {
+      "name": "Goregaon Station & Commercial Spine",
+      "bbox": {
+        "south": 19.155,
+        "north": 19.175,
+        "west": 72.835,
+        "east": 72.855
+      },
+      "boost_weight": 40000.0,
+      "reason": "High-density retail markets, SV Road commercial spine, and station transit plazas",
+      "grid_cells_covered": 36,
+      "osm_base_weight_in_bbox": 23349.5,
+      "total_weight_in_bbox": 63349.5,
+      "sample_osm_employers_in_bbox": [
+        "A.B.Goregaonkar English School",
+        "Armaan Shoppee",
+        "Athena",
+        "Atlanta Center",
+        "Bangur Nagar Link Road Police Station",
+        "Bhavya Optic",
+        "Bombay Exhibition Center",
+        "Cinemex",
+        "CliQmates Pvt Ltd",
+        "Corporate Avenue by cello&sonal realty",
+        "Filmistan Studio",
+        "Fortune Food Plaza"
+      ]
+    },
+    {
+      "name": "Powai & Kanjurmarg IT Corridor (Hiranandani, Godrej One, IIT Bombay)",
+      "bbox": {
+        "south": 19.11,
+        "north": 19.14,
+        "west": 72.9,
+        "east": 72.935
+      },
+      "boost_weight": 95000.0,
+      "reason": "Hiranandani Business Park, Kensington tech center, Godrej One headquarters, and IIT Bombay campus",
+      "grid_cells_covered": 81,
+      "osm_base_weight_in_bbox": 74658.5,
+      "total_weight_in_bbox": 169658.5,
+      "sample_osm_employers_in_bbox": [
+        "A91 Eco Hub",
+        "Advanced Centre for Research in Electronics",
+        "Aerospace Department",
+        "Aerospace Engineering (Annex) + HSS",
+        "Aniket Nursing Home",
+        "Applied Materials Exploration Centre",
+        "BMC School (Abandoned)",
+        "Bayer House",
+        "Bhandup Railway Station",
+        "CAD Centre",
+        "CEN",
+        "CETTM"
+      ]
+    },
+    {
+      "name": "Thane Wagle Estate & Ghodbunder Corridor",
+      "bbox": {
+        "south": 19.18,
+        "north": 19.22,
+        "west": 72.94,
+        "east": 72.975
+      },
+      "boost_weight": 95000.0,
+      "reason": "Massive industrial estate, manufacturing, IT parks, and corporate offices in Thane",
+      "grid_cells_covered": 90,
+      "osm_base_weight_in_bbox": 86055.9,
+      "total_weight_in_bbox": 181055.9,
+      "sample_osm_employers_in_bbox": [
+        "Anand Industrial Works",
+        "Ankur Hospital",
+        "Ashar IT Park",
+        "Ashar Tiara",
+        "Ashwini Maternity and Nursing Home",
+        "Bethany Hospital",
+        "Bharat Highschool",
+        "Bhavani Farsan and Sweet Mart",
+        "Billabong International High School",
+        "Blue Star Limited",
+        "Cadbury Company",
+        "Central Public Works Department"
+      ]
+    },
+    {
+      "name": "Airoli Mindspace & TTC Industrial Area (Thane-Belapur)",
+      "bbox": {
+        "south": 19.14,
+        "north": 19.18,
+        "west": 72.99,
+        "east": 73.02
+      },
+      "boost_weight": 110000.0,
+      "reason": "Giant IT corridor, data centers (Airoli Knowledge Park), and TTC chemical/engineering belt",
+      "grid_cells_covered": 88,
+      "osm_base_weight_in_bbox": 67588.2,
+      "total_weight_in_bbox": 177588.2,
+      "sample_osm_employers_in_bbox": [
+        "Abhyudaya Co Op Bank Ltd",
+        "Airoli",
+        "Airoli Drama Theater",
+        "Bharat Bijli",
+        "Datta Meghe College Of Engineering",
+        "Datta Meghe World Academy",
+        "Digha Gaon",
+        "Digha Gaon Railway Station",
+        "Dmart - Airoli",
+        "Empire Tower",
+        "Euro School",
+        "Foundree Preschool and Daycare"
+      ]
+    },
+    {
+      "name": "Navi Mumbai Belapur CBD & Vashi Commercial",
+      "bbox": {
+        "south": 19.01,
+        "north": 19.08,
+        "west": 72.99,
+        "east": 73.05
+      },
+      "boost_weight": 90000.0,
+      "reason": "Administrative and financial headquarters of Navi Mumbai, CIDCO, RBI branch, and APMC market",
+      "grid_cells_covered": 270,
+      "osm_base_weight_in_bbox": 175681.5,
+      "total_weight_in_bbox": 265681.5,
+      "sample_osm_employers_in_bbox": [
+        "APMC Bhavan",
+        "APMC Fruit & Vegetable Market",
+        "APMC Grain Market",
+        "APMC Onion & Potato Market",
+        "APMC Spice Market",
+        "Adarsh Market",
+        "Ajmera Hospital",
+        "Akshar Business Park",
+        "Amrita Vidyalayam School & Jr. College",
+        "Anjuman E-Islam English School",
+        "Anjuman-I-Islam High School",
+        "Apeejay School - Nerul"
+      ]
+    },
+    {
+      "name": "Navi Mumbai International Airport (NMIAL) & Ulwe Aerocity",
+      "bbox": {
+        "south": 18.975,
+        "north": 19.005,
+        "west": 73.045,
+        "east": 73.09
+      },
+      "boost_weight": 65000.0,
+      "reason": "New greenfield international airport cluster and aero-city logistics zone",
+      "grid_cells_covered": 96,
+      "osm_base_weight_in_bbox": 171102.1,
+      "total_weight_in_bbox": 236102.1,
+      "sample_osm_employers_in_bbox": [
+        "Dinkar Balu Patil Navi Mumbai International Airport Fire Station",
+        "NMIA New Project Office",
+        "Navi Mumbai International Airport",
+        "Staff Canteen"
+      ]
+    },
+    {
+      "name": "Jawaharlal Nehru Port Trust (JNPT) & Uran",
+      "bbox": {
+        "south": 18.93,
+        "north": 18.965,
+        "west": 72.93,
+        "east": 72.97
+      },
+      "boost_weight": 60000.0,
+      "reason": "India's largest container shipping gateway, freight logistics, and maritime CFS yards",
+      "grid_cells_covered": 90,
+      "osm_base_weight_in_bbox": 106447.0,
+      "total_weight_in_bbox": 166447.0,
+      "sample_osm_employers_in_bbox": [
+        "Chalukya",
+        "Jawaharlal Nehru Port",
+        "Jawaharlal Nehru Port Authority"
+      ]
+    },
+    {
+      "name": "Kalyan Station & Administrative Core",
+      "bbox": {
+        "south": 19.225,
+        "north": 19.255,
+        "west": 73.11,
+        "east": 73.15
+      },
+      "boost_weight": 65000.0,
+      "reason": "Major regional rail terminus, central markets, municipal headquarters, and commercial centers",
+      "grid_cells_covered": 80,
+      "osm_base_weight_in_bbox": 33358.7,
+      "total_weight_in_bbox": 98358.7,
+      "sample_osm_employers_in_bbox": [
+        "APEX HOSPITAL",
+        "Birla College",
+        "Birla School",
+        "Century Rayon",
+        "Cinemax",
+        "Civil office",
+        "Diesel loco shed Kalyan",
+        "Electric/Diesel  Locomotive Shed Kalyan",
+        "Kalyan Court",
+        "Kalyan Dombilvi Municipal Corporation",
+        "Kalyan Frieght Yard",
+        "Kalyan Junction Railway Station"
+      ]
+    },
+    {
+      "name": "Dombivli MIDC Industrial Area (Phase 1 & Phase 2)",
+      "bbox": {
+        "south": 19.195,
+        "north": 19.225,
+        "west": 73.085,
+        "east": 73.115
+      },
+      "boost_weight": 70000.0,
+      "reason": "Major engineering, chemical, and pharmaceutical industrial employment zone along Kalyan-Shilphata road",
+      "grid_cells_covered": 72,
+      "osm_base_weight_in_bbox": 19270.8,
+      "total_weight_in_bbox": 89270.8,
+      "sample_osm_employers_in_bbox": [
+        "Acharya Bhise Guruji Prarthamic Vidyalay",
+        "Ashok Sweets",
+        "Ashwamedh Orthopaedic Hospital",
+        "Axis Bank",
+        "BSNL Telephone Exchange",
+        "Burger King",
+        "DNC High School",
+        "Deepak Snacks Corner",
+        "Dnc Ground",
+        "Dombivali MSRTC Bus Terminal",
+        "Dombivli Railway Station",
+        "Domino's"
+      ]
+    },
+    {
+      "name": "Dombivli Station Market Core & Manpada Road",
+      "bbox": {
+        "south": 19.21,
+        "north": 19.23,
+        "west": 73.075,
+        "east": 73.095
+      },
+      "boost_weight": 55000.0,
+      "reason": "Dense commuter station retail, commercial establishments, coaching institutes, and local commerce",
+      "grid_cells_covered": 36,
+      "osm_base_weight_in_bbox": 4774.2,
+      "total_weight_in_bbox": 59774.2,
+      "sample_osm_employers_in_bbox": [
+        "Ashok Sweets",
+        "Ashwamedh Orthopaedic Hospital",
+        "Axis Bank",
+        "Burger King",
+        "Central Bank",
+        "DNC High School",
+        "Deepak Snacks Corner",
+        "Diamond",
+        "Dnc Ground",
+        "Dombivli Railway Station",
+        "Domino's",
+        "GSB Mandal School"
+      ]
+    },
+    {
+      "name": "Titwala Growth Hub & Kalu River Corridor",
+      "bbox": {
+        "south": 19.28,
+        "north": 19.325,
+        "west": 73.19,
+        "east": 73.235
+      },
+      "boost_weight": 35000.0,
+      "reason": "Regional temple, market town, fast-growing residential node, and Central Railway commuter terminus",
+      "grid_cells_covered": 144,
+      "osm_base_weight_in_bbox": 3912.5,
+      "total_weight_in_bbox": 38912.5,
+      "sample_osm_employers_in_bbox": [
+        "Temple Market",
+        "Titwala Railway Station"
+      ]
+    },
+    {
+      "name": "Ambernath & Badlapur MIDC Corridors",
+      "bbox": {
+        "south": 19.15,
+        "north": 19.215,
+        "west": 73.175,
+        "east": 73.265
+      },
+      "boost_weight": 55000.0,
+      "reason": "Heavy engineering, ordnance factories, chemical MIDC, and expanding commuter settlements",
+      "grid_cells_covered": 374,
+      "osm_base_weight_in_bbox": 85368.7,
+      "total_weight_in_bbox": 140368.7,
+      "sample_osm_employers_in_bbox": [
+        "Adarsh Vidya Mandir",
+        "Additional Industrial Area",
+        "Ambarnath Railway Station",
+        "Ambernath Municipal Corporation",
+        "BHARAT COLLEGE",
+        "BSNL Badlapur (East)",
+        "Badlapur MIDC",
+        "Badlapur Railway Station",
+        "Bhausaheb Paranjape Vidyalay",
+        "Bhosale Vadapav",
+        "CHANDRASHEKHER MEMORIAL SCHOOL",
+        "Carmel"
       ]
     }
   ],
   "top_osm_derived_named_polygons": [
     {
-      "name": "Kempegowda International Airport",
-      "category": "airport",
-      "area_ha": 1616.56
-    },
-    {
-      "name": "Bengaluru IT Park",
+      "name": "Maharashtra Industrial Development Centre - MIDC Taloja",
       "category": "industrial",
-      "area_ha": 440.91
+      "area_ha": 835.85
     },
     {
-      "name": "Bidadi Industrial Area",
+      "name": "Jawaharlal Nehru Port",
       "category": "industrial",
-      "area_ha": 425.51
+      "area_ha": 516.43
     },
     {
-      "name": "Hi-Tech Defence and Aerospace Park",
+      "name": "Bhabha Atomic Research Centre - BARC",
       "category": "industrial",
-      "area_ha": 402.03
+      "area_ha": 267.88
     },
     {
-      "name": "Sipcot Phase II Industrial Complex",
-      "category": "industrial",
-      "area_ha": 388.1
-    },
-    {
-      "name": "Jigani Industrial Estate",
-      "category": "industrial",
-      "area_ha": 379.2
-    },
-    {
-      "name": "Bengaluru Aerospace Park",
-      "category": "industrial",
-      "area_ha": 365.82
-    },
-    {
-      "name": "Army Service Corps - ASC North",
+      "name": "Naval Station Karanja",
       "category": "military",
-      "area_ha": 356.81
+      "area_ha": 240.91
     },
     {
-      "name": "SIPCOT Hosur Phase I Industrial Complex",
-      "category": "industrial",
-      "area_ha": 352.73
+      "name": "Reliance Corporate Park",
+      "category": "commercial",
+      "area_ha": 208.93
     },
     {
-      "name": "Yelahanka Air Force Station",
-      "category": "airport",
-      "area_ha": 352.71
-    },
-    {
-      "name": "HAL Airport",
-      "category": "airport",
-      "area_ha": 347.36
-    },
-    {
-      "name": "DRDO",
+      "name": "Ordnance Factory Ambernath",
       "category": "military",
-      "area_ha": 332.57
+      "area_ha": 206.4
     },
     {
-      "name": "Army Service Corps - ASC South",
-      "category": "military",
-      "area_ha": 291.82
-    },
-    {
-      "name": "KIADB Hardware Park",
+      "name": "Rashtriya Chemicals & Fertilizers",
       "category": "industrial",
-      "area_ha": 263.48
+      "area_ha": 193.05
     },
     {
-      "name": "Iblur Military Area",
-      "category": "military",
-      "area_ha": 242.97
-    },
-    {
-      "name": "All India Radio",
+      "name": "Mumbai Refinery Mahul",
       "category": "industrial",
-      "area_ha": 240.49
+      "area_ha": 177.41
     },
     {
-      "name": "Madras Engineers Group",
-      "category": "military",
-      "area_ha": 225.02
-    },
-    {
-      "name": "Indian Institute of Horticultural Research",
-      "category": "college",
-      "area_ha": 206.18
-    },
-    {
-      "name": "Hoskote Industrial Area",
+      "name": "Mumbai Refinery",
       "category": "industrial",
-      "area_ha": 205.18
+      "area_ha": 156.43
     },
     {
-      "name": "Madras Engineers Group",
-      "category": "military",
-      "area_ha": 139.78
-    },
-    {
-      "name": "Jalahalli Airforce Station - West",
-      "category": "military",
-      "area_ha": 130.76
-    },
-    {
-      "name": "Parachute Regiment Training Centre",
-      "category": "military",
-      "area_ha": 117.6
-    },
-    {
-      "name": "Bommasandra Industrial Estate",
+      "name": "Mumbai Port Trust",
       "category": "industrial",
-      "area_ha": 114.35
+      "area_ha": 150.99
     },
     {
-      "name": "TVS Motors",
+      "name": "All India Radio - AIR",
       "category": "industrial",
-      "area_ha": 106.55
+      "area_ha": 126.87
     },
     {
-      "name": "Toyota Kirloskar",
+      "name": "Kalyan Junction Railway Station",
+      "category": "railway",
+      "area_ha": 117.62
+    },
+    {
+      "name": "Sewri Dockyard",
       "category": "industrial",
-      "area_ha": 106.4
+      "area_ha": 107.26
+    },
+    {
+      "name": "Central Warehousing Corporation - Kalamboli",
+      "category": "industrial",
+      "area_ha": 104.47
+    },
+    {
+      "name": "Mumbai Naval Base and Dockyard",
+      "category": "military",
+      "area_ha": 103.88
+    },
+    {
+      "name": "Naval Civillian Housing Colony",
+      "category": "military",
+      "area_ha": 97.34
+    },
+    {
+      "name": "Naval Armament Depot",
+      "category": "military",
+      "area_ha": 94.16
+    },
+    {
+      "name": "Navi Mumbai Special Economic Zone",
+      "category": "industrial",
+      "area_ha": 82.65
+    },
+    {
+      "name": "Badlapur MIDC",
+      "category": "industrial",
+      "area_ha": 82.36
+    },
+    {
+      "name": "Additional Industrial Area",
+      "category": "industrial",
+      "area_ha": 71.96
+    },
+    {
+      "name": "University of Mumbai",
+      "category": "university",
+      "area_ha": 64.13
+    },
+    {
+      "name": "JNPT",
+      "category": "industrial",
+      "area_ha": 62.92
+    },
+    {
+      "name": "SRP Camp",
+      "category": "military",
+      "area_ha": 57.77
+    },
+    {
+      "name": "Trombay Thermal Power Station",
+      "category": "industrial",
+      "area_ha": 57.11
+    },
+    {
+      "name": "Mukund Steel",
+      "category": "industrial",
+      "area_ha": 55.88
     }
   ],
   "outputs": {

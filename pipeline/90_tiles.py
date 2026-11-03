@@ -17,6 +17,7 @@ rings as the vector tiles.
 
 from __future__ import annotations
 
+import argparse
 import gzip
 import json
 import math
@@ -530,18 +531,19 @@ def load_or_build_flat_buildings(
     proc_dir: Path, cfg: Dict[str, Any]
 ) -> Dict[str, np.ndarray]:
     """
-    Load or build data/processed/blr_buildings_flat.npz containing deterministic
+    Load or build data/processed/<city_code>_buildings_flat.npz containing deterministic
     building heights, foundation depths, integer OSM IDs, and flattened polygon
     rings for both Phase 8 (90_tiles.py) and Phase 9 (95_buildings.py).
     """
-    cache_path = proc_dir / "blr_buildings_flat.npz"
+    code = cfg["code"].lower()
+    cache_path = proc_dir / f"{code}_buildings_flat.npz"
     if cache_path.exists():
         data = np.load(cache_path)
         return {k: data[k] for k in data.files}
 
     t0 = time.perf_counter()
     tbl = pq.read_table(
-        proc_dir / "blr_buildings.parquet",
+        proc_dir / f"{code}_buildings.parquet",
         columns=[
             "osm_id",
             "building",
@@ -953,7 +955,7 @@ def build_buildings_and_foundations_layers(
 
 
 def load_context_polygons_and_labels(
-    proc_dir: Path, mod_data_dir: Path, raw_dir: Path
+    proc_dir: Path, mod_data_dir: Path, raw_dir: Path, cfg: Dict[str, Any]
 ) -> Tuple[
     Dict[str, List[Tuple[List[Tuple[float, float]], Dict[str, Any], float]]],
     Dict[str, List[Tuple[float, float, Dict[str, Any], int]]],
@@ -962,40 +964,90 @@ def load_context_polygons_and_labels(
     Load water, parks, commercial/college, airports polygons (in normalized Web Mercator)
     and city/suburb/neighborhood point labels.
     """
+    code = cfg["code"].lower()
     poly_layers: Dict[str, List[Tuple[List[Tuple[float, float]], Dict[str, Any], float]]] = {
         "water": [],
+        "ocean_foundations": [],
         "parks": [],
+        "landuse": [],
         "commercial": [],
         "airports": [],
     }
 
-    # 1. Water polygons + buffered rivers/canals
-    wt = pq.read_table(proc_dir / "blr_water.parquet").to_pydict()
+    # 1. Water polygons + buffered rivers/canals/streams/drains
+    major_rivers = {
+        "ulhas", "mithi", "kalu", "bhatsa", "vaitarna", "dahisar", "poisar",
+        "oshiwara", "kalundre", "patalganga", "taloja", "taloje", "gadi", "kasadi",
+        "waldhuni", "kamvadi", "gadhe", "surya", "pinjal", "pej", "barvi", "shil",
+        "malad", "mahim", "irla", "vashi", "bhogeshwari"
+    }
+    wt = pq.read_table(proc_dir / f"{code}_water.parquet").to_pydict()
     for i in range(len(wt["osm_id"])):
         coords = json.loads(wt["coords_json"][i])
         is_poly = wt["is_polygon"][i]
         wtype = wt["water_type"][i]
+        wname = (wt["name"][i] or "").lower()
         area = float(wt["area_m2"][i] or 0.0)
         if is_poly and len(coords) >= 3:
             mpts = [lonlat_to_mercator_norm(pt[0], pt[1]) for pt in coords]
-            poly_layers["water"].append((mpts, {}, max(area, 500.0)))
-        elif not is_poly and wtype in ("river", "canal") and len(coords) >= 2:
-            hw = 12.0 if wtype == "river" else 6.0
+            poly_layers["water"].append((mpts, {"name": wt["name"][i] or ""}, max(area, 50000.0)))
+            poly_layers["ocean_foundations"].append(
+                (mpts, {"depth_min": -5, "depth_max": -8, "area": max(area, 50000.0)}, max(area, 50000.0))
+            )
+        elif not is_poly and len(coords) >= 2:
+            is_major = any(r in wname for r in major_rivers)
+            if is_major or wtype in ("river", "creek"):
+                hw = 65.0
+            elif wtype in ("canal", "stream"):
+                hw = 35.0
+            else:
+                hw = 25.0
             mpts = buffer_linestring_to_polygon_merc(coords, hw)
             if len(mpts) >= 3:
-                poly_layers["water"].append((mpts, {}, 2500.0))
+                poly_layers["water"].append((mpts, {"name": wt["name"][i] or ""}, 500000.0))
+                poly_layers["ocean_foundations"].append(
+                    (mpts, {"depth_min": -5, "depth_max": -8, "area": 500000.0}, 500000.0)
+                )
 
-    # 2. Parks polygons
-    pk = pq.read_table(proc_dir / "blr_parks.parquet").to_pydict()
+    # 1b. Ocean, sea & large creek water polygons from coastline
+    ocean_geojson = proc_dir / f"{code}_ocean_water.geojson"
+    if ocean_geojson.exists():
+        with open(ocean_geojson, "r", encoding="utf-8") as f:
+            ocean_fc = json.load(f)
+        for feat in ocean_fc.get("features", []):
+            geom = feat.get("geometry", {})
+            gtype = geom.get("type")
+            coords_list = geom.get("coordinates", [])
+            if gtype == "Polygon":
+                for ring in coords_list[:1]:
+                    if len(ring) >= 3:
+                        mpts = [lonlat_to_mercator_norm(pt[0], pt[1]) for pt in ring]
+                        poly_layers["water"].append((mpts, {"kind": "ocean"}, 10000000.0))
+                        poly_layers["ocean_foundations"].append(
+                            (mpts, {"depth_min": -10, "depth_max": -15, "area": 10000000.0}, 10000000.0)
+                        )
+            elif gtype == "MultiPolygon":
+                for poly_rings in coords_list:
+                    for ring in poly_rings[:1]:
+                        if len(ring) >= 3:
+                            mpts = [lonlat_to_mercator_norm(pt[0], pt[1]) for pt in ring]
+                            poly_layers["water"].append((mpts, {"kind": "ocean"}, 10000000.0))
+                            poly_layers["ocean_foundations"].append(
+                                (mpts, {"depth_min": -10, "depth_max": -15, "area": 10000000.0}, 10000000.0)
+                            )
+
+    # 2. Parks polygons (written to both "parks" for vanilla and "landuse" for mapLoader)
+    pk = pq.read_table(proc_dir / f"{code}_parks.parquet").to_pydict()
     for i in range(len(pk["osm_id"])):
         coords = json.loads(pk["coords_json"][i])
         area = float(pk["area_m2"][i] or 0.0)
         if len(coords) >= 3 and area > 0:
             mpts = [lonlat_to_mercator_norm(pt[0], pt[1]) for pt in coords]
             poly_layers["parks"].append((mpts, {"area": round(area, 2)}, area))
+            poly_layers["landuse"].append((mpts, {"kind": "park", "area": round(area, 2)}, area))
 
     # 3. Landuse -> commercial ("commercial" or "college") & airport boundaries
-    lu = pq.read_table(proc_dir / "blr_landuse.parquet").to_pydict()
+    lu = pq.read_table(proc_dir / f"{code}_landuse.parquet").to_pydict()
     college_cats = {"college", "university", "school", "education", "research_institute"}
     comm_cats = {"commercial", "retail", "industrial", "hospital", "institutional"}
     for i in range(len(lu["osm_id"])):
@@ -1010,6 +1062,7 @@ def load_context_polygons_and_labels(
         mpts = [lonlat_to_mercator_norm(pt[0], pt[1]) for pt in coords]
         if any(k in name for k in ("airport", "aerodrome", "air force")):
             poly_layers["airports"].append((mpts, {}, area))
+            poly_layers["landuse"].append((mpts, {"kind": "aerodrome"}, area))
         elif cat in college_cats:
             poly_layers["commercial"].append(
                 (mpts, {"area": round(area, 2), "type": "college"}, area)
@@ -1020,7 +1073,7 @@ def load_context_polygons_and_labels(
             )
 
     # 4. Airports polygons + buffered runways/taxiways from Phase 7
-    ap = pq.read_table(proc_dir / "blr_airports.parquet").to_pydict()
+    ap = pq.read_table(proc_dir / f"{code}_airports.parquet").to_pydict()
     for i in range(len(ap["osm_id"])):
         if not ap["is_polygon"][i]:
             continue
@@ -1029,6 +1082,7 @@ def load_context_polygons_and_labels(
         if len(coords) >= 3:
             mpts = [lonlat_to_mercator_norm(pt[0], pt[1]) for pt in coords]
             poly_layers["airports"].append((mpts, {}, max(area, 1000.0)))
+            poly_layers["landuse"].append((mpts, {"kind": "aerodrome"}, max(area, 1000.0)))
 
     rw_gz = mod_data_dir / "runways_taxiways.geojson.gz"
     if rw_gz.exists():
@@ -1040,6 +1094,7 @@ def load_context_polygons_and_labels(
                 mpts = [lonlat_to_mercator_norm(pt[0], pt[1]) for pt in ring]
                 area = float(feat.get("properties", {}).get("area", 5000.0))
                 poly_layers["airports"].append((mpts, {}, max(area, 5000.0)))
+                poly_layers["landuse"].append((mpts, {"kind": "aerodrome"}, max(area, 5000.0)))
 
     # 5. Labels (city_labels, suburb_labels, neighborhood_labels)
     label_layers: Dict[str, List[Tuple[float, float, Dict[str, Any], int]]] = {
@@ -1054,16 +1109,61 @@ def load_context_polygons_and_labels(
     }
 
     # Ensure primary cities/towns are always present in city_labels
-    canonical_cities = [
-        ("Bengaluru", 77.5946, 12.9716),
-        ("Hosur", 77.8253, 12.7409),
-        ("Yelahanka", 77.5963, 13.1007),
-        ("Whitefield", 77.7499, 12.9698),
-        ("Electronic City", 77.6602, 12.8452),
-        ("Devanahalli", 77.7047, 13.2467),
-        ("Anekal", 77.6994, 12.7086),
-        ("Kengeri", 77.4827, 12.9077),
-    ]
+    if code == "bom":
+        canonical_cities = [
+            ("Mumbai", 72.8777, 19.0760),
+            ("Thane", 72.9754, 19.1860),
+            ("Navi Mumbai", 73.0000, 19.0300),
+            ("Kalyan", 73.1352, 19.2444),
+            ("Titwala", 73.2085, 19.2975),
+            ("Ambernath", 73.2010, 19.2020),
+            ("Badlapur", 73.2500, 19.1600),
+            ("Panvel", 73.1175, 18.9910),
+            ("Vasai", 72.8300, 19.3800),
+            ("Virar", 72.8100, 19.4700),
+        ]
+    elif code == "hyd":
+        canonical_cities = [
+            ("Hyderabad", 78.4867, 17.3850),
+            ("Secunderabad", 78.4983, 17.4399),
+            ("Cyberabad", 78.3772, 17.4435),
+            ("Gachibowli", 78.3489, 17.4401),
+            ("Kukatpally", 78.4111, 17.4849),
+            ("Patancheru", 78.2642, 17.5332),
+            ("Medchal", 78.4814, 17.6297),
+            ("Uppal", 78.5602, 17.4022),
+            ("Shamshabad", 78.4294, 17.2403),
+            ("Malkajgiri", 78.5300, 17.4500),
+            ("LB Nagar", 78.5522, 17.3457),
+            ("Charminar", 78.4747, 17.3616),
+        ]
+    elif code == "pnq":
+        canonical_cities = [
+            ("Pune", 73.8567, 18.5204),
+            ("Pimpri-Chinchwad", 73.7997, 18.6279),
+            ("Hinjawadi", 73.7389, 18.5913),
+            ("Bhosari", 73.8436, 18.6272),
+            ("Chakan", 73.8548, 18.7606),
+            ("Talegaon", 73.6756, 18.7344),
+            ("Hadapsar", 73.9259, 18.5089),
+            ("Kharadi", 73.9515, 18.5516),
+            ("Kothrud", 73.8077, 18.5074),
+            ("Alandi", 73.8967, 18.6758),
+            ("Katraj", 73.8652, 18.4529),
+            ("Wakad", 73.7628, 18.5987),
+            ("Nigdi", 73.7656, 18.6534),
+        ]
+    else:
+        canonical_cities = [
+            ("Bengaluru", 77.5946, 12.9716),
+            ("Hosur", 77.8253, 12.7409),
+            ("Yelahanka", 77.5963, 13.1007),
+            ("Whitefield", 77.7499, 12.9698),
+            ("Electronic City", 77.6602, 12.8452),
+            ("Devanahalli", 77.7047, 13.2467),
+            ("Anekal", 77.6994, 12.7086),
+            ("Kengeri", 77.4827, 12.9077),
+        ]
     next_id = 1
     for cname, lon, lat in canonical_cities:
         mx, my = lonlat_to_mercator_norm(lon, lat)
@@ -1073,16 +1173,56 @@ def load_context_polygons_and_labels(
         seen_names["city_labels"].add(cname.lower())
         next_id += 1
 
-    pois = pq.read_table(proc_dir / "blr_pois.parquet").to_pydict()
+    if code == "bom":
+        canonical_suburbs = [
+            ("Titwala Station", 73.2031, 19.2964),
+            ("Ambivali Station", 73.1705, 19.2662),
+            ("Kalyan Junction", 73.1352, 19.2444),
+            ("Dombivli Station", 73.0880, 19.2180),
+            ("Thane Station", 72.9754, 19.1860),
+            ("Dadar Station", 72.8430, 19.0178),
+            ("CSMT Terminal", 72.8358, 18.9400),
+            ("Churchgate Station", 72.8272, 18.9352),
+            ("Andheri Station", 72.8467, 19.1197),
+            ("Borivali Station", 72.8560, 19.2290),
+            ("Goregaon Station", 72.8440, 19.1645),
+            ("Manda (Titwala)", 73.2090, 19.2990),
+            ("Mahaganapati Temple (Titwala)", 73.2120, 19.3015),
+            ("Bandra Kurla Complex (BKC)", 72.8680, 19.0660),
+            ("Vashi Station", 72.9986, 19.0655),
+            ("Belapur CBD", 73.0410, 19.0210),
+            ("Panvel Station", 73.1175, 18.9910),
+        ]
+        for sname, slon, slat in canonical_suburbs:
+            mx, my = lonlat_to_mercator_norm(slon, slat)
+            label_layers["suburb_labels"].append(
+                (mx, my, {"name": sname, "place": "suburb", "label_type": "suburb"}, next_id)
+            )
+            seen_names["suburb_labels"].add(sname.lower())
+            next_id += 1
+
+    pois = pq.read_table(proc_dir / f"{code}_pois.parquet").to_pydict()
     for i in range(len(pois["osm_id"])):
         place = (pois["place"][i] or "").strip()
         name = (pois["name"][i] or "").strip()
-        if not place or not name:
+        rw_tag = (pois["railway"][i] or "").strip() if "railway" in pois else ""
+        if not name or (not place and not rw_tag):
             continue
         lon = float(pois["lon"][i])
         lat = float(pois["lat"][i])
         mx, my = lonlat_to_mercator_norm(lon, lat)
         nlow = name.lower()
+
+        if rw_tag in ("station", "stop") and "station" not in nlow:
+            station_name = f"{name} Station"
+            st_low = station_name.lower()
+            if st_low not in seen_names["suburb_labels"]:
+                seen_names["suburb_labels"].add(st_low)
+                label_layers["suburb_labels"].append(
+                    (mx, my, {"name": station_name, "place": "station", "label_type": "suburb"}, next_id)
+                )
+                next_id += 1
+            continue
 
         if place in ("city", "town"):
             if nlow not in seen_names["city_labels"]:
@@ -1127,6 +1267,9 @@ def generate_diagnostic_plot(
     tiles_pmtiles_path: Path,
     foundations_pmtiles_path: Path,
     out_png: Path,
+    bbox: Dict[str, float] | None = None,
+    center_lon: float = 77.595,
+    center_lat: float = 12.972,
 ) -> None:
     """
     Decode real MVT tiles directly from tiles.pmtiles and foundations.pmtiles
@@ -1340,8 +1483,12 @@ def generate_diagnostic_plot(
         rgb[40 : 40 + H_PANEL, ox : ox + W_PANEL] = (30, 41, 59)
 
     # Panel 0: Zoom 10 overview across study area tiles
-    z10_x0, z10_y1 = lonlat_to_tile(77.40, 12.70, 10)
-    z10_x1, z10_y0 = lonlat_to_tile(77.90, 13.25, 10)
+    west = bbox["west"] if bbox else 77.40
+    south = bbox["south"] if bbox else 12.70
+    east = bbox["east"] if bbox else 77.90
+    north = bbox["north"] if bbox else 13.25
+    z10_x0, z10_y1 = lonlat_to_tile(west, south, 10)
+    z10_x1, z10_y0 = lonlat_to_tile(east, north, 10)
     nx10 = max(1, z10_x1 - z10_x0 + 1)
     ny10 = max(1, z10_y1 - z10_y0 + 1)
     colors_rgb = {
@@ -1379,8 +1526,8 @@ def generate_diagnostic_plot(
                         f'<polygon points="{pts_s}" fill="{hex_col}" fill-opacity="0.55" stroke="{hex_col}" stroke-width="0.6"/>'
                     )
 
-    # Panel 1: Zoom 14 Central Bengaluru tile (CBD / Cubbon Park / MG Road)
-    cbd_tx, cbd_ty = lonlat_to_tile(77.595, 12.972, 14)
+    # Panel 1: Zoom 14 Central tile (Center / CBD)
+    cbd_tx, cbd_ty = lonlat_to_tile(center_lon, center_lat, 14)
     mvt14 = read_tile_from_pmtiles(tiles_pmtiles_path, 14, cbd_tx, cbd_ty)
     lyrs14 = decode_mvt_polygons(mvt14)
     svg_p1: List[str] = []
@@ -1445,10 +1592,15 @@ def generate_diagnostic_plot(
 
 def main() -> None:
     t_start = time.perf_counter()
-    with open(ROOT / "cities" / "blr.yaml", "r", encoding="utf-8") as f:
+    parser = argparse.ArgumentParser(description="Phase 8: Vector tiles generation")
+    parser.add_argument("--city", type=Path, default=Path("cities/blr.yaml"), help="Path to city YAML config")
+    args = parser.parse_args()
+
+    city_path = args.city if args.city.is_absolute() else (ROOT / args.city)
+    with open(city_path, "r", encoding="utf-8") as f:
         cfg = yaml.safe_load(f)
 
-    code = cfg["code"]
+    code = cfg["code"].upper()
     bbox = cfg["bbox"]
     init_view = cfg["initialViewState"]
     proc_dir = ROOT / "data" / "processed"
@@ -1468,7 +1620,7 @@ def main() -> None:
 
     # 3. Load non-building context polygons & point labels
     poly_layers, label_layers = load_context_polygons_and_labels(
-        proc_dir, mod_data_dir, raw_dir
+        proc_dir, mod_data_dir, raw_dir, cfg
     )
 
     # Minimum polygon area (m^2) by zoom so low-zoom overview tiles stay crisp
@@ -1487,6 +1639,7 @@ def main() -> None:
     }
 
     tiles_mvt_by_id: Dict[int, bytes] = {}
+    ocean_foundations_mvt_by_id: Dict[int, bytes] = {}
     layer_feature_counts: Dict[str, int] = defaultdict(int)
     zoom_tile_counts: Dict[str, int] = {}
 
@@ -1502,10 +1655,10 @@ def main() -> None:
             lambda: defaultdict(list)
         )
 
-        # 3a. Polygon layers: water, parks, commercial, airports
+        # 3a. Polygon layers: water, ocean_foundations, parks, commercial, airports
         for lname, poly_list in poly_layers.items():
             for mpts, props, area in poly_list:
-                if area < min_area and lname != "airports":
+                if area < min_area and lname not in ("airports", "water", "ocean_foundations"):
                     continue
                 xs_g = [int(round(pt[0] * scale)) for pt in mpts]
                 ys_g = [int(round(pt[1] * scale)) for pt in mpts]
@@ -1568,7 +1721,9 @@ def main() -> None:
             if (tx, ty) in tile_layers:
                 for lname in (
                     "water",
+                    "ocean_foundations",
                     "parks",
+                    "landuse",
                     "commercial",
                     "airports",
                     "city_labels",
@@ -1580,6 +1735,9 @@ def main() -> None:
                         lb = build_mvt_layer(lname, f_list)
                         if lb:
                             t_parts.append(lb)
+                            if lname == "ocean_foundations":
+                                tid = zxy_to_tile_id(z, tx, ty)
+                                ocean_foundations_mvt_by_id[tid] = lb
             if z >= 12:
                 bld_lb = building_layer_by_zxy.get((z, tx, ty))
                 if bld_lb:
@@ -1613,6 +1771,13 @@ def main() -> None:
         "vector_layers": [
             {"id": "water", "description": "", "minzoom": 5, "maxzoom": 15, "fields": {}},
             {"id": "parks", "description": "", "minzoom": 5, "maxzoom": 15, "fields": {"area": "Number"}},
+            {
+                "id": "landuse",
+                "description": "",
+                "minzoom": 5,
+                "maxzoom": 15,
+                "fields": {"kind": "String", "area": "Number"},
+            },
             {
                 "id": "commercial",
                 "description": "",
@@ -1678,6 +1843,7 @@ def main() -> None:
 
     tiles_pmtiles_path = mod_data_dir / "tiles.pmtiles"
     foundations_pmtiles_path = mod_data_dir / "foundations.pmtiles"
+    ocean_pmtiles_path = mod_data_dir / "ocean_foundations.pmtiles"
 
     tiles_archive_stats = write_pmtiles_v3(
         out_path=tiles_pmtiles_path,
@@ -1703,9 +1869,51 @@ def main() -> None:
         center_zoom=15,
     )
 
+    ocean_foundations_meta = {
+        "name": f"{code} Ocean Foundations",
+        "format": "pbf",
+        "type": "overlay",
+        "description": f"Subway Builder ocean depth tiles for {cfg['name']} ({code})",
+        "version": "2",
+        "vector_layers": [
+            {
+                "id": "ocean_foundations",
+                "description": "",
+                "minzoom": 5,
+                "maxzoom": 15,
+                "fields": {"depth_min": "Number", "depth_max": "Number", "area": "Number"},
+            }
+        ],
+    }
+
+    ocean_archive_stats = write_pmtiles_v3(
+        out_path=ocean_pmtiles_path,
+        tiles_by_id=ocean_foundations_mvt_by_id,
+        metadata=ocean_foundations_meta,
+        min_zoom=5,
+        max_zoom=15,
+        bbox=bbox,
+        center_lon=float(init_view["longitude"]),
+        center_lat=float(init_view["latitude"]),
+        center_zoom=15,
+    )
+
+    # Also duplicate for Railyard direct naming (<CODE>.pmtiles, <CODE>_foundations.pmtiles, <CODE>_ocean_foundations.pmtiles)
+    import shutil
+    shutil.copy2(tiles_pmtiles_path, mod_data_dir / f"{code}.pmtiles")
+    shutil.copy2(foundations_pmtiles_path, mod_data_dir / f"{code}_foundations.pmtiles")
+    shutil.copy2(ocean_pmtiles_path, mod_data_dir / f"{code}_ocean_foundations.pmtiles")
+
     # 5. Generate diagnostic preview plot from the written PMTiles archives
     preview_png = reports_dir / "90_tiles_preview.png"
-    generate_diagnostic_plot(tiles_pmtiles_path, foundations_pmtiles_path, preview_png)
+    generate_diagnostic_plot(
+        tiles_pmtiles_path,
+        foundations_pmtiles_path,
+        preview_png,
+        bbox=bbox,
+        center_lon=float(init_view["longitude"]),
+        center_lat=float(init_view["latitude"]),
+    )
 
     elapsed = round(time.perf_counter() - t_start, 2)
     summary = {

@@ -2,8 +2,11 @@
   "id": "blr-bengaluru-hosur",
   "name": "Bengaluru + Hosur (BLR)",
   "version": "1.0.0",
-  "description": "High-density custom city mod for Bengaluru and Hosur with 13.98M population, 831k buildings, complete road & airport networks, and calibrated commute demand.",
-  "author": "Subway Builder Modding Pipeline",
+  "description": "Build transit for the Garden City, from Hosur to the airport",
+  "author": "Vadapao26",
   "main": "index.js",
-  "thumbnail": "thumbnail.png"
+  "thumbnail": "thumbnail.png",
+  "dependencies": {
+    "subway-builder": ">=1.0.0"
+  }
 }
