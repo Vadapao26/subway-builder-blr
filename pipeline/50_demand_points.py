@@ -426,25 +426,25 @@ def main() -> int:
         merged["area_m2"] = 0.0
 
     # Dual-Tier Employment Allocation:
-    # 72% Regional Economic Anchors (Tech Parks, CBD, Industrial Estates, Wholesale Markets) +
-    # 28% Universal Neighborhood Commercial, Retail, Medical & Local Services
-    tier1_target = int(round(0.72 * target_total_jobs))
+    # 85% Regional Economic Anchors (Tech Parks, CBD, Industrial Estates, Wholesale Markets) +
+    # 15% Universal Neighborhood Commercial, Retail, Medical & Local Services (capped at <= 22% of local residents)
+    tier1_target = int(round(0.85 * target_total_jobs))
     tier2_target = target_total_jobs - tier1_target
 
     raw_weights = merged["raw_employment_weight"].to_numpy(dtype=np.float64, copy=True)
     valid_mask = merged["has_plausible_employment_landuse"].to_numpy(dtype=bool) | merged["has_named_boost"].to_numpy(dtype=bool)
     raw_weights[~valid_mask] = 0.0
 
-    # Power compression spreads jobs across corridors so single hubs cap at ~25k-35k
-    t1_weights = np.where(raw_weights > 0.0, raw_weights ** 0.88, 0.0)
+    # Strong concentration into real job clusters with mild compression
+    t1_weights = np.where(raw_weights > 0.0, raw_weights ** 0.94, 0.0)
     t1_jobs = allocate_integer_jobs(t1_weights, tier1_target)
 
-    # Tier 2: Universal Neighborhood Commerce (every inhabited area has realistic local-serving workers, ~15%-30% of residents)
+    # Tier 2: Universal Neighborhood Commerce (every inhabited area has realistic local-serving workers, strictly 15%-22% of residents)
     res_vals = merged["residents"].to_numpy(dtype=np.float64)
     bldg_vals = merged["area_m2"].to_numpy(dtype=np.float64)
-    w_loc = np.where(res_vals > 0.0, (res_vals ** 0.82) * (1.0 + 0.3 * np.log1p(bldg_vals / 1000.0)), 0.0)
-    # Also boost active commercial spots with raw weights
-    w_loc = np.where(raw_weights > 0.0, w_loc + (raw_weights ** 0.6) * 4.0, w_loc)
+    w_loc = np.where(res_vals > 0.0, np.minimum(res_vals * 0.22, (res_vals ** 0.75) * 6.0) * (1.0 + 0.2 * np.log1p(bldg_vals / 1000.0)), 0.0)
+    # Mild boost for active neighborhood shops
+    w_loc = np.where(raw_weights > 0.0, w_loc + (raw_weights ** 0.5) * 2.0, w_loc)
     t2_jobs = allocate_integer_jobs(w_loc, tier2_target)
 
     jobs_arr = t1_jobs + t2_jobs

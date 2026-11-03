@@ -110,7 +110,7 @@ params:
       north: 13.22
       west: 77.68
       east: 77.73
-    boost_weight: 50000
+    boost_weight: 70000
     reason: Major aviation, cargo, and aerospace hub at northern boundary
   - name: Electronic City
     bbox:
@@ -118,7 +118,7 @@ params:
       north: 12.865
       west: 77.645
       east: 77.69
-    boost_weight: 120000
+    boost_weight: 180000
     reason: Major IT/campus employment corridor in south-east Bengaluru
   - name: Whitefield / ITPL
     bbox:
@@ -126,7 +126,7 @@ params:
       north: 13.005
       west: 77.7
       east: 77.765
-    boost_weight: 150000
+    boost_weight: 220000
     reason: Primary eastern IT corridor and tech parks (ITPL, EPIP Zone)
   - name: Outer Ring Road (Bellandur - Marathahalli - Manyata)
     bbox:
@@ -134,7 +134,7 @@ params:
       north: 13.05
       west: 77.61
       east: 77.71
-    boost_weight: 150000
+    boost_weight: 200000
     reason: High-density tech parks along ORR corridor
   - name: Central Business District (MG Road / Majestic / Vidhana Soudha)
     bbox:
@@ -142,7 +142,7 @@ params:
       north: 12.995
       west: 77.565
       east: 77.625
-    boost_weight: 120000
+    boost_weight: 140000
     reason: Historic commercial, civic, and retail core
   - name: Peenya Industrial Area
     bbox:
@@ -150,7 +150,7 @@ params:
       north: 13.05
       west: 77.495
       east: 77.545
-    boost_weight: 90000
+    boost_weight: 180000
     reason: Largest industrial estate in north-west Bengaluru
   - name: Hosur SIPCOT Industrial Phases I & II
     bbox:
@@ -158,7 +158,7 @@ params:
       north: 12.785
       west: 77.78
       east: 77.88
-    boost_weight: 80000
+    boost_weight: 120000
     reason: Major manufacturing and automotive cluster in Hosur (Tamil Nadu)
   - name: KR Market, Chickpet, Avenue Road & City Market Trading Core
     bbox:
@@ -174,7 +174,7 @@ params:
       north: 12.835
       west: 77.635
       east: 77.695
-    boost_weight: 90000
+    boost_weight: 110000
     reason: Major manufacturing, biopharma, granite, and engineering hub
   congestion_time_factor: 1.8
   routing:
