@@ -1,17 +1,17 @@
 {
   "phase": "60_routing",
   "city_code": "BLR",
-  "timestamp_utc": "2026-11-03T11:26:41.428736+00:00",
-  "runtime_seconds": 50.61,
-  "dijkstra_seconds": 21.37,
-  "peak_memory_mb": 1197.68,
+  "timestamp_utc": "2026-11-03T12:50:09.695350+00:00",
+  "runtime_seconds": 39.85,
+  "dijkstra_seconds": 13.76,
+  "peak_memory_mb": 1104.16,
   "graph_stats": {
     "main_road_ways": 24501,
     "total_junction_nodes": 28694,
     "giant_scc_nodes": 27383,
-    "contracted_scc_nodes": 16745,
-    "contracted_scc_edges": 37283,
-    "unique_snapped_terminals": 4248
+    "contracted_scc_nodes": 16674,
+    "contracted_scc_edges": 37152,
+    "unique_snapped_terminals": 4076
   },
   "snapping_and_unroutable_rule": {
     "max_snap_distance_m": 1500.0,
@@ -19,25 +19,25 @@
     "access_circuity_factor": 1.3,
     "access_speed_kmh": 22.0,
     "congestion_time_factor": 1.8,
-    "total_input_points": 5814,
-    "snapped_normal_count": 5814,
+    "total_input_points": 5422,
+    "snapped_normal_count": 5422,
     "fringe_snapped_count": 0,
     "dropped_unroutable_count": 0,
-    "routable_points_count": 5814,
-    "routable_total_residents": 13534837,
-    "routable_total_jobs": 13534837,
-    "median_snap_distance_m": 239.8,
-    "p95_snap_distance_m": 726.8,
+    "routable_points_count": 5422,
+    "routable_total_residents": 7915207,
+    "routable_total_jobs": 7915207,
+    "median_snap_distance_m": 234.3,
+    "p95_snap_distance_m": 723.0,
     "dropped_points": []
   },
   "matrix_summary": {
     "shape": [
-      5814,
-      5814
+      5422,
+      5422
     ],
-    "mean_pairwise_distance_km": 33.04,
-    "mean_pairwise_freeflow_min": 36.7,
-    "mean_pairwise_congested_min": 66.0,
+    "mean_pairwise_distance_km": 32.47,
+    "mean_pairwise_freeflow_min": 36.1,
+    "mean_pairwise_congested_min": 64.9,
     "unreachable_pairs_count": 0
   },
   "test_od_pairs": [

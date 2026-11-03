@@ -484,35 +484,41 @@ def main() -> int:
         nz_cols = nz_cols[np.argsort(-T_int[i, nz_cols], kind="mergesort")]
         res_id = pt_ids[i]
         for c_pos in nz_cols:
-            sz = int(T_int[i, c_pos])
+            total_sz = int(T_int[i, c_pos])
             j = int(job_idx[c_pos])
             job_id = pt_ids[j]
-            pid_str = str(pop_counter)
-            pop_counter += 1
 
             d_sec_int = int(round(float(cong_sec[i, j])))
             d_dist_int = int(round(float(dist_m[i, j])))
 
-            pops_list.append(
-                {
-                    "id": pid_str,
-                    "size": sz,
-                    "residenceId": res_id,
-                    "jobId": job_id,
-                    "drivingSeconds": d_sec_int,
-                    "drivingDistance": d_dist_int,
-                }
-            )
-            if pid_str not in pt_pop_ids_seen[i]:
-                pt_pop_ids[i].append(pid_str)
-                pt_pop_ids_seen[i].add(pid_str)
-            if pid_str not in pt_pop_ids_seen[j]:
-                pt_pop_ids[j].append(pid_str)
-                pt_pop_ids_seen[j].add(pid_str)
+            # Light Rail compatibility: split any pop > 200 into chunks <= 200 (hard cap 231)
+            rem_sz = total_sz
+            while rem_sz > 0:
+                cur_sz = min(200, rem_sz)
+                rem_sz -= cur_sz
+                pid_str = str(pop_counter)
+                pop_counter += 1
 
-            pop_dist_km.append(d_dist_int / 1000.0)
-            pop_time_min.append(d_sec_int / 60.0)
-            pop_sizes.append(sz)
+                pops_list.append(
+                    {
+                        "id": pid_str,
+                        "size": cur_sz,
+                        "residenceId": res_id,
+                        "jobId": job_id,
+                        "drivingSeconds": d_sec_int,
+                        "drivingDistance": d_dist_int,
+                    }
+                )
+                if pid_str not in pt_pop_ids_seen[i]:
+                    pt_pop_ids[i].append(pid_str)
+                    pt_pop_ids_seen[i].add(pid_str)
+                if pid_str not in pt_pop_ids_seen[j]:
+                    pt_pop_ids[j].append(pid_str)
+                    pt_pop_ids_seen[j].add(pid_str)
+
+                pop_dist_km.append(d_dist_int / 1000.0)
+                pop_time_min.append(d_sec_int / 60.0)
+                pop_sizes.append(cur_sz)
 
     points_list = []
     for i in range(N_orig):

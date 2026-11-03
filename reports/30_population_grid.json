@@ -1,81 +1,81 @@
 {
   "phase": "30_population_grid",
   "city_code": "BLR",
-  "timestamp_utc": "2026-11-03T11:24:27.761695+00:00",
-  "runtime_seconds": 1.21,
+  "timestamp_utc": "2026-11-03T12:48:16.747782+00:00",
+  "runtime_seconds": 1.19,
   "grid_spec": {
     "grid_cell_m": 500.0,
     "min_residents_per_point": 150,
     "rows": 125,
     "cols": 109,
     "total_grid_cells": 13625,
-    "active_demand_points": 5814,
-    "dropped_sparse_cells": 7811,
-    "dropped_sparse_residents": 65231.3
+    "active_demand_points": 5422,
+    "dropped_sparse_cells": 8203,
+    "dropped_sparse_residents": 84835.0
   },
   "population_crosscheck": {
-    "reference_population_config": 13600000,
-    "worldpop_2020_raw_bbox_sum": 13600000.0,
-    "active_points_total_residents": 13534837,
-    "difference_vs_reference": -65163,
-    "percent_difference_vs_reference": -0.48,
+    "reference_population_config": 8000000,
+    "worldpop_2020_raw_bbox_sum": 8000000.0,
+    "active_points_total_residents": 7915207,
+    "difference_vs_reference": -84793,
+    "percent_difference_vs_reference": -1.06,
     "bbmp_wards_crosscheck": {
       "wards_loaded": 243,
-      "bbmp_cells_count": 2785,
-      "bbmp_worldpop_2020_residents": 10552778,
-      "non_bbmp_bmrda_and_hosur_residents": 2982059,
+      "bbmp_cells_count": 2739,
+      "bbmp_worldpop_2020_residents": 6201788,
+      "non_bbmp_bmrda_and_hosur_residents": 1713419,
       "top_10_wards_by_residents": [
         {
           "ward": "Ward 181: Shantala Nagar",
-          "residents": 260533
+          "residents": 153253
         },
         {
           "ward": "Ward 8: Jakkuru",
-          "residents": 218724
+          "residents": 128660
         },
         {
           "ward": "Ward 10: Kempapura",
-          "residents": 205594
+          "residents": 120940
         },
         {
           "ward": "Ward 1: Kempegowda Ward",
-          "residents": 196569
+          "residents": 115629
         },
         {
           "ward": "Ward 11: Byatarayanapura",
-          "residents": 183187
+          "residents": 107758
         },
         {
           "ward": "Ward 6: Kogilu",
-          "residents": 181719
+          "residents": 106610
         },
         {
           "ward": "Ward 128: Vasanth Nagar",
-          "residents": 153079
+          "residents": 90044
         },
         {
           "ward": "Ward 5: Yelahanka Satellite Town",
-          "residents": 134562
+          "residents": 79156
         },
         {
           "ward": "Ward 23: Nelagadderanahalli",
-          "residents": 134038
+          "residents": 78848
         },
         {
           "ward": "Ward 116: Doddakanahalli",
-          "residents": 128020
+          "residents": 75307
         }
       ]
     }
   },
   "point_distribution": {
-    "point_count": 5814,
+    "point_count": 5422,
     "min_residents": 0,
-    "p25_residents": 386.25,
-    "median_residents": 1128.0,
-    "mean_residents": 2328.0,
-    "p90_residents": 6202.199999999999,
-    "max_residents": 38004
+    "p25_residents": 283.0,
+    "median_residents": 772.0,
+    "mean_residents": 1459.8,
+    "p90_residents": 3814.5000000000027,
+    "max_residents": 22355
   },
   "builtin_cities_comparison": {
     "DET": {

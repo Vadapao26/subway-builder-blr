@@ -979,7 +979,8 @@ def load_context_polygons_and_labels(
         "ulhas", "mithi", "kalu", "bhatsa", "vaitarna", "dahisar", "poisar",
         "oshiwara", "kalundre", "patalganga", "taloja", "taloje", "gadi", "kasadi",
         "waldhuni", "kamvadi", "gadhe", "surya", "pinjal", "pej", "barvi", "shil",
-        "malad", "mahim", "irla", "vashi", "bhogeshwari"
+        "malad", "mahim", "irla", "vashi", "bhogeshwari",
+        "mula", "mutha", "pavana", "indrayani", "ramnadi", "bhima", "nira"
     }
     wt = pq.read_table(proc_dir / f"{code}_water.parquet").to_pydict()
     for i in range(len(wt["osm_id"])):
@@ -990,18 +991,18 @@ def load_context_polygons_and_labels(
         area = float(wt["area_m2"][i] or 0.0)
         if is_poly and len(coords) >= 3:
             mpts = [lonlat_to_mercator_norm(pt[0], pt[1]) for pt in coords]
-            poly_layers["water"].append((mpts, {"name": wt["name"][i] or "", "area": area}, area))
+            poly_layers["water"].append((mpts, {"name": wt["name"][i] or "", "area": area}, max(area, 50000.0)))
             poly_layers["ocean_foundations"].append(
-                (mpts, {"depth_min": -5, "depth_max": -8, "area": area}, area)
+                (mpts, {"depth_min": -5, "depth_max": -8, "area": max(area, 50000.0)}, max(area, 50000.0))
             )
-        elif not is_poly and len(coords) >= 2 and code == "bom":
+        elif not is_poly and len(coords) >= 2:
             is_major = any(r in wname for r in major_rivers)
             if is_major or wtype in ("river", "creek"):
-                hw = 65.0
+                hw = 45.0
             elif wtype in ("canal", "stream"):
-                hw = 35.0
-            else:
                 hw = 25.0
+            else:
+                hw = 15.0
             mpts = buffer_linestring_to_polygon_merc(coords, hw)
             if len(mpts) >= 3:
                 poly_layers["water"].append((mpts, {"name": wt["name"][i] or ""}, 500000.0))
@@ -1658,7 +1659,7 @@ def main() -> None:
         # 3a. Polygon layers: water, ocean_foundations, parks, commercial, airports
         for lname, poly_list in poly_layers.items():
             for mpts, props, area in poly_list:
-                if area < min_area and lname not in ("airports", "ocean_foundations"):
+                if area < min_area and lname not in ("airports", "water", "ocean_foundations"):
                     continue
                 xs_g = [int(round(pt[0] * scale)) for pt in mpts]
                 ys_g = [int(round(pt[1] * scale)) for pt in mpts]

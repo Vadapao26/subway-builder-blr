@@ -294,18 +294,28 @@ def package_and_deploy(city_config_path: Path | None = None) -> Dict[str, Any]:
             f_out.write(f_in.read())
 
     # 5. Check and manifest required city files
+    is_coastal = cfg.get("is_coastal", code in ("BOM", "NYC", "TOK"))
     required_data_files = [
         "config.json",
         "demand_data.json.gz",
         "roads.geojson.gz",
         "runways_taxiways.geojson.gz",
-        "tiles.pmtiles",
-        "foundations.pmtiles",
         "buildings_index.bin.gz",
         "building_tags.json.gz",
-        "coastline.geojson.gz",
-        "ocean_depth_index.json.gz",
     ]
+    # Check pmtiles (either <code.pmtiles> or tiles.pmtiles)
+    if (data_dir / f"{code}.pmtiles").exists():
+        required_data_files.append(f"{code}.pmtiles")
+    elif (data_dir / "tiles.pmtiles").exists():
+        required_data_files.append("tiles.pmtiles")
+
+    if (data_dir / f"{code}_foundations.pmtiles").exists():
+        required_data_files.append(f"{code}_foundations.pmtiles")
+    elif (data_dir / "foundations.pmtiles").exists():
+        required_data_files.append("foundations.pmtiles")
+
+    if is_coastal:
+        required_data_files.extend(["coastline.geojson.gz", "ocean_depth_index.json.gz"])
 
     file_manifest: Dict[str, int] = {}
     for fn in required_data_files:
@@ -313,6 +323,12 @@ def package_and_deploy(city_config_path: Path | None = None) -> Dict[str, Any]:
         if not fp.exists():
             raise FileNotFoundError(f"Missing required city data file: {fp}")
         file_manifest[fn] = fp.stat().st_size
+
+    # Ensure <CODE>.pmtiles and <CODE>_foundations.pmtiles exist
+    if (data_dir / "tiles.pmtiles").exists() and not (data_dir / f"{code}.pmtiles").exists():
+        shutil.copy2(data_dir / "tiles.pmtiles", data_dir / f"{code}.pmtiles")
+    if (data_dir / "foundations.pmtiles").exists() and not (data_dir / f"{code}_foundations.pmtiles").exists():
+        shutil.copy2(data_dir / "foundations.pmtiles", data_dir / f"{code}_foundations.pmtiles")
 
     # 6. Deploy to Subway Builder AppData directories
     appdata = os.environ.get("APPDATA")
@@ -348,47 +364,50 @@ def package_and_deploy(city_config_path: Path | None = None) -> Dict[str, Any]:
                 f"Mod package and data files are prepared in mod/ and ready for manual or bypass copy."
             )
 
-    # 7. Create distributable zip archive in dist/ matching Railyard requirements
+    # 7. Create clean distributable city map zip archive matching official registry requirements
     dist_dir = ROOT / "dist"
     dist_dir.mkdir(parents=True, exist_ok=True)
     zip_path = dist_dir / f"SubwayBuilder-{code}-v1.0.0.zip"
     import zipfile
+
+    # Only include compressed .gz files, config.json, and <CODE>.pmtiles.
+    # No duplicate uncompressed .json/.geojson, no duplicate tiles.pmtiles, no nested cities/ directory.
+    map_zip_files = [
+        "config.json",
+        "demand_data.json.gz",
+        "roads.geojson.gz",
+        "runways_taxiways.geojson.gz",
+        f"{code}.pmtiles",
+        f"{code}_foundations.pmtiles",
+        "buildings_index.bin.gz",
+        "building_tags.json.gz",
+    ]
+    if is_coastal:
+        if (data_dir / "coastline.geojson.gz").exists():
+            map_zip_files.append("coastline.geojson.gz")
+        if (data_dir / "ocean_depth_index.json.gz").exists():
+            map_zip_files.append("ocean_depth_index.json.gz")
+        if (data_dir / f"{code}_ocean_foundations.pmtiles").exists():
+            map_zip_files.append(f"{code}_ocean_foundations.pmtiles")
+
     with zipfile.ZipFile(zip_path, "w", zipfile.ZIP_DEFLATED, compresslevel=6) as zf:
-        # A. Root-level files (strictly required by Railyard "Review Import" scanner):
-        # config.json, demand_data.json, roads.geojson, runways_taxiways.geojson,
-        # tiles.pmtiles, foundations.pmtiles, ocean_foundations.pmtiles, buildings_index.bin, etc.
-        written_root_files = set()
-        for fn in sorted(os.listdir(data_dir)):
+        for fn in map_zip_files:
             fpath = data_dir / fn
             if fpath.is_file():
                 zf.write(fpath, arcname=fn)
-                written_root_files.add(fn)
+            else:
+                print(f"[99_package_mod] Warning: optional map file {fn} not found in {data_dir}")
 
-        # Duplicate tiles as <CODE>.pmtiles, <CODE>_foundations.pmtiles, <CODE>_ocean_foundations.pmtiles for community loaders if not already written
-        tiles_p = data_dir / "tiles.pmtiles"
-        if tiles_p.exists() and f"{code}.pmtiles" not in written_root_files:
-            zf.write(tiles_p, arcname=f"{code}.pmtiles")
-        fnd_p = data_dir / "foundations.pmtiles"
-        if fnd_p.exists() and f"{code}_foundations.pmtiles" not in written_root_files:
-            zf.write(fnd_p, arcname=f"{code}_foundations.pmtiles")
-        ocn_p = data_dir / "ocean_foundations.pmtiles"
-        if ocn_p.exists() and f"{code}_ocean_foundations.pmtiles" not in written_root_files:
-            zf.write(ocn_p, arcname=f"{code}_ocean_foundations.pmtiles")
-        for mf in ["manifest.json", "thumbnail.png", "thumbnail.svg"]:
-            fpath = mod_dir / mf
-            if fpath.exists():
-                zf.write(fpath, arcname=mf)
+    print(f"[99_package_mod] Clean city map zip created: {zip_path} ({zip_path.stat().st_size / 1e6:.2f} MB)")
 
-        # B. Nested files (required by Subway Builder mod engine and file scanners):
+    # Also package standalone code mod zip if user submits mod separately
+    code_mod_zip = dist_dir / f"SubwayBuilder-{code}-CodeMod-v1.0.0.zip"
+    with zipfile.ZipFile(code_mod_zip, "w", zipfile.ZIP_DEFLATED, compresslevel=6) as zf_mod:
         for mf in ["manifest.json", "index.js", "thumbnail.png", "thumbnail.svg"]:
             fpath = mod_dir / mf
             if fpath.exists():
-                zf.write(fpath, arcname=f"mods/{mod_id}/{mf}")
-        for fn in sorted(os.listdir(data_dir)):
-            fpath = data_dir / fn
-            if fpath.is_file():
-                zf.write(fpath, arcname=f"cities/data/{code}/{fn}")
-    print(f"[99_package_mod] Distributable zip created: {zip_path} ({zip_path.stat().st_size / 1e6:.2f} MB)")
+                zf_mod.write(fpath, arcname=mf)
+    print(f"[99_package_mod] Standalone code mod zip created: {code_mod_zip} ({code_mod_zip.stat().st_size / 1e3:.1f} KB)")
 
     elapsed = round(time.perf_counter() - t0, 2)
     summary = {

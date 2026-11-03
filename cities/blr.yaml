@@ -1,7 +1,7 @@
 name: Bengaluru
 code: BLR
 description: Build transit for the Garden City, from Hosur to the airport
-population: 13600000
+population: 8000000
 bbox:
   south: 12.7
   north: 13.25

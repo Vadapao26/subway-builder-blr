@@ -1,20 +1,20 @@
 {
   "phase": "40_employment_weights",
   "city_code": "BLR",
-  "timestamp_utc": "2026-11-03T11:24:50.264234+00:00",
-  "runtime_seconds": 11.82,
+  "timestamp_utc": "2026-11-03T12:48:41.402695+00:00",
+  "runtime_seconds": 13.72,
   "counts": {
-    "total_demand_points": 5814,
-    "points_with_positive_weight": 4417,
-    "points_with_plausible_osm_employment": 3881,
+    "total_demand_points": 5422,
+    "points_with_positive_weight": 4288,
+    "points_with_plausible_osm_employment": 3752,
     "points_with_named_boost": 2003,
-    "points_with_zero_weight": 1397
+    "points_with_zero_weight": 1134
   },
   "weight_totals": {
-    "total_osm_base_weight": 5279760.8,
+    "total_osm_base_weight": 5232397.3,
     "total_named_boost_weight": 1364999.0,
-    "total_raw_employment_weight": 6644760.2,
-    "osm_share_of_total_weight": 0.7946
+    "total_raw_employment_weight": 6597396.8,
+    "osm_share_of_total_weight": 0.7931
   },
   "configured_named_boosts": [
     {

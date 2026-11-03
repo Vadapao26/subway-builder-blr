@@ -1,50 +1,50 @@
 {
   "phase": "80_roads_runways",
-  "city_code": "BOM",
-  "timestamp_utc": "2026-11-02T15:33:51.925696+00:00",
-  "runtime_seconds": 14.39,
+  "city_code": "PNQ",
+  "timestamp_utc": "2026-11-03T09:51:58.306029+00:00",
+  "runtime_seconds": 9.19,
   "roads": {
-    "feature_count": 123057,
+    "feature_count": 85857,
     "by_roadClass": {
-      "highway": 3018,
-      "major": 6576,
-      "medium": 14047,
-      "minor": 99416
+      "highway": 1426,
+      "major": 2741,
+      "medium": 4943,
+      "minor": 76747
     },
     "by_structure": {
-      "normal": 120000,
-      "bridge": 2603,
-      "tunnel": 454
+      "normal": 84748,
+      "bridge": 975,
+      "tunnel": 134
     },
     "schema_validation": {
       "valid": true,
-      "feature_count": 123057
+      "feature_count": 85857
     },
-    "geojson_bytes": 37603224,
-    "geojson_gz_bytes": 6472876,
-    "geojson_gz_mb": 6.17
+    "geojson_bytes": 23996949,
+    "geojson_gz_bytes": 3822118,
+    "geojson_gz_mb": 3.65
   },
   "runways_taxiways": {
-    "feature_count": 613,
+    "feature_count": 97,
     "by_aeroway": {
-      "runway": 14,
-      "taxiway": 492,
-      "helipad": 73,
-      "apron": 34
+      "runway": 3,
+      "taxiway": 66,
+      "apron": 11,
+      "helipad": 17
     },
     "schema_validation": {
       "valid": true,
-      "feature_count": 613
+      "feature_count": 97
     },
     "empty_file_behavior_note": "Game catches missing/empty runwaysTaxiways and defaults to empty FeatureCollection, but providing Polygon features renders airport infrastructure properly.",
-    "geojson_bytes": 332688,
-    "geojson_gz_bytes": 63160
+    "geojson_bytes": 49778,
+    "geojson_gz_bytes": 9957
   },
   "outputs": {
-    "roads_geojson": "mod\\data\\BOM\\roads.geojson",
-    "roads_geojson_gz": "mod\\data\\BOM\\roads.geojson.gz",
-    "runways_taxiways_geojson": "mod\\data\\BOM\\runways_taxiways.geojson",
-    "runways_taxiways_geojson_gz": "mod\\data\\BOM\\runways_taxiways.geojson.gz",
+    "roads_geojson": "mod\\data\\PNQ\\roads.geojson",
+    "roads_geojson_gz": "mod\\data\\PNQ\\roads.geojson.gz",
+    "runways_taxiways_geojson": "mod\\data\\PNQ\\runways_taxiways.geojson",
+    "runways_taxiways_geojson_gz": "mod\\data\\PNQ\\runways_taxiways.geojson.gz",
     "overlay_png": "reports\\80_roads_runways_overlay.png",
     "overlay_svg": "reports\\80_roads_runways_overlay.svg"
   }
