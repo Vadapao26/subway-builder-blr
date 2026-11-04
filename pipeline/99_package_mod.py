@@ -401,7 +401,7 @@ def package_and_deploy(city_config_path: Path | None = None) -> Dict[str, Any]:
     print(f"[99_package_mod] Clean city map zip created: {zip_path} ({zip_path.stat().st_size / 1e6:.2f} MB)")
 
     # Also package standalone code mod zip if user submits mod separately
-    code_mod_zip = dist_dir / f"SubwayBuilder-{code}-CodeMod-v1.0.0.zip"
+    code_mod_zip = dist_dir / f"registry-codemod-{code.lower()}.zip"
     with zipfile.ZipFile(code_mod_zip, "w", zipfile.ZIP_DEFLATED, compresslevel=6) as zf_mod:
         for mf in ["manifest.json", "index.js", "thumbnail.png", "thumbnail.svg"]:
             fpath = mod_dir / mf

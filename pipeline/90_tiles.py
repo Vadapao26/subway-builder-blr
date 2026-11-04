@@ -1068,9 +1068,20 @@ def load_context_polygons_and_labels(
             poly_layers["commercial"].append(
                 (mpts, {"area": round(area, 2), "type": "college"}, area)
             )
+            poly_layers["landuse"].append(
+                (mpts, {"kind": "commercial", "type": "college", "area": round(area, 2)}, area)
+            )
         elif cat in comm_cats:
             poly_layers["commercial"].append(
                 (mpts, {"area": round(area, 2), "type": "commercial"}, area)
+            )
+            kind_val = "industrial" if cat == "industrial" else "commercial"
+            poly_layers["landuse"].append(
+                (mpts, {"kind": kind_val, "type": cat, "area": round(area, 2)}, area)
+            )
+        elif cat == "residential":
+            poly_layers["landuse"].append(
+                (mpts, {"kind": "residential", "type": "residential", "area": round(area, 2)}, area)
             )
 
     # 4. Airports polygons + buffered runways/taxiways from Phase 7

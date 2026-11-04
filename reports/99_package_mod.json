@@ -3,7 +3,7 @@
   "script": "pipeline/99_package_mod.py",
   "city_code": "BLR",
   "status": "PASS",
-  "runtime_seconds": 3.03,
+  "runtime_seconds": 3.14,
   "mod_package": {
     "id": "blr-bengaluru-hosur",
     "name": "Bengaluru + Hosur (BLR)",
@@ -14,16 +14,16 @@
     "thumbnail_svg": "mod/thumbnail.svg"
   },
   "city_data_files": {
-    "config.json": 505,
-    "demand_data.json.gz": 2776834,
+    "config.json": 506,
+    "demand_data.json.gz": 3218017,
     "roads.geojson.gz": 8267745,
     "runways_taxiways.geojson.gz": 38296,
-    "buildings_index.bin.gz": 64396097,
-    "building_tags.json.gz": 301701,
-    "BLR.pmtiles": 40553453,
-    "BLR_foundations.pmtiles": 20734240
+    "buildings_index.bin.gz": 65501590,
+    "building_tags.json.gz": 365595,
+    "BLR.pmtiles": 44788527,
+    "BLR_foundations.pmtiles": 21039936
   },
-  "total_data_bytes": 137068871,
+  "total_data_bytes": 143220212,
   "deployment": {
     "appdata_detected": true,
     "mod_path": "C:/Users/siddh/AppData/Roaming/metro-maker4/mods/blr-bengaluru-hosur",
