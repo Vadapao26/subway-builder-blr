@@ -335,10 +335,32 @@ def main() -> int:
     cong_sec = npz["congested_seconds"].astype(np.float64)
     dist_m = npz["distance_m"].astype(np.float64)
 
-    O = df["residents"].to_numpy(dtype=np.float64)
-    D = df["jobs"].to_numpy(dtype=np.float64)
-    job_idx = np.where(D > 0)[0]
-    D_pos = D[job_idx]
+    target_pop = int(cfg.get("population", 8000000))
+    pop_size = int(params.get("pop_size", 200))
+    target_units = int(target_pop // pop_size)
+
+    O_raw = df["residents"].to_numpy(dtype=np.float64)
+    D_raw = df["jobs"].to_numpy(dtype=np.float64)
+    job_idx = np.where(D_raw > 0)[0]
+    D_pos_raw = D_raw[job_idx]
+
+    def allocate_units(weights: np.ndarray, target: int) -> np.ndarray:
+        w_sum = float(weights.sum())
+        if w_sum <= 0 or target <= 0:
+            return np.zeros_like(weights, dtype=np.int64)
+        exact = (weights / w_sum) * target
+        fl = np.floor(exact).astype(np.int64)
+        fl[weights <= 0] = 0
+        rem = target - int(fl.sum())
+        if rem > 0:
+            frac = exact - fl
+            frac[weights <= 0] = -1.0
+            top = np.argsort(-frac, kind="mergesort")[:rem]
+            fl[top] += 1
+        return fl
+
+    O = allocate_units(O_raw, target_units)
+    D_pos = allocate_units(D_pos_raw, target_units)
 
     t_min = cong_sec[:, job_idx] / 60.0
     d_km = dist_m[:, job_idx] / 1000.0
@@ -423,7 +445,7 @@ def main() -> int:
     )
 
     if not (target_km[0] <= mean_km_c <= target_km[1] and target_min[0] <= mean_min_c <= target_min[1]):
-        for cand_beta, cand_blend in [(0.033, 0.80), (0.035, 0.80), (0.030, 0.85), (0.040, 0.85)]:
+        for cand_beta, cand_blend in [(0.025, 0.85), (0.028, 0.85), (0.022, 0.85), (0.033, 0.80), (0.035, 0.80)]:
             T_try, mk, mm = solve_gravity_for_beta(cand_beta, cand_blend)
             calibration_log.append({"beta": cand_beta, "blend": cand_blend, "mean_km": round(mk, 2), "mean_min": round(mm, 2)})
             if target_km[0] <= mk <= target_km[1] and target_min[0] <= mm <= target_min[1]:
@@ -460,12 +482,12 @@ def main() -> int:
     pt_ids = df["id"].tolist()
     pt_lons = df["lon"].tolist()
     pt_lats = df["lat"].tolist()
-    pt_residents = [int(x) for x in O]
+    pt_residents = [int(O[i] * pop_size) for i in range(N_orig)]
     pt_jobs_final = [0] * N_orig
 
     col_sums = T_int.sum(axis=0)
     for c_pos, orig_idx in enumerate(job_idx):
-        pt_jobs_final[int(orig_idx)] = int(col_sums[c_pos])
+        pt_jobs_final[int(orig_idx)] = int(col_sums[c_pos] * pop_size)
 
     pt_pop_ids: list[list[str]] = [[] for _ in range(N_orig)]
     pt_pop_ids_seen: list[set[str]] = [set() for _ in range(N_orig)]
@@ -484,25 +506,21 @@ def main() -> int:
         nz_cols = nz_cols[np.argsort(-T_int[i, nz_cols], kind="mergesort")]
         res_id = pt_ids[i]
         for c_pos in nz_cols:
-            total_sz = int(T_int[i, c_pos])
+            num_pops = int(T_int[i, c_pos])
             j = int(job_idx[c_pos])
             job_id = pt_ids[j]
 
             d_sec_int = int(round(float(cong_sec[i, j])))
             d_dist_int = int(round(float(dist_m[i, j])))
 
-            # Light Rail compatibility: split any pop > 200 into chunks <= 200 (hard cap 231)
-            rem_sz = total_sz
-            while rem_sz > 0:
-                cur_sz = min(200, rem_sz)
-                rem_sz -= cur_sz
+            for _ in range(num_pops):
                 pid_str = str(pop_counter)
                 pop_counter += 1
 
                 pops_list.append(
                     {
                         "id": pid_str,
-                        "size": cur_sz,
+                        "size": pop_size,
                         "residenceId": res_id,
                         "jobId": job_id,
                         "drivingSeconds": d_sec_int,
@@ -518,7 +536,7 @@ def main() -> int:
 
                 pop_dist_km.append(d_dist_int / 1000.0)
                 pop_time_min.append(d_sec_int / 60.0)
-                pop_sizes.append(cur_sz)
+                pop_sizes.append(pop_size)
 
     points_list = []
     for i in range(N_orig):

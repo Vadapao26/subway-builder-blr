@@ -1,7 +1,7 @@
 name: Bengaluru
 code: BLR
 description: Build transit for the Garden City, from Hosur to the airport
-population: 13600000
+population: 8000000
 bbox:
   south: 12.7
   north: 13.25
@@ -29,6 +29,7 @@ admin_boundaries:
   url: https://raw.githubusercontent.com/datameet/Municipal_Spatial_Data/master/Bangalore/BBMP.geojson
   licence: CC-BY-4.0
 params:
+  pop_size: 200
   grid_cell_m: 500
   min_residents_per_point: 150
   employment_ratio: 1.0
@@ -280,8 +281,8 @@ params:
       destination:
       - 77.7066
       - 13.1986
-  gravity_beta: 0.033
-  doubly_constrained_blend: 0.80
+  gravity_beta: 0.017
+  doubly_constrained_blend: 0.85
   target_mean_commute_km:
   - 8.0
   - 14.0
