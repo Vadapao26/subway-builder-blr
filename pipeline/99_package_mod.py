@@ -280,21 +280,31 @@ def package_and_deploy(city_config_path: Path | None = None) -> Dict[str, Any]:
     with open(cfg_json_path, "w", encoding="utf-8") as f:
         json.dump(config_json, f, indent=2)
 
-    # Ensure uncompressed ocean_depth_index.json & coastline.geojson exist alongside .gz
-    ocean_gz = data_dir / "ocean_depth_index.json.gz"
-    ocean_json = data_dir / "ocean_depth_index.json"
-    if ocean_gz.exists() and not ocean_json.exists():
-        with gzip.open(ocean_gz, "rt", encoding="utf-8") as f_in, open(ocean_json, "w", encoding="utf-8") as f_out:
-            f_out.write(f_in.read())
+    is_coastal = bool(cfg.get("is_coastal", code in ("BOM", "NYC", "TOK")))
 
-    coast_gz = data_dir / "coastline.geojson.gz"
-    coast_json = data_dir / "coastline.geojson"
-    if coast_gz.exists():
-        with gzip.open(coast_gz, "rt", encoding="utf-8") as f_in, open(coast_json, "w", encoding="utf-8") as f_out:
-            f_out.write(f_in.read())
+    if is_coastal:
+        # Ensure uncompressed ocean_depth_index.json & coastline.geojson exist alongside .gz
+        ocean_gz = data_dir / "ocean_depth_index.json.gz"
+        ocean_json = data_dir / "ocean_depth_index.json"
+        if ocean_gz.exists() and not ocean_json.exists():
+            with gzip.open(ocean_gz, "rt", encoding="utf-8") as f_in, open(ocean_json, "w", encoding="utf-8") as f_out:
+                f_out.write(f_in.read())
 
-    # 5. Check and manifest required city files
-    is_coastal = cfg.get("is_coastal", code in ("BOM", "NYC", "TOK"))
+        coast_gz = data_dir / "coastline.geojson.gz"
+        coast_json = data_dir / "coastline.geojson"
+        if coast_gz.exists():
+            with gzip.open(coast_gz, "rt", encoding="utf-8") as f_in, open(coast_json, "w", encoding="utf-8") as f_out:
+                f_out.write(f_in.read())
+    else:
+        # Landlocked city: purge any lingering fake ocean artifacts
+        for ofn in [
+            "coastline.geojson", "coastline.geojson.gz",
+            "ocean_depth_index.json", "ocean_depth_index.json.gz",
+            "ocean_foundations.pmtiles", f"{code}_ocean_foundations.pmtiles"
+        ]:
+            op = data_dir / ofn
+            if op.exists():
+                op.unlink()
     required_data_files = [
         "config.json",
         "demand_data.json.gz",
@@ -344,6 +354,16 @@ def package_and_deploy(city_config_path: Path | None = None) -> Dict[str, Any]:
             dest_mod.mkdir(parents=True, exist_ok=True)
             dest_city_data.mkdir(parents=True, exist_ok=True)
 
+            if not is_coastal:
+                for ofn in [
+                    "coastline.geojson", "coastline.geojson.gz",
+                    "ocean_depth_index.json", "ocean_depth_index.json.gz",
+                    "ocean_foundations.pmtiles", f"{code}_ocean_foundations.pmtiles"
+                ]:
+                    stale_target = dest_city_data / ofn
+                    if stale_target.exists():
+                        stale_target.unlink()
+
             for mf in ["manifest.json", "index.js", "thumbnail.png", "thumbnail.svg"]:
                 src_f = mod_dir / mf
                 if src_f.exists():
@@ -370,13 +390,15 @@ def package_and_deploy(city_config_path: Path | None = None) -> Dict[str, Any]:
     zip_path = dist_dir / f"SubwayBuilder-{code}-v1.0.0.zip"
     import zipfile
 
-    # Only include compressed .gz files, config.json, and <CODE>.pmtiles.
-    # No duplicate uncompressed .json/.geojson, no duplicate tiles.pmtiles, no nested cities/ directory.
+    # Include both canonical (tiles.pmtiles, foundations.pmtiles) for Railyard & Subway Builder
+    # and city-coded (BLR.pmtiles, BLR_foundations.pmtiles) for registry standards.
     map_zip_files = [
         "config.json",
         "demand_data.json.gz",
         "roads.geojson.gz",
         "runways_taxiways.geojson.gz",
+        "tiles.pmtiles",
+        "foundations.pmtiles",
         f"{code}.pmtiles",
         f"{code}_foundations.pmtiles",
         "buildings_index.bin.gz",
@@ -385,10 +407,6 @@ def package_and_deploy(city_config_path: Path | None = None) -> Dict[str, Any]:
     if is_coastal:
         if (data_dir / "coastline.geojson.gz").exists():
             map_zip_files.append("coastline.geojson.gz")
-        if (data_dir / "ocean_depth_index.json.gz").exists():
-            map_zip_files.append("ocean_depth_index.json.gz")
-        if (data_dir / f"{code}_ocean_foundations.pmtiles").exists():
-            map_zip_files.append(f"{code}_ocean_foundations.pmtiles")
 
     with zipfile.ZipFile(zip_path, "w", zipfile.ZIP_DEFLATED, compresslevel=6) as zf:
         for fn in map_zip_files:
